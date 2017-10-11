@@ -14,6 +14,7 @@ struct ndpi_iphdr * packet_preprocess(const u_int16_t pktlen, const u_char * pac
 int main() {
 	/*initialization about mqueue*/
 	char proname[] = "packet_sending";
+	setcpu(0);
 
 	printf("Now is in packet_sending!\n");
 

@@ -25,8 +25,7 @@ int main() {
 	clearqueue("/l3top2");
 	clearqueue("/l3top3");
 
-	clearqueue("/ctrltosend");
-	clearqueue("/sendtoctrl");
+
 
 	clearqueue("/ctrltop1");
 	clearqueue("/p1toctrl");

@@ -8,13 +8,14 @@
 int main() {
 	/*initialization about mqueue*/
 	char proname[] = "l3fwd_process";
+	setcpu(1);
 
 	struct mq_attr attr, attr_ctrl;
 	attr.mq_maxmsg = MAXMSG;//maximum is 382.
 	attr.mq_msgsize = 2048;
 	attr.mq_flags = 0;
 
-	attr_ctrl.mq_maxmsg = MSGCTOP;
+	attr_ctrl.mq_maxmsg = MAXMSGCTOP;
 	attr_ctrl.mq_msgsize = 2048;
 	attr_ctrl.mq_flags = 0;
 

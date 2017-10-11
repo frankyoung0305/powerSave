@@ -6,7 +6,7 @@
 #include<stdio.h>//printf()
 #include<unistd.h>//fork() sleep()
 #include<sys/types.h>//fork()
-#include<stdlib.h>//malloc()
+#include<stdlib.h>//malloc(), calloc()
 #include<mqueue.h>
 #include<sys/stat.h>//for mode constants---mq_open()
 #include<fcntl.h>//for O_* constants---mq_open()
@@ -18,15 +18,15 @@
 #include<sched.h>//sched_setaffinity
 
 
-#define PERM 0766
+#define PERM 0766//the authority of m_queue.
 
 #define PACKETS 5000//the number of packets that we will send.
 
 #define MAXMSG 300//the stable number of mq_attr.mq_maxmsg.
 
-#define MSGCTOP 10//the queue from controller to process .
+#define MAXMSGCTOP 10//the queue from controller to process .
 
-#define MAXQUEUES 3//the maximum number of queues we will use.
+#define MAXQUEUES 3//the maximum queues we will use.
 
 #define QUEUERATIO 0.8//the ratio of queue needed to report.
 
@@ -120,7 +120,7 @@ void check_return(int return_value, char * proname, char * function_name) {
 		printf("%s: %s succeeds. \n", proname, function_name);
 	}
 	else {
-		printf("WARNING!!!WARNING!!!WARNING!!!\nThere is a condition needed to be set!!!Please debug!!!\n");
+		printf("WARNING!!!WARNING!!!WARNING!!!\nThere is a abnormal condition in check_return needed to be set!!!Please debug!!!\n");
 		printf("return_value = %d, fucntion_name = %s, happened in pro %s \n",return_value, function_name, proname);
 		printf("WARNING!!!WARNING!!!WARNING!!!\n");
 	}

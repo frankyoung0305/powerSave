@@ -1,36 +1,17 @@
 #include"nfv.h"
+#include"extended_KL.h"
+#include"control.h"
 
-struct record {//we wiil change and add more to this part!
-	int number;//distinguish the progress.
-	mqd_t mqd_ctop;//queue controller to progress.
-	mqd_t mqd_ptoc;//queue progress to controller.
-	pid_t pid_in_record;//progress's pid.
 
-	int cpu;//the cpu where the process runs on.
-	int queues;//the number of queues which the process receive.
-	long queuelength[MAXQUEUES];
-	long qmax[MAXQUEUES];//max packets in a queue.
-
-};
-
-struct ctrltrans {
-	mqd_t mqd_ctop;//queue from controlloer to process.
-	mqd_t mqd_ptoc;//queue from process to controller.
-	struct record * statistics;
-};
-
-//we will write notifysetup function for every processes;
-void ctrl_notifysetup(struct ctrltrans * trans);//notifysetup for controller.
-void controller_control(union sigval sv);//control function for controller.
 
 
 int main() {
 	/*initialization about mqueue*/
 	char proname[] = "controller";
-
+	setcpu(0);
 
 	struct mq_attr attr_ct;
-	attr_ct.mq_maxmsg = MSGCTOP;//maximum is 382.
+	attr_ct.mq_maxmsg = MAXMSGCTOP;//maximum is 382.
 	attr_ct.mq_msgsize = 2048;
 	attr_ct.mq_flags = 0;
 
@@ -67,13 +48,15 @@ int main() {
 	check_return(mqd_p3toc, proname, "mq_open");
 
 	int i = 0, j = 0;
-	struct record pstats[3];
-	for(i = 0;i < 3;i++) {
-		pstats[i].number = i + 1;
+	struct record pstats[PROS_NUMBER];//PROS_NUMBER = 3 defined in control.h.
+	printstar();
+	for(i = 0;i < PROS_NUMBER;i++) {
+		pstats[i].number = i;
 		pstats[i].queues = 0;
-		for(j = 0;j < MAXQUEUES;j ++); {
-			pstats[i].queuelength[j] = -1;
-			pstats[i].qmax[j] = -1;
+		pstats[i].cpu = 1;
+		for(j = 0;j < MAXQUEUES;j++) {
+			pstats[i].queuelength[j] = 0;
+			pstats[i].qmax[j] = MAXMSG;
 		}
 	}
 	pstats[0].mqd_ctop = mqd_ctop1;
@@ -82,27 +65,32 @@ int main() {
 	pstats[1].mqd_ctop = mqd_ctop2;
 	pstats[1].mqd_ptoc = mqd_p2toc;
 
-	pstats[2].mqd_ctop = mqd_ctop2;
-	pstats[2].mqd_ptoc = mqd_p2toc;
+	pstats[2].mqd_ctop = mqd_ctop3;
+	pstats[2].mqd_ptoc = mqd_p3toc;
 
-	/*pthread*/
-	struct ctrltrans noti_p1;
-	noti_p1.mqd_ctop = mqd_ctop1;
-	noti_p1.mqd_ptoc = mqd_p1toc;
-	noti_p1.statistics = &pstats[0];
-	ctrl_notifysetup(&noti_p1);
+	double adj_array[ADJ_ARRAY_EDGES][ADJ_ARRAY_EDGES];
+	clear_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array in control.c");
+	show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array in control.c");
 
-	struct ctrltrans noti_p2;
-	noti_p2.mqd_ctop = mqd_ctop2;
-	noti_p2.mqd_ptoc = mqd_p2toc;
-	noti_p2.statistics = &pstats[1];
-	ctrl_notifysetup(&noti_p2);
+	double point_weight[ADJ_ARRAY_EDGES];
+	clear_double_series(ADJ_ARRAY_EDGES, point_weight, "point_weight in control.c");
+	struct ctrltrans noti_p[PROS_NUMBER];
+	for(i = 0;i < PROS_NUMBER;i++) {
+		for(j = 0;j < PROS_NUMBER;j++) {
+			noti_p[i].statistics[j] = &pstats[j];
+		}
+	}
 
-	struct ctrltrans noti_p3;
-	noti_p3.mqd_ctop = mqd_ctop3;
-	noti_p3.mqd_ptoc = mqd_p3toc;
-	noti_p3.statistics = &pstats[2];
-	ctrl_notifysetup(&noti_p3);
+
+	for(i = 0;i < PROS_NUMBER;i++) {
+		noti_p[i].p_number = i;/*	i = 0 p1_l3
+						i = 1 p2.o
+						i = 2 p3.o	*/
+		noti_p[i].adj_array = adj_array;
+		noti_p[i].point_weight = point_weight;
+		ctrl_notifysetup(&noti_p[i]);//pthread
+		usleep(50000);
+	}
 
 
 	char buffer[2048];
@@ -111,20 +99,6 @@ int main() {
 
 
 	for(i = 0;i < 5;i++) {
-		ctrlbuffer.cpu = i + 3;
-		ctrlbuffer.service_number = 3;
-		mq_return = mq_send(mqd_ctop1, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop1, "mq_send in controller");
-
-		mq_return = mq_send(mqd_ctop2, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop2, "mq_send in controller");
-
-		mq_return = mq_send(mqd_ctop3, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop3, "mq_send in controller");
-
-		printf("controller has sent the ctrlmsg(sevice_number = 3) that i = %d \n", i);
-		usleep(500000);
-
 		ctrlbuffer.service_number = 1;
 		mq_return = mq_send(mqd_ctop1, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
 		check_return(mq_return, ctop1, "mq_send in controller");
@@ -136,14 +110,14 @@ int main() {
 		check_return(mq_return, ctop3, "mq_send in controller");
 
 		printf("controller has sent the ctrlmsg(sevice_number = 1) that i = %d \n", i);
-		usleep(500000);
+		sleep(1);
 
 	}
 
 	
 
 	printstar();
-	printf("controller has sent all kinds of ctrlmsg. \n");
+	printf("controller has sent all ctrlmsg. \n");
 	printstar();
 
 	//ctop1
@@ -187,82 +161,3 @@ int main() {
 }
 
 
-void ctrl_notifysetup(struct ctrltrans * trans) {
-	int mq_return = 0;
-	struct sigevent mq_notification;
-
-	char funcname[] = "ctrl_notifysetup";
-
-	printstar();
-	printf("now in %s, trans->mqd_ctop = %d \n", funcname, trans->mqd_ptoc);
-	mq_notification.sigev_notify = SIGEV_THREAD;
-	mq_notification.sigev_notify_function = controller_control;
-	mq_notification.sigev_notify_attributes = NULL;
-	mq_notification.sigev_value.sival_ptr = trans;
-
-
-	mq_return = mq_notify(trans->mqd_ptoc, &mq_notification);
-	check_return(mq_return, funcname, "mq_notify in ctrl_notifysetup");
-	printstar();
-
-}
-
-void controller_control(union sigval sv) {
-	printstar();
-	struct ctrltrans * parameter;
-	parameter = (struct ctrltrans *) sv.sival_ptr;
-	int func_re;
-	char ptname[] = "controller_control";
-
-	printstar();
-	printf("Now in %s \n", ptname);
-
-	struct mq_attr rc_mq_attr, q_mq_attr;
-	mq_getattr(parameter->mqd_ptoc, &rc_mq_attr);
-
-	struct ctrlmsg ctrlbuffer, down_ctrlmsg;
-	struct ctrlmsg * ctrlbufferp;
-	char msg_buffer[rc_mq_attr.mq_msgsize];
-	printf("msg_buffer size is %lu \n", sizeof(msg_buffer));
-	printf("parameter->mqd_ptoc = %d \n", parameter->mqd_ptoc);
-
-	ctrl_notifysetup(parameter);
-
-	while ((func_re = mq_receive(parameter->mqd_ptoc, msg_buffer, rc_mq_attr.mq_msgsize, 0)) >= 0) {
-		check_return(func_re, ptname, "mq_receive");
-		ctrlbufferp = (struct ctrlmsg *) msg_buffer;
-		ctrlbuffer = * ctrlbufferp;
-		printf("controlller received ctrlbuffer.service_number is %ld \n", ctrlbuffer.service_number);
-	}
-
-
-	if (errno != EAGAIN) {//in nonblock mode, "errno = EAGAIN" means that there is no message in queue.	EAGAIN = 11
-		check_return(func_re, ptname, "mq_receive");
-		printf("mq_receive exits unnormally");
-		exit(0);/* Unexpected error */
-	}
-
-
-
-	switch(ctrlbuffer.service_number)
-	{
-		case 2:
-			parameter->statistics->cpu = ctrlbuffer.cpu;
-			parameter->statistics->queues = ctrlbuffer.edges;
-			parameter->statistics->pid_in_record = ctrlbuffer.pid_in_ctrlmsg;
-			int i_edges = 0;
-			for(i_edges = 0;i_edges < ctrlbuffer.edges;i_edges++) {
-				parameter->statistics->queuelength[i_edges] = ctrlbuffer.qsize[i_edges];
-				parameter->statistics->qmax[i_edges] = ctrlbuffer.qmaxsize[i_edges];
-			}
-			printf("now show the result of ctrlbuffer.\nthe process %d runs on cpu %d, it receives %d queues \n", parameter->statistics->pid_in_record, parameter->statistics->cpu, parameter->statistics->queues);
-			for(i_edges = 0;i_edges < parameter->statistics->queues;i_edges++) {
-				printf("the queue %d has %ld packets of most %ld packets \n", i_edges, parameter->statistics->queuelength[i_edges], parameter->statistics->qmax[i_edges]);
-			}
-			break;
-	}
-
-	printf("finish a controller control \n");
-	printstar();
-	pthread_exit(NULL);
-}
