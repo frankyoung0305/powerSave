@@ -8,7 +8,17 @@
 int main() {
 	/*initialization about mqueue*/
 	char proname[] = "controller";
-	setcpu(0);
+	setcpu(7);
+	changefrequency(3401000, 0);
+	changefrequency(3401000, 1);
+	changefrequency(3401000, 7);
+
+	changefrequency(800000, 2);
+	changefrequency(800000, 3);
+	changefrequency(800000, 4);
+	changefrequency(800000, 5);
+	changefrequency(800000, 6);
+
 
 	struct mq_attr attr_ct;
 	attr_ct.mq_maxmsg = MAXMSGCTOP;//maximum is 382.
@@ -33,19 +43,19 @@ int main() {
 
 
 	mqd_ctop1 = mq_open(ctop1, flags, PERM, &attr_ct);
-	check_return(mqd_ctop1, proname, "mq_open");
+	check_return(mqd_ctop1, ctop1, "mq_open");
 	mqd_p1toc = mq_open(p1toc, flags, PERM, &attr_ct);
-	check_return(mqd_p1toc, proname, "mq_open");
+	check_return(mqd_p1toc, p1toc, "mq_open");
 
 	mqd_ctop2 = mq_open(ctop2, flags, PERM, &attr_ct);
-	check_return(mqd_ctop2, proname, "mq_open");
+	check_return(mqd_ctop2, ctop2, "mq_open");
 	mqd_p2toc = mq_open(p2toc, flags, PERM, &attr_ct);
-	check_return(mqd_p2toc, proname, "mq_open");
+	check_return(mqd_p2toc, p2toc, "mq_open");
 
 	mqd_ctop3 = mq_open(ctop3, flags, PERM, &attr_ct);
-	check_return(mqd_ctop3, proname, "mq_open");
+	check_return(mqd_ctop3, ctop3, "mq_open");
 	mqd_p3toc = mq_open(p3toc, flags, PERM, &attr_ct);
-	check_return(mqd_p3toc, proname, "mq_open");
+	check_return(mqd_p3toc, p3toc, "mq_open");
 
 	int i = 0, j = 0;
 	struct record pstats[PROS_NUMBER];//PROS_NUMBER = 3 defined in control.h.
@@ -93,12 +103,12 @@ int main() {
 	}
 
 
-	char buffer[2048];
+	//char buffer[2048];
 	struct ctrlmsg ctrlbuffer;
 	ctrlbuffer.cpu = 5;
 
 
-	for(i = 0;i < 5;i++) {
+	for(i = 0;i < 30;i++) {
 		ctrlbuffer.service_number = 1;
 		mq_return = mq_send(mqd_ctop1, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
 		check_return(mq_return, ctop1, "mq_send in controller");
@@ -109,7 +119,7 @@ int main() {
 		mq_return = mq_send(mqd_ctop3, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
 		check_return(mq_return, ctop3, "mq_send in controller");
 
-		printf("controller has sent the ctrlmsg(sevice_number = 1) that i = %d \n", i);
+		printf("\nLOOP i = %d \n\n", i);
 		sleep(1);
 
 	}
@@ -118,6 +128,10 @@ int main() {
 
 	printstar();
 	printf("controller has sent all ctrlmsg. \n");
+	printf("Now show CPUs that processes work on. \n");
+	for(i = 0;i < PROS_NUMBER;i++) {
+		printf("p_number = %d, works on CPU %d \n", i, pstats[i].cpu);
+	}
 	printstar();
 
 	//ctop1

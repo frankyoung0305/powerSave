@@ -27,7 +27,7 @@ int main() {
 	char p1top2[]="/l3top2";
 
 	mqd_p1top2 = mq_open(p1top2, flags, PERM, &attr);
-	check_return(mqd_p1top2, proname, "mq_open");
+	check_return(mqd_p1top2, p1top2, "mq_open");
 
 
 	/*control part*/
@@ -35,9 +35,9 @@ int main() {
 	char ctrltop2[] = "/ctrltop2";
 	char p2toctrl[] = "/p2toctrl";
 	mqd_ctrltop2 = mq_open(ctrltop2, flags_ctrl, PERM, &attr_ctrl);
-	check_return(mqd_ctrltop2, proname, "mq_open");
+	check_return(mqd_ctrltop2, ctrltop2, "mq_open");
 	mqd_p2toctrl = mq_open(p2toctrl, flags_ctrl, PERM, &attr_ctrl);
-	check_return(mqd_p2toctrl, proname, "mq_open");
+	check_return(mqd_p2toctrl, p2toctrl, "mq_open");
 
 
 	/*pthread*/
@@ -58,7 +58,7 @@ int main() {
 
 
 
-	int port = 0;
+	//int port = 0;
 
 	for(i = 0;i < PACKETS*10;i++) {//PACKETS = 5000 now.
 		mq_return = mq_receive(mqd_p1top2, buffer, 2048, 0);
@@ -68,8 +68,12 @@ int main() {
 
 		iph = (struct ndpi_iphdr *) buffer;
 
-		if((i%100 == 0) || (i < 400)) {
+		if((i%1000 == 0) || (i < 400)) {
 			printf("i = %lld, iph->daddr = %8X, packet_length = %d \n", i, iph->daddr, mq_return);
+			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
+		}
+		if(i%100 == 0) {
+			checkqueue(mqd_p1top2, p1top2, &noti_tran);
 		}
 
 	}

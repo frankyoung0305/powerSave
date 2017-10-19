@@ -1,3 +1,5 @@
+#ifndef FAN_H
+#define FAN_H
 #include <stdlib.h> 
 #include <stdio.h>
 #include "../posix/ndpi_api.h" //iphdr
@@ -109,3 +111,4 @@ int getIpFwdPort(NODE * g_pRouteTree, int iIp) {
 	return iPort;
 }
 
+#endif

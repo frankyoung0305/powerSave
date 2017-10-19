@@ -7,6 +7,9 @@
 #include<stdlib.h>//malloc()
 #include<string.h>//perror()
 #include<errno.h>//errno
+#include<math.h>//double fabs(double x)
+
+#include"series_array.h"//show/clear/copy series/array.
 
 
 struct KL_return {
@@ -24,24 +27,7 @@ int * KL_partition(int old_edges, double adj_array[old_edges][old_edges], double
 			//WARNING:remember to free the returned series!!!
 
 
-
-void show_int_series(int length, int showed_series[length], char * series_name);
-void show_double_series(int length, double showed_series[length], char * series_name);
-void show_int_array(int edges, int showed_array[edges][edges], char * array_name);
-void show_double_array(int edges, double showed_array[edges][edges], char * array_name);
-
-int clear_int_series(int edges, int cleared_series[edges], char * series_name);
-double clear_double_series(int edges, double cleared_series[edges], char * series_name);
-void clear_double_array(int edges, double cleared_array[edges][edges], char * array_name);
-
-void copy_int_series(int edges, int src_series[edges], int dst_series[edges]);
-void copy_double_series(int edges, double src_series[edges], double dst_series[edges]);
-void copy_double_array(int edges, double src_array[edges][edges], double dst_array[edges][edges]);
-
-
 double Diff_value(int row_number, int edges, double adj_array[edges][edges], int set_edges, int set_in[set_edges], int set_other[set_edges]);
-
-
 
 
 
@@ -71,7 +57,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 
 	do {
 		loop_times++;
-		printf("******************************************");
+		printf("******************************************\n");
 		printf("LOOP %d!!!\n", loop_times);
 		show_int_series(set_edges, KL_re.set1, "KL_re.set1");
 		show_int_series(set_edges, KL_re.set2, "KL_re.set2");
@@ -111,9 +97,9 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 		double D_workloaddiff = 0;
 		double workloaddiff_old = 0;
 		double workloaddiff_new = 0;
-		printf("******************************************");
+		printf("******************************************\n");
 		for(i = 0;i < set_edges;i++) {
-			workloaddiff_old = workloaddiff_old + (double) (point_weight[KL_re.set1[i]] - point_weight[KL_re.set2[i]]);
+			workloaddiff_old = workloaddiff_old + point_weight[KL_re.set1[i]] - point_weight[KL_re.set2[i]];
 			printf("i = %d, workloaddiff_old = %f\n", i, workloaddiff_old);
 		}
 	
@@ -124,7 +110,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 					workloaddiff_new = workloaddiff_old - 2 * point_weight[KL_re.set1[i]] + 2 * point_weight[KL_re.set2[j]];
 					printf("i = %d, j = %d, point_weight[KL_re.set1[%d]] = %f, point_weight[KL_re.set2[%d]] = %f\n", i, j, i, point_weight[KL_re.set1[i]], j, point_weight[KL_re.set2[j]]);
 					printf("workloaddiff_old = %f, workloaddiff_new = %f \n", workloaddiff_old, workloaddiff_new);
-					D_workloaddiff = abs(workloaddiff_old) - abs(workloaddiff_new);
+					D_workloaddiff = fabs(workloaddiff_old) - fabs(workloaddiff_new);
 					if(D_workloaddiff == 0) {
 						gain_balance[i][j] = 0;
 					}
@@ -141,8 +127,8 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 					workloaddiff_new = workloaddiff_old - 2 * point_weight[KL_re.set1[i]] + 2 * point_weight[KL_re.set2[j]];
 					printf("i = %d, j = %d, point_weight[KL_re.set1[%d]] = %f, point_weight[KL_re.set2[%d]] = %f\n", i, j, i, point_weight[KL_re.set1[i]], j, point_weight[KL_re.set2[j]]);
 					printf("workloaddiff_old = %f, workloaddiff_new = %f \n", workloaddiff_old, workloaddiff_new);
-					D_workloaddiff = abs(workloaddiff_old) - abs(workloaddiff_new);
-					gain_balance[i][j] = D_workloaddiff / ((double) abs(workloaddiff_old));
+					D_workloaddiff = fabs(workloaddiff_old) - fabs(workloaddiff_new);
+					gain_balance[i][j] = D_workloaddiff / fabs(workloaddiff_old);
 				}
 			}
 		}
@@ -181,7 +167,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 			KL_re.set1[max_i] = KL_re.set2[max_j];
 			KL_re.set2[max_j] = temp;
 		}
-	}while(max_gain >= 0);
+	}while(max_gain > 0);
 
 
 	return KL_re;
@@ -194,10 +180,18 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 
 
 int * KL_partition(int old_edges, double raw_adj_array[old_edges][old_edges], double raw_point_weight[old_edges]) {//remember to free the return value!!!
-	show_double_array(old_edges, raw_adj_array, "raw_adj_array");
+	printstar();
+	printf("Now in the KL_partition!!!\n");
 	int set_edges = (old_edges + (old_edges % 2)) / 2;
 	int * cut_order = (int *) malloc(set_edges);//WARNING!!!the pointer needs to be freed!
 	clear_int_series(set_edges, cut_order, "cut_order");
+
+	if(old_edges == 2) {
+		cut_order[0] = 0;
+		return cut_order;
+	}
+
+	show_double_array(old_edges, raw_adj_array, "raw_adj_array");
 
 	int new_edges = old_edges;
 	if((old_edges % 2) != 0) {
@@ -206,8 +200,9 @@ int * KL_partition(int old_edges, double raw_adj_array[old_edges][old_edges], do
 
 	double adj_array[new_edges][new_edges];
 	double point_weight[new_edges];
+	clear_double_series(new_edges, point_weight, "point_weight");
 	clear_double_array(new_edges, adj_array, "adj_array");
-	copy_double_series(new_edges, raw_point_weight, point_weight);
+	copy_double_series(old_edges, raw_point_weight, point_weight);
 
 	if((old_edges % 2) == 0) {
 		copy_double_array(new_edges, raw_adj_array, adj_array);
@@ -248,7 +243,7 @@ int * KL_partition(int old_edges, double raw_adj_array[old_edges][old_edges], do
 	printf("set1 and set2 have been initialized!\n");
 	show_int_series(set_edges, KL_re.set1, "KL_re.set1");
 	show_int_series(set_edges, KL_re.set2, "KL_re.set2");
-	printf("******************************************");
+	printf("******************************************\n");
 	KL_re = KL_step(new_edges, adj_array, point_weight, set_edges, KL_re.set1, KL_re.set2);//the 'return' can tell us to split which processes to another CPU.
 
 	copy_int_series(set_edges, KL_re.set1, cut_order);
@@ -261,7 +256,7 @@ int * KL_partition(int old_edges, double raw_adj_array[old_edges][old_edges], do
 			}
 		}
 	}
-
+	show_int_series(set_edges, cut_order, "final cut_order");
 	return cut_order;//remember to free the return value!!!
 
 
@@ -285,120 +280,6 @@ double Diff_value(int row_number, int edges, double adj_array[edges][edges], int
 }
 
 
-void show_int_series(int length, int showed_series[length], char * series_name) {
-	printf("Series \'%s\':", series_name);
-	int i = 0;
-	printf("%d", showed_series[0]);
-	for(i = 1;i < length;i++) {
-		printf(", %d", showed_series[i]);
-	}
-	printf("\n");
-}
-
-void show_double_series(int length, double showed_series[length], char * series_name) {
-	printf("Series \'%s\':", series_name);
-	int i = 0;
-	printf("%f", showed_series[0]);
-	for(i = 1;i < length;i++) {
-		printf(", %f", showed_series[i]);
-	}
-	printf("\n");
-}
-
-
-void show_int_array(int edges, int showed_array[edges][edges], char * array_name) {
-	printf("Array \'%s\':\n", array_name);
-	int i = 0;
-	int j = 0;
-	for(i = 0;i < edges;i++) {
-		for(j = 0;j < edges;j++) {
-			printf("%d\t", showed_array[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-}
-
-void show_long_array(int edges, long showed_array[edges][edges], char * array_name) {
-	printf("Array \'%s\':\n", array_name);
-	int i = 0;
-	int j = 0;
-	for(i = 0;i < edges;i++) {
-		for(j = 0;j < edges;j++) {
-			printf("%ld\t", showed_array[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-}
-
-void show_double_array(int edges, double showed_array[edges][edges], char * array_name) {
-	printf("Array \'%s\':\n", array_name);
-	int i = 0;
-	int j = 0;
-	for(i = 0;i < edges;i++) {
-		for(j = 0;j < edges;j++) {
-			printf("%f\t", showed_array[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-}
-
-int clear_int_series(int edges, int cleared_series[edges], char * series_name) {
-	int i = 0;
-	for(i = 0;i < edges;i++) {
-		cleared_series[i] = 0;
-	}
-	printf("cleared the series \'%s\'\n", series_name);
-}
-
-
-double clear_double_series(int edges, double cleared_series[edges], char * series_name) {
-	int i = 0;
-	for(i = 0;i < edges;i++) {
-		cleared_series[i] = 0;
-	}
-	printf("cleared the series \'%s\'\n", series_name);
-}
-
-
-void clear_double_array(int edges, double cleared_array[edges][edges], char * array_name) {
-	int i = 0;
-	int j = 0;
-	for(i = 0;i < edges;i++) {
-		for(j = 0;j < edges;j++) {
-			cleared_array[i][j] = 0;
-		}
-	}
-	printf("cleared the array \'%s\'\n", array_name);
-}
-
-void copy_int_series(int edges, int src_series[edges], int dst_series[edges]) {
-	int i = 0;
-	for(i = 0;i < edges;i++) {
-		dst_series[i] = src_series[i];
-	}
-}
-
-
-void copy_double_series(int edges, double src_series[edges], double dst_series[edges]) {
-	int i = 0;
-	for(i = 0;i < edges;i++) {
-		dst_series[i] = src_series[i];
-	}
-}
-
-
-void copy_double_array(int edges, double src_array[edges][edges], double dst_array[edges][edges]) {
-	int i = 0;
-	int j = 0;
-	for(i = 0;i < edges;i++) {
-		for(j = 0;j < edges;j++) {
-			dst_array[i][j] = src_array[i][j];
-		}
-	}
-}
 
 
 #endif

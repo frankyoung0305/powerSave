@@ -28,22 +28,22 @@ int main() {
 	char p1top3[] = "/l3top3";
 
 	mqd_sdtop1 = mq_open(sdtop1, flags, PERM, &attr);
-	check_return(mqd_sdtop1, proname, "mq_open");
+	check_return(mqd_sdtop1, sdtop1, "mq_open");
 
 	mqd_p1top2 = mq_open(p1top2, flags, PERM, &attr);
-	check_return(mqd_p1top2, proname, "mq_open");
+	check_return(mqd_p1top2, p1top2, "mq_open");
 
 	mqd_p1top3 = mq_open(p1top3, flags, PERM, &attr);
-	check_return(mqd_p1top2, proname, "mq_open");
+	check_return(mqd_p1top3, p1top3, "mq_open");
 
 	/*control part*/
 	mqd_t mqd_ctrltop1, mqd_p1toctrl;
 	char ctrltop1[] = "/ctrltop1";
 	char p1toctrl[] = "/p1toctrl";
 	mqd_ctrltop1 = mq_open(ctrltop1, flags_ctrl, PERM, &attr_ctrl);
-	check_return(mqd_ctrltop1, proname, "mq_open");
+	check_return(mqd_ctrltop1, ctrltop1, "mq_open");
 	mqd_p1toctrl = mq_open(p1toctrl, flags_ctrl, PERM, &attr_ctrl);
-	check_return(mqd_p1toctrl, proname, "mq_open");
+	check_return(mqd_p1toctrl, p1toctrl, "mq_open");
 
 
 	/*pthread*/
@@ -81,22 +81,32 @@ int main() {
 		}
 		iph = (struct ndpi_iphdr *) buffer;
 		port = getIpFwdPort(g_pRouteTree, iph->daddr);
-		if((i%100 == 0) || (i < 400)) {
+		if((i%1000 == 0) || (i < 400)) {
 			printf("i = %lld, iph->daddr = %8X, port = %d \n", i, iph->daddr, port);
+			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 		}
+		if(i%100 == 0) {
 
+			checkqueue(mqd_sdtop1, sdtop1, &noti_tran);//check if the queue is congested and process need to be splited.
+		}
 		switch(port)
 		{
 			case 0:
 				mq_return = mq_send(mqd_p1top2, (char *) iph, mq_return, 0);
 				if(mq_return == -1) {
 					printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
+					printstar();
+					printstar();
+					printstar();
 				}
 				break;
 			case 1:
 				mq_return = mq_send(mqd_p1top3, (char *) iph, mq_return, 0);
 				if(mq_return == -1) {
 					printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
+					printstar();
+					printstar();
+					printstar();
 				}
 				break;
 		}
@@ -104,6 +114,7 @@ int main() {
 	}
 	printf("i = %lld, iph->daddr = %8X, port = %d \n", i, iph->daddr, port);
 	printf("%s has transfered %lld packets. \n", proname, i);
+	checkcpu();
 
 	//sdtop1
 	mq_return = mq_close(mqd_sdtop1);//returns 0 on success, or -1 on error.

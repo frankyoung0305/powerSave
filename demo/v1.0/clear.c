@@ -49,7 +49,6 @@ int main() {
 void clearqueue(char * queuename) {
 	int flags = O_CREAT | O_RDWR | O_NONBLOCK;
 	mqd_t mqd_clear;
-	int clear_return = 0;
 
 	struct mq_attr attr, *attrp;
 	attrp = NULL;
@@ -68,17 +67,22 @@ void clearqueue(char * queuename) {
 	check_return(mqd_clear, queuename, "mq_open");
 
 	i = 0;
-	while((clear_return = mq_receive(mqd_clear, msg_buffer, 2048, 0)) >= 0) {
+	while((func_re = mq_receive(mqd_clear, msg_buffer, 2048, 0)) >= 0) {
 		i++;
-		if(i < 500) printf("%s:receive %lld times \n", queuename, i);
+		//if(i < 500) printf("%s:receive %lld times \n", queuename, i);
 
 	}
-	if(i >= 500) printf("in queue %s, there are %lld packets left. \n", queuename, i);
-
-	clear_return = mq_close(mqd_clear);//returns 0 on success, or -1 on error.
-	check_return(clear_return, queuename, "mq_close");
-	clear_return = mq_unlink(queuename);//returns 0 on success, or -1 on error.
-	check_return(clear_return, queuename, "mq_unlink");
-	printstar();
+	if(i > 0) {
+		printf("ATTENTION PLEASE!!!\n");
+		printf("In queue %s, there are %lld packets left. \n", queuename, i);
+	}
+	else {
+		printf("There is nothing left in queue %s. \n", queuename);
+	}
+	func_re = mq_close(mqd_clear);//returns 0 on success, or -1 on error.
+	check_return(func_re, queuename, "mq_close");
+	func_re = mq_unlink(queuename);//returns 0 on success, or -1 on error.
+	check_return(func_re, queuename, "mq_unlink");
+	printnewline();
 }
 
