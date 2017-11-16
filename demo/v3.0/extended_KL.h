@@ -69,7 +69,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 			}
 		}
 		printf("edgecut_old = %f\n", edgecut_old);
-		if(edgecut_old == 0) {
+		if(fabs(edgecut_old) <= 1e-15) {
 			printf("Surprise!edgecut_old = 0!!!!\n");
 			edgecut_old = 1;
 		}
@@ -106,14 +106,14 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 		printf("workloaddiff_old = %f \n", workloaddiff_old);
 	
 
-		if(workloaddiff_old == 0) {
+		if(fabs(workloaddiff_old) <= 1e-15) {
 			for(i = 0;i < set_edges;i++) {
 				for(j = 0;j < set_edges;j++) {
 					workloaddiff_new = workloaddiff_old - 2 * point_weight[KL_re.set1[i]] + 2 * point_weight[KL_re.set2[j]];
 					//printf("i = %d, j = %d, point_weight[KL_re.set1[%d]] = %f, point_weight[KL_re.set2[%d]] = %f\n", i, j, i, point_weight[KL_re.set1[i]], j, point_weight[KL_re.set2[j]]);
 					//printf("workloaddiff_old = %f, workloaddiff_new = %f \n", workloaddiff_old, workloaddiff_new);
 					D_workloaddiff = fabs(workloaddiff_old) - fabs(workloaddiff_new);
-					if(D_workloaddiff == 0) {
+					if(fabs(D_workloaddiff) <= 1e-15) {
 						gain_balance[i][j] = 0;
 					}
 					else {
@@ -169,7 +169,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 			KL_re.set1[max_i] = KL_re.set2[max_j];
 			KL_re.set2[max_j] = temp;
 		}
-	}while(max_gain > 0 && loop_times <= MAX_LOOP_TIMES);
+	}while(max_gain > 0 && loop_times < MAX_LOOP_TIMES);
 
 
 	return KL_re;
@@ -182,7 +182,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 
 
 int * KL_partition(int old_edges, double raw_adj_array[old_edges][old_edges], double raw_point_weight[old_edges]) {//remember to free the return value!!!
-	printstar();
+	//printstar();
 	printf("Now in the KL_partition!!!\n");
 	int set_edges = (old_edges + (old_edges % 2)) / 2;
 	int * cut_order = (int *) malloc(set_edges);//WARNING!!!the pointer needs to be freed!

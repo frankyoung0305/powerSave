@@ -60,7 +60,7 @@ int main() {
 	char ctop6[] = "/ctrltop6";
 	char p6toc[] = "/p6toctrl";
 	
-	char ctop7[] = "/ctrltop";
+	char ctop7[] = "/ctrltop7";
 	char p7toc[] = "/p7toctrl";
 	
 	char ctop8[] = "/ctrltop8";
@@ -153,8 +153,8 @@ int main() {
 	clear_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array in control.c");
 	show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array in control.c");
 
-	double point_weight[ADJ_ARRAY_EDGES];
-	clear_double_series(ADJ_ARRAY_EDGES, point_weight, "point_weight in control.c");
+	double point_weight[PROC_NUMBER];
+	clear_double_series(PROC_NUMBER, point_weight, "point_weight in control.c");
 	struct ctrltrans noti_p[PROC_NUMBER];
 	for(i = 0;i < PROC_NUMBER;i++) {
 		for(j = 0;j < PROC_NUMBER;j++) {
@@ -179,7 +179,7 @@ int main() {
 	ctrlbuffer.cpu = 5;
 
 
-	for(i = 0;i < 60;i++) {
+	for(i = 0;i < 120;i++) {
 		ctrlbuffer.service_number = 1;
 		mq_return = mq_send(mqd_ctop1, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
 		check_return(mq_return, ctop1, "mq_send in controller");
@@ -189,20 +189,44 @@ int main() {
 
 		mq_return = mq_send(mqd_ctop3, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
 		check_return(mq_return, ctop3, "mq_send in controller");
+		
+		mq_return = mq_send(mqd_ctop4, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
+		check_return(mq_return, ctop4, "mq_send in controller");
+		
+		mq_return = mq_send(mqd_ctop5, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
+		check_return(mq_return, ctop5, "mq_send in controller");
+		
+		mq_return = mq_send(mqd_ctop6, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
+		check_return(mq_return, ctop6, "mq_send in controller");
+		
+		mq_return = mq_send(mqd_ctop7, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
+		check_return(mq_return, ctop7, "mq_send in controller");
+		
+		mq_return = mq_send(mqd_ctop8, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
+		check_return(mq_return, ctop8, "mq_send in controller");
 
 		printf("\nLOOP i = %d \n\n", i);
 		sleep(UPDATE_PERIOD);
 
 	}
 
-	
+
 
 	printstar();
 	printf("controller has sent all ctrlmsg. \n");
+	for(i = 0;i < PROC_NUMBER;i++) {
+		printf("i = %d, pstats[%d].queues = %d \n", i, i, pstats[i].queues);
+		for(j = 0;j < pstats[i].queues;j++) {
+			printf("pstats[%d].i[%d] = %lld \n", i, j, pstats[i].i[j]);
+		}
+	}
 	printf("Now show CPUs that processes work on. \n");
+	int cpu_status[CPUS] = {0, 0, 0, 0, 0, 0, 0, 0};
 	for(i = 0;i < PROC_NUMBER;i++) {
 		printf("p_number = %d, works on CPU %d \n", i, pstats[i].cpu);
+		cpu_status[pstats[i].cpu] += 1;
 	}
+	show_int_series(CPUS, cpu_status, "cpu_status");
 	printstar();
 
 	//ctop1

@@ -409,7 +409,7 @@ int find_idle_cpu(struct record * statistics[PROC_NUMBER]) {
 	for(i = 0;i < PROC_NUMBER;i++) {
 		cpu_status[statistics[i]->cpu] = 2;
 	}
-	for(i = 1;i < CPUS;i++) {//!!!!we will leave CPU0 for packet_sending.o!!!!Maybe 7 for control.o.
+	for(i = 1;i < 7;i++) {//!!!!we will leave CPU0 for packet_sending.o!!!!Maybe 7 for control.o.
 		if(cpu_status[i] == 0) {
 			idle_cpu = i;
 			break;

@@ -9,3 +9,5 @@ O	packet_sending sends packets more slowly than that in v1.0 who sends using up 
 
 get new fan.h with DPI
 we may add new nDPI to the topo and make topo larger.
+
+decide whether we should edit the extended_KL.h for double's accuracy with EPSILON(maybe useless)

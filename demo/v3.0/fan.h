@@ -106,6 +106,13 @@ void createRouteTree(NODE * g_pRouteTree, int iRoute, int iMask, int iPort) {
 
 //ip转发查找路由表函数
 int getIpFwdPort(NODE * g_pRouteTree, int iIp) {
+	///////////////////
+	int idle_i = 0;
+	for(idle_i = 0;idle_i < 1000;idle_i++) {
+		while(0);
+		;
+	}
+	//////////////////
 	int i = 0, iLeftOrRight = 0, iPort = -1;
 	NODE *pCurrNode = g_pRouteTree;
 
@@ -493,6 +500,13 @@ static u_int16_t packet_processing(const u_int64_t time, const struct timeval ts
 
 static u_int16_t ProtoDtect(const struct timeval ts, const u_int16_t pktlen, const u_char * packet)
 {
+	///////////////////
+	int idle_i = 0;
+	for(idle_i = 0;idle_i < 1000;idle_i++) {
+		while(0);
+		;
+	}
+	//////////////////
 	//const struct ndpi_ethhdr *ethernet = (struct ndpi_ethhdr *) packet;
 	struct ndpi_iphdr *iph = (struct ndpi_iphdr *) &packet[0];
 	u_int64_t time;
@@ -841,6 +855,13 @@ static unsigned int ACL_processing(const u_int64_t time, const struct timeval ts
 
 static void fwpacket_preprocess(const struct timeval ts, const u_int16_t pktlen, const u_char * packet, int * flag)
 {
+	///////////////////
+	int idle_i = 0;
+	for(idle_i = 0;idle_i < 1000;idle_i++) {
+		while(0);
+		;
+	}
+	//////////////////
   //const struct ndpi_ethhdr *ethernet = (struct ndpi_ethhdr *) packet;
   struct ndpi_iphdr *iph = (struct ndpi_iphdr *) &packet[0];
   u_int64_t time;
@@ -1045,6 +1066,13 @@ int writeAcl(int num){
 ////////////////ids
 
 static int IDS(const struct timeval ts, const u_int16_t pktlen, const u_char * packet, FILE *filp, int num){
+	///////////////////
+	int idle_i = 0;
+	for(idle_i = 0;idle_i < 1000;idle_i++) {
+		while(0);
+		;
+	}
+	//////////////////
 	int flag = 0;
 	fwpacket_preprocess(ts, pktlen, packet, &flag);
 	if (flag == 1){

@@ -74,9 +74,12 @@ int main() {
 			if(mq_return == -1) {
 				printf("%s:receive %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 			}
+			if((i%100000 == 0) || (i < 400)) {
+				printf("i = %lld, pid = %d , working on CPU %d \n", i, getpid(), getcpu());
+			}
 			
 			//iph = (struct ndpi_iphdr *) buffer;			
-			if(i%100 == 0) {
+			if(i%CHECKQUEUE_FREQUENCY == 0) {
 				checkqueue(mqd_p6top8, p6top8, &noti_tran);//check if the queue is congested and process needs to be splited.
 			}
 			i++;			
@@ -93,9 +96,12 @@ int main() {
 			if(mq_return == -1) {
 				printf("%s:receive %lld times fails:%s, errno = %d \n", proname, j, strerror(errno), errno);
 			}
-			
+			if((j%100000 == 0) || (j < 400)) {
+				printf("j = %lld, pid = %d , working on CPU %d \n", j, getpid(), getcpu());
+			}
+					
 			//iph = (struct ndpi_iphdr *) buffer;			
-			if(j%100 == 0) {
+			if(j%CHECKQUEUE_FREQUENCY == 0) {
 				checkqueue(mqd_p7top8, p7top8, &noti_tran);//check if the queue is congested and process needs to be splited.
 			}
 			j++;

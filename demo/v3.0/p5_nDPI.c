@@ -78,13 +78,19 @@ int main() {
 		u_int16_t proto = ProtoDtect(timestamp, mq_return, iph);
 
 ///////////////////////////////////////////////////////////////////////
-
+		mq_return = mq_send(mqd_p5top6, (char *) iph, mq_return, 0);
+		if(mq_return == -1) {
+			printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
+			printstar();
+			printstar();
+			printstar();
+		}
 		if((i%1000 == 0) || (i < 400)) {
 			printf("i = %lld, iph->daddr = %8X, packet_length = %d \n", i, iph->daddr, mq_return);
 			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 			printf("proto : %d \n", proto);
 		}
-		if(i%100 == 0) {
+		if(i%CHECKQUEUE_FREQUENCY == 0) {
 			checkqueue(mqd_p2top5, p2top5, &noti_tran);
 		}
 

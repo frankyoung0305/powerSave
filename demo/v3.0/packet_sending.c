@@ -53,7 +53,7 @@ int main() {
 	for(i = 0; i < PACKETS; i++){//9715
 		getPkt(pfile, &pkthdr, &pktdata);
 		iph = packet_preprocess(pkthdr->caplen, pktdata);
-		mq_return = mq_send(mqd_sdtop1, (char *) iph, pkthdr->caplen, 0);
+		mq_return = mq_send(mqd_sdtop1, (char *) iph, /*pkthdr->caplen*/40, 0);
 		if(mq_return == -1) {
 			printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 		}
@@ -68,9 +68,10 @@ int main() {
 			//printf("packet_sending has sent %lld packets \n", i);
 			usleep(10);
 		}
-/*		int j = 0;
-		for(j = 0;j < 1000;j++) {
+		/*int idle_i = 0;
+		for(idle_i = 0;idle_i < 1000;idle_i++) {
 			while(0);
+			;
 		}*/
 	}
 

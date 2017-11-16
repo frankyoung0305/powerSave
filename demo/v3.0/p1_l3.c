@@ -8,7 +8,7 @@
 int main() {
 	/*initialization about mqueue*/
 	char proname[] = "p1_l3fwd";
-	setcpu(1);
+	setcpu(2);
 
 	struct mq_attr attr, attr_ctrl;
 	struct mq_attr q_attr;
@@ -85,12 +85,40 @@ int main() {
 			printf("%s:receive %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 		}
 		iph = (struct ndpi_iphdr *) buffer;
+		
+		/*
+		//////////////////////////////////////////////////////////////
+		mq_return = mq_send(mqd_p1top2, (char *) iph, mq_return, 0);
+		if(mq_return == -1) {
+			printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
+			printstar();
+			printstar();
+			printstar();
+		}
+		i++;
+		mq_return = mq_receive(mqd_sdtop1, buffer, 2048, 0);
+		if(mq_return == -1) {
+			printf("%s:receive %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
+		}
+		iph = (struct ndpi_iphdr *) buffer;
+		mq_return = mq_send(mqd_p1top3, (char *) iph, mq_return, 0);
+		if(mq_return == -1) {
+			printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
+			printstar();
+			printstar();
+			printstar();
+		}*/
+		
+		
+		
+		
+		
 		port = getIpFwdPort(g_pRouteTree, iph->daddr);
 		if((i%100000 == 0) || (i < 400)) {
 			printf("i = %lld, iph->daddr = %8X, port = %d \n", i, iph->daddr, port);
 			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 		}
-		if(i%100 == 0) {
+		if(i%CHECKQUEUE_FREQUENCY == 0) {
 
 			checkqueue(mqd_sdtop1, sdtop1, &noti_tran);//check if the queue is congested and process need to be splited.
 		}
@@ -116,6 +144,7 @@ int main() {
 				break;
 		}
 
+		
 	}
 	printf("i = %lld, iph->daddr = %8X, port = %d \n", i, iph->daddr, port);
 	printf("%s has transfered %lld packets. \n", proname, i);

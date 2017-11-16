@@ -21,18 +21,38 @@ int main() {
 
 
 
-	clearqueue("/sendtol3");
-	clearqueue("/l3top2");
-	clearqueue("/l3top3");
-
+	clearqueue("/sendtop1");
+	clearqueue("/p1top2");
+	clearqueue("/p1top3");
+	clearqueue("/p2top5");
+	clearqueue("/p2top4");
+	clearqueue("/p3top4");
+	clearqueue("/p3top7");
+	clearqueue("/p5top6");
+	clearqueue("/p4top6");
+	clearqueue("/p4top7");
+	clearqueue("/p3top7");
+	clearqueue("/p6top8");
+	clearqueue("/p7top8");
 
 
 	clearqueue("/ctrltop1");
 	clearqueue("/p1toctrl");
 	clearqueue("/ctrltop2");
 	clearqueue("/p2toctrl");
-	clearqueue("/ctrltop3");
 	clearqueue("/p3toctrl");
+	clearqueue("/ctrltop3");
+	clearqueue("/p4toctrl");
+	clearqueue("/ctrltop4");
+	clearqueue("/p5toctrl");
+	clearqueue("/ctrltop5");
+	clearqueue("/p6toctrl");
+	clearqueue("/ctrltop6");
+	clearqueue("/p7toctrl");
+	clearqueue("/ctrltop7");
+	clearqueue("/p8toctrl");
+	clearqueue("/ctrltop8");
+
 
 
 
@@ -73,8 +93,9 @@ void clearqueue(char * queuename) {
 
 	}
 	if(i > 0) {
-		printf("ATTENTION PLEASE!!!\n");
+		printf("ATTENTION PLEASE!!!ATTENTION PLEASE!!!ATTENTION PLEASE!!!\n\n");
 		printf("In queue %s, there are %lld packets left. \n", queuename, i);
+		printf("\nATTENTION PLEASE!!!ATTENTION PLEASE!!!ATTENTION PLEASE!!!\n");
 	}
 	else {
 		printf("There is nothing left in queue %s. \n", queuename);

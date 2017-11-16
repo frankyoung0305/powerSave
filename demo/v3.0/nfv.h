@@ -34,7 +34,7 @@
 
 #define CHECKQUEUE_ALPHA 0.5//alpha in checkqueue ratio = alpha * q_ratio_old + (1 - alpha) * q_ratio_now.
 
-
+#define CHECKQUEUE_FREQUENCY 1000
 
 struct transfer {//this needs to be global struct.
 	mqd_t mqd_ctop;//queue from controlloer to process.
@@ -319,15 +319,15 @@ void checkqueue(mqd_t mqd, char * qname, struct transfer * parameter) {//return 
 	ratio = CHECKQUEUE_ALPHA * ((double) Lold/ (double) q_attr.mq_maxmsg) + (1 - CHECKQUEUE_ALPHA) * ((double) Lnow/ (double) q_attr.mq_maxmsg);
 	Lold = Lnow;
 	if(ratio > QUEUERATIO) {
+		printf("%s:mqd_t = %d has been congested and need to be splited!!!\n", qname, mqd);
 		gettimeofday(&time_now, 0);
 		if((time_now.tv_usec - time_old.tv_usec) + 1000000 * (time_now.tv_sec - time_old.tv_sec) >= 1000000) {
-			printf("%s:mqd_t = %d has been congested and need to be splited!!!\n", qname, mqd);
 			printf("Lold = %ld, Lnow = %ld, ratio = %f and we will report to controller!\n", Lold, Lnow, ratio);
 			process_report(4, parameter);
 			time_old = time_now;
 		}
 		else {
-			printf("It's too early to send urgent msg again, wait for a moment and try again!!!\n");
+			printf("But it's too early to send urgent msg again, wait for a moment and try again!!!\n");
 		}
 	}//else mqueue is alright, there is nothing need to be done.
 }

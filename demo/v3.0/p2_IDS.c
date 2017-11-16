@@ -71,7 +71,7 @@ int main() {
 	gettimeofday( &timestamp, NULL);
 
 	FILE *filp = NULL; 
-	char fileDir[] = "/home/dpdk/github/powerSave/demo/v2.4(ids/log.txt";
+	char fileDir[] = "/home/hunter/nfv/v3.0/log_IDS1.txt";
 	filp = fopen(fileDir,"w");
 
 /////////////////////////////////////////////////////////////////////
@@ -117,7 +117,7 @@ int main() {
 			printf("i = %lld, iph->daddr = %8X, packet_length = %d \n", i, iph->daddr, mq_return);
 			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 		}
-		if(i%100 == 0) {
+		if(i%CHECKQUEUE_FREQUENCY == 0) {
 			checkqueue(mqd_p1top2, p1top2, &noti_tran);
 		}
 

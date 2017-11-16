@@ -106,7 +106,7 @@ int main() {
 			///////////////////////////////////
 			
 			
-			if(i%100 == 0) {
+			if(i%CHECKQUEUE_FREQUENCY == 0) {
 
 				checkqueue(mqd_p4top7, p4top7, &noti_tran);//check if the queue is congested and process needs to be splited.
 			}
@@ -144,7 +144,7 @@ int main() {
 			///////////////////////////////////
 			
 			
-			if(j%100 == 0) {
+			if(j%CHECKQUEUE_FREQUENCY == 0) {
 
 				checkqueue(mqd_p3top7, p3top7, &noti_tran);//check if the queue is congested and process needs to be splited.
 			}

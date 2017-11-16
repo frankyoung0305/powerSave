@@ -77,7 +77,7 @@ int main() {
 	int routetable[2] = {0x8000FFFF, 0x0000FFFF};
 	int route_i = 0;
 	for(route_i = 0;route_i < 2;route_i++) {
-		createRouteTree(g_pRouteTree, routetable[route_i], 1, j);
+		createRouteTree(g_pRouteTree, routetable[route_i], 1, route_i);
 		printf("route[%d]:%8X, port:%d\n", route_i, routetable[route_i], route_i);
 	}
 	createRouteTree(g_pRouteTree, 0, 0, 999);
@@ -105,7 +105,7 @@ int main() {
 				printf("i = %lld, iph->daddr = %8X, port = %d \n", i, iph->daddr, port);
 				printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 			}
-			if(i%100 == 0) {
+			if(i%CHECKQUEUE_FREQUENCY == 0) {
 
 				checkqueue(mqd_p2top4, p2top4, &noti_tran);//check if the queue is congested and process need to be splited.
 			}
@@ -149,7 +149,7 @@ int main() {
 				printf("j = %lld, iph->daddr = %8X, port = %d \n", j, iph->daddr, port);
 				printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 			}
-			if(j%100 == 0) {
+			if(j%CHECKQUEUE_FREQUENCY == 0) {
 
 				checkqueue(mqd_p3top4, p3top4, &noti_tran);//check if the queue is congested and process need to be splited.
 			}
