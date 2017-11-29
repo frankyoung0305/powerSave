@@ -1,6 +1,14 @@
+Please run control.o in root terminal!!!
+
+v4.0
+now we only use ondemand governor but change /sys/devices/system/cpu/cpuX/online in root.(X from 1 to CPUS - 1)
+we turn on/off a physical cpu i.e. two logical CPUs now.
+add an macro called 'RUNMODE' to control whether setcpu will work, which is used in different measurement experiment.
+we do not use macro 'CPUS' now but 'PHYSICAL_CPUS', so many things are changed.
+
 v3.1
 Frank Young debuged the fan.h and fan.h hac no warning now.
-change l3 from create route table to hashtable.
+change l3 from creating route table to hashtable.
 
 v3.0
 ready to make topo bigger with 8 processes.
