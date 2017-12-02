@@ -101,6 +101,7 @@ int main() {
 			return -1;
 		}
 		
+		i++;
 		
 		mq_return = mq_receive(mqd_p1top3, buffer, 2048, 0);
 		if(mq_return == -1) {
