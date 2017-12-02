@@ -9,3 +9,4 @@ pkill -x p5_nDPI.o
 pkill -x p6_FW.o
 pkill -x p7_FW.o
 pkill -x p8_counter.o
+./clear.o
