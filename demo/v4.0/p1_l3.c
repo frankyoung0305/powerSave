@@ -88,16 +88,14 @@ int main() {
 	for(i = 0;i < PACKETS;i++) {//PACKETS = 5000 now.
 		mq_return = mq_receive(mqd_sdtop1, buffer, 2048, 0);
 		if(mq_return == -1) {
-			printf("%s:receive %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
+			printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, sdtop1, i, strerror(errno), errno);
+			return -1;
 		}
 		iph = (struct ndpi_iphdr *) buffer;
-		
-			
-		
 		nip = iph->daddr;
 		port = findPort(route, nip);
-		if((i%100000 == 0) || (i < 400)) {
-			printf("i = %lld, iph->daddr = %8X, port = %d \n", i, iph->daddr, port);
+		if((i%SHOW_FREQUENCY == 0) || (i < SHOW_THRESHOLD)) {
+			printf("i = %lld, packet length = %d, iph->daddr = %8X, port = %d \n", i, mq_return, iph->daddr, port);
 			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 		}
 		if(i%CHECKQUEUE_FREQUENCY == 0) {
@@ -109,26 +107,21 @@ int main() {
 			case 0:
 				mq_return = mq_send(mqd_p1top2, (char *) iph, mq_return, 0);
 				if(mq_return == -1) {
-					printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
-					printstar();
-					printstar();
-					printstar();
+					printf("%s:%s send %lld times fails:%s, errno = %d \n", proname, p1top2, i, strerror(errno), errno);
+					return -1;
 				}
 				break;
 			case 1:
 				mq_return = mq_send(mqd_p1top3, (char *) iph, mq_return, 0);
 				if(mq_return == -1) {
-					printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
-					printstar();
-					printstar();
-					printstar();
+					printf("%s:%s send %lld times fails:%s, errno = %d \n", proname, p1top3, i, strerror(errno), errno);
+					return -1;
 				}
 				break;
 		}
 
 		
 	}
-	printf("i = %lld, iph->daddr = %8X, port = %d \n", i, iph->daddr, port);
 	printf("%s has transfered %lld packets. \n", proname, i);
 	checkcpu();
 

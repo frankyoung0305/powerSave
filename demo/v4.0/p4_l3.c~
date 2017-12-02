@@ -95,19 +95,21 @@ int main() {
 		//queue p2top4.
 		mq_return = mq_getattr(mqd_p2top4, &q_attr);
 		if(mq_return == -1) {
-			printf("something wrong happened in %s when mq_getattr p2top4. \n", proname);
+			printf("%s:something wrong happened when mq_getattr p2top4. \n", proname);
+			return -1;
 		}
 		p_count1 = q_attr.mq_curmsgs >= 50?50:q_attr.mq_curmsgs;
 		for(k = 0;k < p_count1;k++) {
 			mq_return = mq_receive(mqd_p2top4, buffer, 2048, 0);
 			if(mq_return == -1) {
-				printf("%s:receive %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
+				printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, p2top4, i, strerror(errno), errno);
+				return -1;
 			}
 			iph = (struct ndpi_iphdr *) buffer;
 			nip = iph->daddr;
 			port = findPort(route, nip);
-			if((i%100000 == 0) || (i < 400)) {
-				printf("i = %lld, iph->daddr = %8X, port = %d \n", i, iph->daddr, port);
+			if((i + j)%SHOW_FREQUENCY == 0 || (i + j) < SHOW_THRESHOLD) {
+				printf("i = %lld, packet length = %d, iph->daddr = %8X, port = %d \n", i, mq_return, iph->daddr, port);
 				printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 			}
 			if(i%CHECKQUEUE_FREQUENCY == 0) {
@@ -119,19 +121,15 @@ int main() {
 				case 0:
 					mq_return = mq_send(mqd_p4top6, (char *) iph, mq_return, 0);
 					if(mq_return == -1) {
-						printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
-						printstar();
-						printstar();
-						printstar();
+						printf("%s:%s send %lld times fails:%s, errno = %d \n", proname, p4top6, i, strerror(errno), errno);
+						return -1;
 					}
 					break;
 				case 1:
 					mq_return = mq_send(mqd_p4top7, (char *) iph, mq_return, 0);
 					if(mq_return == -1) {
-						printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
-						printstar();
-						printstar();
-						printstar();
+						printf("%s:%s send %lld times fails:%s, errno = %d \n", proname, p4top7, i, strerror(errno), errno);
+						return -1;
 					}
 					break;
 			}
@@ -140,18 +138,21 @@ int main() {
 		//queue p3top4.
 		mq_return = mq_getattr(mqd_p3top4, &q_attr);
 		if(mq_return == -1) {
-			printf("something wrong happened in %s when mq_getattr p3top4. \n", proname);
+			printf("%s:something wrong happened when mq_getattr p3top4. \n", proname);
+			return -1;
 		}
 		p_count2 = q_attr.mq_curmsgs >= 50?50:q_attr.mq_curmsgs;
 		for(k = 0;k < p_count2;k++) {
 			mq_return = mq_receive(mqd_p3top4, buffer, 2048, 0);
 			if(mq_return == -1) {
-				printf("%s:receive %lld times fails:%s, errno = %d \n", proname, j, strerror(errno), errno);
+				printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, p3top4, j, strerror(errno), errno);
+				return -1;
 			}
 			iph = (struct ndpi_iphdr *) buffer;
-			port = getIpFwdPort(g_pRouteTree, iph->daddr);
-			if((j%100000 == 0) || (j < 400)) {
-				printf("j = %lld, iph->daddr = %8X, port = %d \n", j, iph->daddr, port);
+			nip = iph->daddr;
+			port = findPort(route, nip);
+			if((j%SHOW_FREQUENCY == 0) || (j < SHOW_THRESHOLD)) {
+				printf("j = %lld, packet length = %d, iph->daddr = %8X, port = %d \n", j, mq_return, iph->daddr, port);
 				printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 			}
 			if(j%CHECKQUEUE_FREQUENCY == 0) {
@@ -163,19 +164,15 @@ int main() {
 				case 0:
 					mq_return = mq_send(mqd_p4top6, (char *) iph, mq_return, 0);
 					if(mq_return == -1) {
-						printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
-						printstar();
-						printstar();
-						printstar();
+						printf("%s:send %lld times fails:%s, errno = %d \n", p4top6, i, strerror(errno), errno);
+						return -1;
 					}
 					break;
 				case 1:
 					mq_return = mq_send(mqd_p4top7, (char *) iph, mq_return, 0);
 					if(mq_return == -1) {
-						printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
-						printstar();
-						printstar();
-						printstar();
+						printf("%s:send %lld times fails:%s, errno = %d \n", p4top7, i, strerror(errno), errno);
+						return -1;
 					}
 					break;
 			}

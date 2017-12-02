@@ -20,7 +20,7 @@
 
 
 /***Look at here, the RUNMODE is here!!!***/
-//#define RUNMODE 1//if define RUNMODE, setcpu() will not work.
+#define RUNMODE 1//if define RUNMODE, setcpu() will not work.
 
 
 
@@ -41,6 +41,10 @@
 #define QUEUERATIO 0.8//the ratio of queue needed to report.
 
 #define CHECKQUEUE_ALPHA 0.5//alpha in checkqueue ratio = alpha * q_ratio_old + (1 - alpha) * q_ratio_now.
+
+#define SHOW_FREQUENCY 100000
+
+#define SHOW_THRESHOLD 400
 
 #define CHECKQUEUE_FREQUENCY 1000
 
@@ -272,7 +276,11 @@ int setcpu(int cpu_id) {//set the process to work on cpu 'cpu_id'.
 }//  set cpu affinity
 
 int getcpu() {//get the cpu where the process is working on.
-	printf("getcpu's pid is %d\n", getpid());
+	#ifdef RUNMODE
+	return 999;
+	#endif
+
+	//printf("getcpu's pid is %d\n", getpid());
 	char func_name[] = "getcpu";
 	int func_return = 0;
 	cpu_set_t set;

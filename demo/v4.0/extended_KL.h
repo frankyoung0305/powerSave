@@ -108,7 +108,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 		printf("workloaddiff_old = %f \n", workloaddiff_old);
 	
 
-		if(fabs(workloaddiff_old) <= 1e-15) {
+		if(fabs(workloaddiff_old) <= 1e-15) {//fabs(workloaddiff_old == 0)
 			for(i = 0;i < set_edges;i++) {
 				for(j = 0;j < set_edges;j++) {
 					workloaddiff_new = workloaddiff_old - 2 * point_weight[KL_re.set1[i]] + 2 * point_weight[KL_re.set2[j]];

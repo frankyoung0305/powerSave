@@ -79,69 +79,79 @@ int main() {
 		//p4top7
 		mq_return = mq_getattr(mqd_p4top7, &q_attr);
 		if(mq_return == -1) {
-			printf("something wrong happened in %s when mq_getattr p4top7. \n", proname);
+			printf("%s:something wrong happened when mq_getattr p4top7. \n", proname);
+			return -1;
 		}
 		p_count1 = q_attr.mq_curmsgs >= 50?50:q_attr.mq_curmsgs;
 		for(k = 0;k < p_count1;k++) {
 			mq_return = mq_receive(mqd_p4top7, buffer, 2048, 0);
 			if(mq_return == -1) {
-				printf("%s:receive %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
+				printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, p4top7, i, strerror(errno), errno);
+				return -1;
 			}
 			
 			iph = (struct ndpi_iphdr *) buffer;
-/////////////////////////////////////////////////////////////////////////
-			//FW actions
-		
-			fwpacket_preprocess(timestamp, mq_return, iph, &flag);
-			if(flag != 0) {
-				printf("i = %d, flag: %d \n", i, flag);
-			}
-			else {
-					mq_return = mq_send(mqd_p7top8, (char *) iph, mq_return, 0);
-					if(mq_return == -1) {
-						printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
-						printstar();
-						printstar();
-						printstar();
-					}
-			
-			}
-			///////////////////////////////////
-			
-			if(((i + j)%100000 == 0) || ((i + j) < 400)) {
-				printf("i = %lld, pid = %d , working on CPU %d \n", i, getpid(), getcpu());
+			if(((i + j)%SHOW_FREQUENCY == 0) || ((i + j) < SHOW_THRESHOLD)) {
+				printf("i = %lld, packet length = %d, pid = %d, working on CPU %d \n", i, mq_return, getpid(), getcpu());
 			}
 			if(i%CHECKQUEUE_FREQUENCY == 0) {
 
 				checkqueue(mqd_p4top7, p4top7, &noti_tran);//check if the queue is congested and process needs to be splited.
 			}
+/////////////////////////////////////////////////////////////////////////
+			//FW actions
+		
+			fwpacket_preprocess(timestamp, mq_return, iph, &flag);
+			if(flag != 0) {
+				printf("i = %lld, flag: %d \n", i, flag);
+			}
+			else {
+					mq_return = mq_send(mqd_p7top8, (char *) iph, mq_return, 0);
+					if(mq_return == -1) {
+						printf("%s:%s send %lld times fails:%s, errno = %d \n", proname, p7top8, i, strerror(errno), errno);
+						return -1;
+					}
+			
+			}
+			///////////////////////////////////
+			
+			
 			i++;			
 		}
 		
 		//p3top7
 		mq_return = mq_getattr(mqd_p3top7, &q_attr);
 		if(mq_return == -1) {
-			printf("something wrong happened in %s when mq_getattr p4top7. \n", proname);
+			printf("%s:%s something wrong happened when mq_getattr p4top7. \n", proname, p3top7);
+			return -1;
 		}
 		p_count2 = q_attr.mq_curmsgs >= 50?50:q_attr.mq_curmsgs;
 		for(k = 0;k < p_count2;k++) {
 			mq_return = mq_receive(mqd_p3top7, buffer, 2048, 0);
 			if(mq_return == -1) {
-				printf("%s:receive %lld times fails:%s, errno = %d \n", proname, j, strerror(errno), errno);
+				printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, p3top7, j, strerror(errno), errno);
+				return -1;
 			}
 			
 			iph = (struct ndpi_iphdr *) buffer;
+			if(((i + j)%SHOW_FREQUENCY == 0) || ((i + j) < SHOW_THRESHOLD)) {
+				printf("j = %lld, packet length = %d, pid = %d , working on CPU %d \n", j, mq_return, getpid(), getcpu());
+			}
+			if(j%CHECKQUEUE_FREQUENCY == 0) {
+
+				checkqueue(mqd_p3top7, p3top7, &noti_tran);//check if the queue is congested and process needs to be splited.
+			}
 /////////////////////////////////////////////////////////////////////////
 			//FW actions
 		
 			fwpacket_preprocess(timestamp, mq_return, iph, &flag);
 			if(flag != 0) {
-				printf("j = %d, flag: %d \n", j, flag);
+				printf("j = %lld, flag: %d \n", j, flag);
 			}
 			else {
 					mq_return = mq_send(mqd_p7top8, (char *) iph, mq_return, 0);
 					if(mq_return == -1) {
-						printf("%s:send %lld times fails:%s, errno = %d \n", proname, j, strerror(errno), errno);
+						printf("%s:%ssend %lld times fails:%s, errno = %d \n", proname, p7top8, j, strerror(errno), errno);
 						printstar();
 						printstar();
 						printstar();
@@ -150,13 +160,7 @@ int main() {
 			}
 			///////////////////////////////////
 			
-			if(((i + j)%100000 == 0) || ((i + j) < 400)) {
-				printf("j = %lld, pid = %d , working on CPU %d \n", j, getpid(), getcpu());
-			}
-			if(j%CHECKQUEUE_FREQUENCY == 0) {
-
-				checkqueue(mqd_p3top7, p3top7, &noti_tran);//check if the queue is congested and process needs to be splited.
-			}
+			
 			j++;
 		}	
 		if(p_count1 || p_count2) {
@@ -169,11 +173,6 @@ int main() {
 	}
 	
 	
-	
-	
-
-
-	printf("i = %lld, iph->daddr = %8X, packet_length = %d \n", i, iph->daddr, mq_return);
 	printf("%s has transfered %lld packets. \n", proname, i);
 	checkcpu();
 

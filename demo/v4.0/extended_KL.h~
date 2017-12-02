@@ -143,12 +143,11 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 		show_double_array(set_edges, gain_balance, "gain_balance");
 
 
-		double alpha = 0.5;
 		int max_i = 0, max_j = 0;
 		max_gain = -10000;
 		for(i = 0;i < set_edges;i++) {
 			for(j = 0;j < set_edges;j++) {
-				gain[i][j] = alpha * gain_edgecut[i][j] + (1 - alpha) * gain_balance[i][j];
+				gain[i][j] = KL_ALPHA * gain_edgecut[i][j] + (1 - KL_ALPHA) * gain_balance[i][j];
 				if(gain[i][j] > max_gain) {
 					max_gain = gain[i][j];
 					max_i = i;

@@ -79,7 +79,7 @@ int main() {
 		u_int16_t proto = ProtoDtect(timestamp, mq_return, iph);
 
 ///////////////////////////////////////////////////////////////////////		
-		if((i%SHOW_FREQUENCY == 0) || (i < SHOW_THRESHOLD)) {
+		if((i%SHOW_FREQUENCY == 0) || (i < SHOW_FREQUENCY)) {
 			printf("i = %lld, packet length = %d, iph->daddr = %8X \n", i, mq_return, iph->daddr);
 			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 			printf("proto : %d \n", proto);
