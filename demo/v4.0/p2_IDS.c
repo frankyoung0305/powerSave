@@ -71,7 +71,7 @@ int main() {
 	gettimeofday( &timestamp, NULL);
 
 	FILE *filp = NULL; 
-	char fileDir[] = "/home/hunter/nfv/v3.0/log_IDS1.txt";
+	char fileDir[] = "./log_IDS1.txt";
 	filp = fopen(fileDir,"w");
 
 /////////////////////////////////////////////////////////////////////
