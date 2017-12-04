@@ -46,99 +46,22 @@ int main(void) {
 	int flags = O_CREAT | O_RDWR | O_NONBLOCK;
 	mqd_t mqd_ctop[PROC_NUMBER];
 	mqd_t mqd_ptoc[PROC_NUMBER];
-	//replace
-	/*
-	mqd_t mqd_ctop1, mqd_p1toc;
-	mqd_t mqd_ctop2, mqd_p2toc;
-	mqd_t mqd_ctop3, mqd_p3toc;
-	mqd_t mqd_ctop4, mqd_p4toc;
-	mqd_t mqd_ctop5, mqd_p5toc;
-	mqd_t mqd_ctop6, mqd_p6toc;
-	mqd_t mqd_ctop7, mqd_p7toc;
-	mqd_t mqd_ctop8, mqd_p8toc;
-	*/
-
+	
 
 	int mq_return = 0;
 	char ctop[PROC_NUMBER][20];
 	char ptoc[PROC_NUMBER][20];
 	
 	for(i = 0;i < PROC_NUMBER;i++) {
-		sprintf(ctop[i], "/ctrltop%d", i + 1);
-		sprintf(ptoc[i], "/p%dtoctrl", i + 1);
+		sprintf(ctop[i], "/ctrltop%d", i);
+		sprintf(ptoc[i], "/p%dtoctrl", i);
 		mqd_ctop[i] = mq_open(ctop[i], flags, PERM, &attr_ct);
 		check_return(mqd_ctop[i], ctop[i], "mq_open");
 		mqd_ptoc[i] = mq_open(ptoc[i], flags, PERM, &attr_ct);
 		check_return(mqd_ptoc[i], ptoc[i], "mq_open");
 	}
-	//replace
-	/*
-	char ctop1[] = "/ctrltop1";
-	char p1toc[] = "/p1toctrl";
-
-	char ctop2[] = "/ctrltop2";
-	char p2toc[] = "/p2toctrl";
-
-	char ctop3[] = "/ctrltop3";
-	char p3toc[] = "/p3toctrl";
-	
-	char ctop4[] = "/ctrltop4";
-	char p4toc[] = "/p4toctrl";
-	
-	char ctop5[] = "/ctrltop5";
-	char p5toc[] = "/p5toctrl";
-	
-	char ctop6[] = "/ctrltop6";
-	char p6toc[] = "/p6toctrl";
-	
-	char ctop7[] = "/ctrltop7";
-	char p7toc[] = "/p7toctrl";
-	
-	char ctop8[] = "/ctrltop8";
-	char p8toc[] = "/p8toctrl";
 
 
-	mqd_ctop1 = mq_open(ctop1, flags, PERM, &attr_ct);
-	check_return(mqd_ctop1, ctop1, "mq_open");
-	mqd_p1toc = mq_open(p1toc, flags, PERM, &attr_ct);
-	check_return(mqd_p1toc, p1toc, "mq_open");
-
-	mqd_ctop2 = mq_open(ctop2, flags, PERM, &attr_ct);
-	check_return(mqd_ctop2, ctop2, "mq_open");
-	mqd_p2toc = mq_open(p2toc, flags, PERM, &attr_ct);
-	check_return(mqd_p2toc, p2toc, "mq_open");
-
-	mqd_ctop3 = mq_open(ctop3, flags, PERM, &attr_ct);
-	check_return(mqd_ctop3, ctop3, "mq_open");
-	mqd_p3toc = mq_open(p3toc, flags, PERM, &attr_ct);
-	check_return(mqd_p3toc, p3toc, "mq_open");
-	
-	mqd_ctop4 = mq_open(ctop4, flags, PERM, &attr_ct);
-	check_return(mqd_ctop4, ctop4, "mq_open");
-	mqd_p4toc = mq_open(p4toc, flags, PERM, &attr_ct);
-	check_return(mqd_p4toc, p3toc, "mq_open");
-
-	mqd_ctop5 = mq_open(ctop5, flags, PERM, &attr_ct);
-	check_return(mqd_ctop5, ctop5, "mq_open");
-	mqd_p5toc = mq_open(p5toc, flags, PERM, &attr_ct);
-	check_return(mqd_p5toc, p5toc, "mq_open");
-	
-	mqd_ctop6 = mq_open(ctop6, flags, PERM, &attr_ct);
-	check_return(mqd_ctop6, ctop6, "mq_open");
-	mqd_p6toc = mq_open(p6toc, flags, PERM, &attr_ct);
-	check_return(mqd_p6toc, p6toc, "mq_open");
-
-	mqd_ctop7 = mq_open(ctop7, flags, PERM, &attr_ct);
-	check_return(mqd_ctop7, ctop7, "mq_open");
-	mqd_p7toc = mq_open(p7toc, flags, PERM, &attr_ct);
-	check_return(mqd_p7toc, p7toc, "mq_open");
-
-	mqd_ctop8 = mq_open(ctop8, flags, PERM, &attr_ct);
-	check_return(mqd_ctop8, ctop8, "mq_open");
-	mqd_p8toc = mq_open(p8toc, flags, PERM, &attr_ct);
-	check_return(mqd_p8toc, p8toc, "mq_open");*/
-
-	
 	
 
 	
@@ -157,30 +80,6 @@ int main(void) {
 		pstats[i].mqd_ctop = mqd_ctop[i];
 		pstats[i].mqd_ptoc = mqd_ptoc[i];
 	}
-	/*
-	pstats[0].mqd_ctop = mqd_ctop1;
-	pstats[0].mqd_ptoc = mqd_p1toc;
-
-	pstats[1].mqd_ctop = mqd_ctop2;
-	pstats[1].mqd_ptoc = mqd_p2toc;
-
-	pstats[2].mqd_ctop = mqd_ctop3;
-	pstats[2].mqd_ptoc = mqd_p3toc;
-
-	pstats[3].mqd_ctop = mqd_ctop4;
-	pstats[3].mqd_ptoc = mqd_p4toc;
-
-	pstats[4].mqd_ctop = mqd_ctop5;
-	pstats[4].mqd_ptoc = mqd_p5toc;
-
-	pstats[5].mqd_ctop = mqd_ctop6;
-	pstats[5].mqd_ptoc = mqd_p6toc;
-
-	pstats[6].mqd_ctop = mqd_ctop7;
-	pstats[6].mqd_ptoc = mqd_p7toc;
-
-	pstats[7].mqd_ctop = mqd_ctop8;
-	pstats[7].mqd_ptoc = mqd_p8toc;*/
 
 
 	double adj_array[ADJ_ARRAY_EDGES][ADJ_ARRAY_EDGES];
@@ -219,32 +118,6 @@ int main(void) {
 		
 		}
 			
-		//replace
-		/*
-		mq_return = mq_send(mqd_ctop1, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop1, "mq_send in controller");
-
-		mq_return = mq_send(mqd_ctop2, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop2, "mq_send in controller");
-
-		mq_return = mq_send(mqd_ctop3, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop3, "mq_send in controller");
-		
-		mq_return = mq_send(mqd_ctop4, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop4, "mq_send in controller");
-		
-		mq_return = mq_send(mqd_ctop5, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop5, "mq_send in controller");
-		
-		mq_return = mq_send(mqd_ctop6, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop6, "mq_send in controller");
-		
-		mq_return = mq_send(mqd_ctop7, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop7, "mq_send in controller");
-		
-		mq_return = mq_send(mqd_ctop8, (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-		check_return(mq_return, ctop8, "mq_send in controller");
-		*/
 
 		printf("\nLOOP i = %d \n\n", i);
 		sleep(UPDATE_PERIOD);
@@ -283,95 +156,8 @@ int main(void) {
 		check_return(mq_return, ptoc[i], "mq_unlink");
 
 	}
-	/*
-	//ctop1
-	mq_return = mq_close(mqd_ctop1);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop1, "mq_close");
-	mq_return = mq_unlink(ctop1);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop1, "mq_unlink");
-	//p1toc
-	mq_return = mq_close(mqd_p1toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p1toc, "mq_close");
-	mq_return = mq_unlink(p1toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p1toc, "mq_unlink");
 
-	//ctop2
-	mq_return = mq_close(mqd_ctop2);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop2, "mq_close");
-	mq_return = mq_unlink(ctop2);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop2, "mq_unlink");
-	//p2toc
-	mq_return = mq_close(mqd_p2toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p2toc, "mq_close");
-	mq_return = mq_unlink(p2toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p2toc, "mq_unlink");
 
-	//ctop3
-	mq_return = mq_close(mqd_ctop3);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop3, "mq_close");
-	mq_return = mq_unlink(ctop3);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop3, "mq_unlink");
-	//p3toc
-	mq_return = mq_close(mqd_p3toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p3toc, "mq_close");
-	mq_return = mq_unlink(p3toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p3toc, "mq_unlink");
-	
-	//ctop4
-	mq_return = mq_close(mqd_ctop4);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop4, "mq_close");
-	mq_return = mq_unlink(ctop4);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop4, "mq_unlink");
-	//p4toc
-	mq_return = mq_close(mqd_p4toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p4toc, "mq_close");
-	mq_return = mq_unlink(p4toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p4toc, "mq_unlink");
-
-	//ctop5
-	mq_return = mq_close(mqd_ctop5);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop5, "mq_close");
-	mq_return = mq_unlink(ctop5);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop5, "mq_unlink");
-	//p5toc
-	mq_return = mq_close(mqd_p5toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p5toc, "mq_close");
-	mq_return = mq_unlink(p5toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p5toc, "mq_unlink");
-
-	//ctop6
-	mq_return = mq_close(mqd_ctop6);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop6, "mq_close");
-	mq_return = mq_unlink(ctop6);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop6, "mq_unlink");
-	//p6toc
-	mq_return = mq_close(mqd_p6toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p6toc, "mq_close");
-	mq_return = mq_unlink(p6toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p6toc, "mq_unlink");
-
-	//ctop7
-	mq_return = mq_close(mqd_ctop7);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop7, "mq_close");
-	mq_return = mq_unlink(ctop7);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop7, "mq_unlink");
-	//p7toc
-	mq_return = mq_close(mqd_p7toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p7toc, "mq_close");
-	mq_return = mq_unlink(p7toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p7toc, "mq_unlink");
-
-	//ctop8
-	mq_return = mq_close(mqd_ctop8);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop8, "mq_close");
-	mq_return = mq_unlink(ctop8);//returns 0 on success, or -1 on error.
-	check_return(mq_return, ctop8, "mq_unlink");
-	//p8toc
-	mq_return = mq_close(mqd_p8toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p8toc, "mq_close");
-	mq_return = mq_unlink(p8toc);//returns 0 on success, or -1 on error.
-	check_return(mq_return, p8toc, "mq_unlink");
-	*/
 	printf("Please remember to use cpuon.sh!!!\n");
 	for(i = 1;i < PHYSICAL_CPUS;i++) {
 		re_turn_cpu = turn_cpu(1, i);

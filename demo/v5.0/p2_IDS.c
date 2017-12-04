@@ -20,20 +20,20 @@ int main() {
 
 	int flags = O_CREAT | O_RDWR;
 	int flags_ctrl = O_CREAT | O_RDWR | O_NONBLOCK;
-	mqd_t mqd_p1top2, mqd_p2top5, mqd_p2top4;
+	mqd_t mqd_p0top2, mqd_p2top3, mqd_p2top6;
 	int mq_return = 0;
-	char p1top2[] = "/p1top2";
-	char p2top5[] = "/p2top5";
-	char p2top4[] = "/p2top4";
+	char p0top2[] = "/p0top2";
+	char p2top3[] = "/p2top3";
+	char p2top6[] = "/p2top6";
 	
-	mqd_p1top2 = mq_open(p1top2, flags, PERM, &attr);
-	check_return(mqd_p1top2, p1top2, "mq_open");
+	mqd_p0top2 = mq_open(p0top2, flags, PERM, &attr);
+	check_return(mqd_p0top2, p0top2, "mq_open");
 
-	mqd_p2top5 = mq_open(p2top5, flags, PERM, &attr);
-	check_return(mqd_p1top2, p2top5, "mq_open");
+	mqd_p2top3 = mq_open(p2top3, flags, PERM, &attr);
+	check_return(mqd_p0top2, p2top3, "mq_open");
 
-	mqd_p2top4 = mq_open(p2top4, flags, PERM, &attr);
-	check_return(mqd_p1top2, p2top4, "mq_open");
+	mqd_p2top6 = mq_open(p2top6, flags, PERM, &attr);
+	check_return(mqd_p0top2, p2top6, "mq_open");
 
 
 	/*control part*/
@@ -54,7 +54,7 @@ int main() {
 	struct transfer noti_tran;
 	noti_tran.mqd_ctop = mqd_ctrltop2;
 	noti_tran.mqd_ptoc = mqd_p2toctrl;
-	//noti_tran.mqd_p[0] = mqd_p1top2;
+	//noti_tran.mqd_p[0] = mqd_p0top2;
 	noti_tran.qds = 1;
 	noti_tran.i[0] = &i;
 	notifysetup(&noti_tran);
@@ -71,7 +71,7 @@ int main() {
 	gettimeofday( &timestamp, NULL);
 
 	FILE *filp = NULL; 
-	char fileDir[] = "./log_IDS1.txt";
+	char fileDir[] = "./log_IDS2.txt";
 	filp = fopen(fileDir,"w");
 
 /////////////////////////////////////////////////////////////////////
@@ -79,32 +79,33 @@ int main() {
 
 	//int port = 0;
 
-	for(i = 0;i < PACKETS*10;i += 2) {
-		mq_return = mq_receive(mqd_p1top2, buffer, 2048, 0);
+	for(i = 0;i < PACKETS*10;i++) {//PACKETS = 5000 now.
+		mq_return = mq_receive(mqd_p0top2, buffer, 2048, 0);
 		if(mq_return == -1) {
-			printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, p1top2, i, strerror(errno), errno);
-			return -1;
+			printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, p0top2, i, strerror(errno), errno);
 		}
 		iph = (struct ndpi_iphdr *) buffer;
-		if((i%SHOW_FREQUENCY == 0) || (i < 400)) {
+		if((i%SHOW_FREQUENCY == 0) || (i < SHOW_THRESHOLD)) {
 			printf("i = %lld, packet length = %d, iph->daddr = %8X \n", i, mq_return, iph->daddr);
 			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 		}
 		if(i%CHECKQUEUE_FREQUENCY == 0) {
-			checkqueue(mqd_p1top2, p1top2, &noti_tran);
+			checkqueue(mqd_p0top2, p0top2, &noti_tran);
 		}
-
-		/////////////////////////////////////IDS
+		
+		//////////////////////////////////////IDS
 		IDS(timestamp, mq_return, iph, filp, i);
-		mq_return = mq_send(mqd_p2top5, (char *) iph, mq_return, 0);
+		mq_return = mq_send(mqd_p2top3, (char *) iph, mq_return, 0);
 		if(mq_return == -1) {
-			printf("%s:%s send %lld times fails:%s, errno = %d \n", proname, p2top5, i, strerror(errno), errno);
+			printf("%s:%s send %lld times fails:%s, errno = %d \n", proname, p2top3, i, strerror(errno), errno);
 			return -1;
-		}		
-
-		mq_return = mq_receive(mqd_p1top2, buffer, 2048, 0);
+		}
+		
+		i++;
+		
+		mq_return = mq_receive(mqd_p0top2, buffer, 2048, 0);
 		if(mq_return == -1) {
-			printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, p1top2, i, strerror(errno), errno);
+			printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, p0top2, i, strerror(errno), errno);
 			return -1;
 		}
 		iph = (struct ndpi_iphdr *) buffer;
@@ -113,39 +114,40 @@ int main() {
 			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
 		}
 		if(i%CHECKQUEUE_FREQUENCY == 0) {
-			checkqueue(mqd_p1top2, p1top2, &noti_tran);
+			checkqueue(mqd_p0top2, p0top2, &noti_tran);
 		}
 		
-		/////////////////////////////////////IDS
+		//////////////////////////////////////IDS
 		IDS(timestamp, mq_return, iph, filp, i);
-		mq_return = mq_send(mqd_p2top4, (char *) iph, mq_return, 0);
+		mq_return = mq_send(mqd_p2top6, (char *) iph, mq_return, 0);
 		if(mq_return == -1) {
-			printf("%s:%s send %lld times fails:%s, errno = %d \n", proname, p2top4, i, strerror(errno), errno);
+			printf("%s:%s send %lld times fails:%s, errno = %d \n", proname, p2top6, i, strerror(errno), errno);
 			return -1;
-		}	
-
+		}
+				
+		
 
 		
 
 	}
 	printf("%s has transfered %lld packets. \n", proname, i);
 
-	//p1top2
-	mq_return = mq_close(mqd_p1top2);//returns 0 on success, or -1 on error.
+	//p0top2
+	mq_return = mq_close(mqd_p0top2);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_close");
-	mq_return = mq_unlink(p1top2);//returns 0 on success, or -1 on error.
+	mq_return = mq_unlink(p0top2);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_unlink");
 
-	//p2top5
-	mq_return = mq_close(mqd_p2top5);//returns 0 on success, or -1 on error.
+	//p2top3
+	mq_return = mq_close(mqd_p2top3);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_close");
-	mq_return = mq_unlink(p2top5);//returns 0 on success, or -1 on error.
+	mq_return = mq_unlink(p2top3);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_unlink");
 
-	//p2top4
-	mq_return = mq_close(mqd_p2top4);//returns 0 on success, or -1 on error.
+	//p2top6
+	mq_return = mq_close(mqd_p2top6);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_close");
-	mq_return = mq_unlink(p2top4);//returns 0 on success, or -1 on error.
+	mq_return = mq_unlink(p2top6);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_unlink");
 
 	//ctrltop2

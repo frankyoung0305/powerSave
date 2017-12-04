@@ -22,26 +22,25 @@ int main() {
 
 
 
-	clearqueue("/sendtop1");
-	clearqueue("/p1top2");
+	clearqueue("/send0top0");
+	clearqueue("/p0top1");
+	clearqueue("/p0top2");
+	clearqueue("/p1top4");
 	clearqueue("/p1top3");
-	clearqueue("/p2top5");
-	clearqueue("/p2top4");
-	clearqueue("/p3top4");
-	clearqueue("/p3top7");
-	clearqueue("/p5top6");
-	clearqueue("/p4top6");
-	clearqueue("/p4top7");
-	clearqueue("/p3top7");
-	clearqueue("/p6top8");
-	clearqueue("/p7top8");
+	clearqueue("/p2top3");
+	clearqueue("/p2top6");
+	clearqueue("/p4top5");
+	clearqueue("/p3top5");
+	clearqueue("/p3top6");
+	clearqueue("/p5top7");
+	clearqueue("/p6top7");
 
 	int i = 0;
 	char temp[20];
 	for(i = 0;i < PROC_NUMBER;i++) {
-		sprintf(temp, "/ctrltop%d", i + 1);
+		sprintf(temp, "/ctrltop%d", i);
 		clearqueue(temp);
-		sprintf(temp, "/p%dtoctrl", i + 1);
+		sprintf(temp, "/p%dtoctrl", i);
 		clearqueue(temp);
 	
 	}

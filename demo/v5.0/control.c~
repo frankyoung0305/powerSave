@@ -64,8 +64,8 @@ int main(void) {
 	char ptoc[PROC_NUMBER][20];
 	
 	for(i = 0;i < PROC_NUMBER;i++) {
-		sprintf(ctop[i], "/ctrltop%d", i + 1);
-		sprintf(ptoc[i], "/p%dtoctrl", i + 1);
+		sprintf(ctop[i], "/ctrltop%d", i);
+		sprintf(ptoc[i], "/p%dtoctrl", i);
 		mqd_ctop[i] = mq_open(ctop[i], flags, PERM, &attr_ct);
 		check_return(mqd_ctop[i], ctop[i], "mq_open");
 		mqd_ptoc[i] = mq_open(ptoc[i], flags, PERM, &attr_ct);
@@ -214,8 +214,8 @@ int main(void) {
 	for(i = 0;i < 180;i++) {
 		ctrlbuffer.service_number = 1;
 		for(j = 0;j < PROC_NUMBER;j++) {
-			mq_return = mq_send(mqd_ctop[i], (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
-			check_return(mq_return, ctop[i], "mq_send in controller");
+			mq_return = mq_send(mqd_ctop[j], (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
+			check_return(mq_return, ctop[j], "mq_send in controller");
 		
 		}
 			

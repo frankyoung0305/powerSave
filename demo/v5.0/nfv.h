@@ -53,9 +53,11 @@
 
 #define CONTROLLER_CPU 0
 
-#define PACKET_SENDING_CPU 0
+#define SEND0_CPU 0
 
-#define P1_STARTING_CPU 1
+#define P0_STARTING_CPU 1
+
+#define P1_STARTING_CPU 2
 
 #define P2_STARTING_CPU 2
 
@@ -69,7 +71,6 @@
 
 #define P7_STARTING_CPU 2
 
-#define P8_STARTING_CPU 2
 
 #define FIRST_WORKING_CPU 1
 
