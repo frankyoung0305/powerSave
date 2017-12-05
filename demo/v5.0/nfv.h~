@@ -20,7 +20,7 @@
 
 
 /***Look at here, the RUNMODE is here!!!***/
-#define RUNMODE 1//if define RUNMODE, setcpu() will not work.
+//#define RUNMODE 1//if define RUNMODE, setcpu() will not work.
 
 #define PRINTMODE 1//if define PRINTMODE, successful printf will not work.
 

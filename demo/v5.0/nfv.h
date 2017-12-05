@@ -376,17 +376,17 @@ struct cpu_sta checkcpu() {////check which CPUs the process can run on.
 	return statistics;
 }
 
-void printstar() {
+void printstar(void) {
 	printf("******************************************\n");\
 	return;
 }
 
-void printnewline() {
+void printnewline(void) {
 	printf("\n");
 	return;
 }
 
-void printerror() {
+void printerror(void) {
 	printf("you should not see this line. Please debug your code!!!\n");
 	return;
 }

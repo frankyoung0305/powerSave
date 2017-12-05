@@ -92,7 +92,7 @@ int main() {
 			
 			iph = (struct ndpi_iphdr *) buffer;
 			if(((i + j)%SHOW_FREQUENCY == 0) || ((i + j) < SHOW_THRESHOLD)) {
-				printf("i = %lld, packet length = %d, pid = %d, working on CPU %d \n", i, mq_return, getpid(), getcpu());
+				printf("%s:%s i = %lld, packet length = %d, pid = %d, working on CPU %d \n", proname, p3top6,i, mq_return, getpid(), getcpu());
 			}
 			if(i%CHECKQUEUE_FREQUENCY == 0) {
 
@@ -135,7 +135,7 @@ int main() {
 			
 			iph = (struct ndpi_iphdr *) buffer;
 			if(((i + j)%SHOW_FREQUENCY == 0) || ((i + j) < SHOW_THRESHOLD)) {
-				printf("j = %lld, packet length = %d, pid = %d , working on CPU %d \n", j, mq_return, getpid(), getcpu());
+				printf("j = %lld, packet length = %d, pid = %d , working on CPU %d \n", proname, p2top6, j, mq_return, getpid(), getcpu());
 			}
 			if(j%CHECKQUEUE_FREQUENCY == 0) {
 
@@ -146,7 +146,9 @@ int main() {
 		
 			fwpacket_preprocess(timestamp, mq_return, iph, &flag);
 			if(flag != 0) {
+				#ifndef PRINTMODE
 				printf("j = %lld, flag: %d \n", j, flag);
+				#endif
 			}
 			else {
 					mq_return = mq_send(mqd_p6top7, (char *) iph, mq_return, 0);

@@ -18,7 +18,7 @@ int main() {
 		printf("gettimeofday for begin failed \n");
 		return 1;
 	}
-	setcpu(PACKET_SENDING_CPU);
+	setcpu(SEND0_CPU);
 
 	printf("Now is in packet_sending!\n");
 
@@ -63,11 +63,8 @@ int main() {
 		if(mq_return == -1) {
 			printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 		}
-		if(i < 200) {
-			printf("i = %lld \n", i);
-		}
-		if(i % 100000 == 0) {
-			printf("packet_sending has sent %lld packets \n", i);
+		if(i % 100000 == 0 || i < 200) {
+			printf("%s:%s packet_sending has sent %lld packets \n", proname, send0top0, i);
 		}
 		//let the packet_sending.o works more slowly.
 		else if(i%10 == 0) {

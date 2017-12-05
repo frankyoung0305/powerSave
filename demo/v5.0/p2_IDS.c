@@ -86,8 +86,7 @@ int main() {
 		}
 		iph = (struct ndpi_iphdr *) buffer;
 		if((i%SHOW_FREQUENCY == 0) || (i < SHOW_THRESHOLD)) {
-			printf("i = %lld, packet length = %d, iph->daddr = %8X \n", i, mq_return, iph->daddr);
-			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
+			printf("%s:%s i = %lld, packet length = %d, iph->daddr = %8X, pid = %d , working on CPU %d \n", proname, p0top2, i, mq_return, iph->daddr, getpid(), getcpu());
 		}
 		if(i%CHECKQUEUE_FREQUENCY == 0) {
 			checkqueue(mqd_p0top2, p0top2, &noti_tran);
@@ -110,8 +109,7 @@ int main() {
 		}
 		iph = (struct ndpi_iphdr *) buffer;
 		if((i%SHOW_FREQUENCY == 0) || (i < SHOW_THRESHOLD)) {
-			printf("i = %lld, packet length = %d, iph->daddr = %8X \n", i, mq_return, iph->daddr);
-			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
+			printf("%s:%s i = %lld, packet length = %d, iph->daddr = %8X, pid = %d , working on CPU %d \n", proname, p0top2, i, mq_return, iph->daddr, getpid(), getcpu());
 		}
 		if(i%CHECKQUEUE_FREQUENCY == 0) {
 			checkqueue(mqd_p0top2, p0top2, &noti_tran);

@@ -7,7 +7,7 @@
 int main() {
 	/*initialization about mqueue*/
 	char proname[] = "p5_FW";
-	setcpu(P6_STARTING_CPU);
+	setcpu(P5_STARTING_CPU);
 
 	struct mq_attr attr, attr_ctrl, q_attr;
 	attr.mq_maxmsg = MAXMSG;
@@ -90,7 +90,7 @@ int main() {
 			iph = (struct ndpi_iphdr *) buffer;
 			
 			if(((i + j)%SHOW_FREQUENCY == 0) || ((i + j) < SHOW_THRESHOLD)) {
-				printf("i = %lld, packet length = %d, pid = %d , working on CPU %d \n", i, mq_return, getpid(), getcpu());
+				printf("%s:%s i = %lld, packet length = %d, pid = %d , working on CPU %d \n", proname, p4top5, i, mq_return, getpid(), getcpu());
 			}
 			if(i%CHECKQUEUE_FREQUENCY == 0) {
 

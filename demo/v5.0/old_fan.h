@@ -19,8 +19,6 @@
 //MASK lenth
 #define MASK 32
 
-//#define PRINT    // vnf print when defined
-
 int g_ulDbgPrint = 0;
 
 static struct ndpi_detection_module_struct *ndpi_struct = NULL;  //检测模块	
@@ -154,6 +152,11 @@ int insert_data(HASH_TABLE* hash, NODE* phead, TYPE data, int port)
     }
 }
 
+//show depth
+int showDepth(){
+    printf("max chain depth: %d.\n",maxdepth);
+    return 0;
+}
 
 //find NODE
 NODE* find_data(HASH_TABLE* hash, NODE* phead, TYPE data)
@@ -378,11 +381,9 @@ int getIpFwdPort(NODE * g_pRouteTree, int iIp) {
 ///////////////////dpi/////////////////////
 //////////////////////////////////////////
 int Action(u_int16_t protocol){
-#ifdef PRINT
 	printf("[proto: %s]\n",
     ndpi_get_proto_name(ndpi_struct, protocol));
 	printf(": %d \n", protocol);
-#endif
 	return 0;
 }
 
@@ -869,7 +870,6 @@ static void printFlow(struct ndpi_flow *flow) {
 	flow->lower_port, 
 	flow->upper_ip,
 	flow->upper_port);
-
 }
 /////////////////////////////////////
 ///////////////////////////////
@@ -987,9 +987,8 @@ static int ACLadd(struct ndpi_flow *flow){
 			ndpi_tsearch(newflow, (void*)&acl_root, node_cmp); /* Add */
 
 			acl_count += 1;
-#ifdef PRINT
+
 			printFlow(newflow);
-#endif
 			return 0;
 			}
 	}

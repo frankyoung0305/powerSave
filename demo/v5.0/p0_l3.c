@@ -95,8 +95,7 @@ int main() {
 		nip = iph->daddr;
 		port = findPort(route, nip);
 		if((i%SHOW_FREQUENCY == 0) || (i < SHOW_THRESHOLD)) {
-			printf("i = %lld, packet length = %d, iph->daddr = %8X, port = %d \n", i, mq_return, iph->daddr, port);
-			printf("pid = %d , working on CPU %d \n", getpid(), getcpu());
+			printf("%s:%s i = %lld, packet length = %d, iph->daddr = %8X, port = %d, pid = %d , working on CPU %d \n",proname, send0top0, i, mq_return, iph->daddr, port, getpid(), getcpu());
 		}
 		if(i%CHECKQUEUE_FREQUENCY == 0) {
 
@@ -122,7 +121,7 @@ int main() {
 
 		
 	}
-	printf("%s has transfered %lld packets. \n", proname, i);
+	printf("%s:%s has transfered %lld packets. \n", proname, send0top0, i);
 	checkcpu();
 
 	//send0top0

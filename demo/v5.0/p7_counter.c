@@ -78,7 +78,7 @@ int main() {
 				return -1;
 			}
 			if(((i + j)%SHOW_FREQUENCY == 0) || (i + j < SHOW_THRESHOLD)) {
-				printf("i = %lld, packet length = %d, pid = %d , working on CPU %d \n", i, mq_return, getpid(), getcpu());
+				printf("%s:%s i = %lld, packet length = %d, pid = %d , working on CPU %d \n", proname, p5top7, i, mq_return, getpid(), getcpu());
 			}
 			
 			//iph = (struct ndpi_iphdr *) buffer;			
@@ -102,7 +102,7 @@ int main() {
 				return -1;
 			}
 			if(((i + j)%SHOW_FREQUENCY == 0) || (i + j) < SHOW_THRESHOLD) {
-				printf("j = %lld, packet length = %d, pid = %d , working on CPU %d \n", j, mq_return, getpid(), getcpu());
+				printf("%s:%s j = %lld, packet length = %d, pid = %d , working on CPU %d \n", proname, p6top7, j, mq_return, getpid(), getcpu());
 			}
 					
 			//iph = (struct ndpi_iphdr *) buffer;			

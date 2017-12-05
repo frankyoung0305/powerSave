@@ -189,7 +189,7 @@ void controller_control(union sigval sv) {
 				//send ctrlmsg to combine processes.
 					for(i = 0;i < PROC_NUMBER;i++) {
 						if(parameter->statistics[i]->cpu == report.cpus[1]) {
-							printf("set process %d to work on CPU %d\n", i, report.cpus[0]);
+							printf("set process %d to work on CPU %d\n", parameter->statistics[i]->p_number, report.cpus[0]);
 							send_ctrl_down(3, report.cpus[0], parameter->statistics[i]);
 							parameter->statistics[i]->cpu = report.cpus[0];
 						}
