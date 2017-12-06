@@ -50,4 +50,6 @@ pkill -x p37_FW.o
 pkill -x p38_FW.o
 pkill -x p39_counter.o
 pkill -x control.o
+
+sleep 0.01
 ./clear.o

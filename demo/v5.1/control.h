@@ -526,17 +526,69 @@ void update_adj_array(struct record * statistics[PROC_NUMBER], double adj_array[
 	}
 	
 	//change this in different topology.
-	adj_array[0][1] = adj_array[1][0] = ((double) statistics[1]->throughput[0]) / ((double) Tput);//p1top2
-	adj_array[0][2] = adj_array[2][0] = ((double) statistics[2]->throughput[0]) / ((double) Tput);//p1top3
-	adj_array[1][4] = adj_array[4][1] = ((double) statistics[4]->throughput[0]) / ((double) Tput);//p2top5
-	adj_array[1][3] = adj_array[3][1] = ((double) statistics[3]->throughput[0]) / ((double) Tput);//p2top4
-	adj_array[2][3] = adj_array[3][2] = ((double) statistics[3]->throughput[1]) / ((double) Tput);//p3top4
-	adj_array[2][6] = adj_array[6][2] = ((double) statistics[6]->throughput[1]) / ((double) Tput);//p3top7
-	adj_array[4][5] = adj_array[5][4] = ((double) statistics[5]->throughput[0]) / ((double) Tput);//p5top6
-	adj_array[3][5] = adj_array[5][3] = ((double) statistics[5]->throughput[1]) / ((double) Tput);//p4top6
-	adj_array[3][6] = adj_array[6][3] = ((double) statistics[6]->throughput[0]) / ((double) Tput);//p4top7
-	adj_array[5][7] = adj_array[7][5] = ((double) statistics[7]->throughput[0]) / ((double) Tput);//p6top8
-	adj_array[6][7] = adj_array[7][6] = ((double) statistics[7]->throughput[1]) / ((double) Tput);//p7top8
+	adj_array[0][1] = adj_array[1][0] = ((double) statistics[1]->throughput[0]) / ((double) Tput);//p0top1
+	adj_array[0][2] = adj_array[2][0] = ((double) statistics[2]->throughput[0]) / ((double) Tput);//p0top2
+	adj_array[1][4] = adj_array[4][1] = ((double) statistics[4]->throughput[0]) / ((double) Tput);//p1top4
+	adj_array[1][3] = adj_array[3][1] = ((double) statistics[3]->throughput[0]) / ((double) Tput);//p1top3
+	adj_array[2][3] = adj_array[3][2] = ((double) statistics[3]->throughput[1]) / ((double) Tput);//p2top3
+	adj_array[2][6] = adj_array[6][2] = ((double) statistics[6]->throughput[1]) / ((double) Tput);//p2top6
+	adj_array[4][5] = adj_array[5][4] = ((double) statistics[5]->throughput[0]) / ((double) Tput);//p4top5
+	adj_array[3][5] = adj_array[5][3] = ((double) statistics[5]->throughput[1]) / ((double) Tput);//p3top5
+	adj_array[3][6] = adj_array[6][3] = ((double) statistics[6]->throughput[0]) / ((double) Tput);//p3top6
+	adj_array[5][7] = adj_array[7][5] = ((double) statistics[7]->throughput[0]) / ((double) Tput);//p5top7
+	adj_array[6][7] = adj_array[7][6] = ((double) statistics[7]->throughput[1]) / ((double) Tput);//p6top7
+	
+
+	adj_array[8][9] = adj_array[9][8] = ((double) statistics[9]->throughput[0]) / ((double) Tput);//p8top9
+	adj_array[8][10] = adj_array[10][8] = ((double) statistics[10]->throughput[0]) / ((double) Tput);//p8top10
+	adj_array[9][12] = adj_array[12][9] = ((double) statistics[12]->throughput[0]) / ((double) Tput);//p9top12
+	adj_array[9][11] = adj_array[11][9] = ((double) statistics[11]->throughput[0]) / ((double) Tput);//p9top11
+	adj_array[10][11] = adj_array[11][10] = ((double) statistics[11]->throughput[1]) / ((double) Tput);//p10top11
+	adj_array[10][14] = adj_array[14][10] = ((double) statistics[14]->throughput[1]) / ((double) Tput);//p10top14
+	adj_array[12][13] = adj_array[13][12] = ((double) statistics[13]->throughput[0]) / ((double) Tput);//p12top13
+	adj_array[11][13] = adj_array[13][11] = ((double) statistics[13]->throughput[1]) / ((double) Tput);//p11top13
+	adj_array[11][14] = adj_array[14][11] = ((double) statistics[14]->throughput[0]) / ((double) Tput);//p11top14
+	adj_array[13][15] = adj_array[15][13] = ((double) statistics[15]->throughput[0]) / ((double) Tput);//p13top15
+	adj_array[14][15] = adj_array[15][14] = ((double) statistics[15]->throughput[1]) / ((double) Tput);//p14top15
+	
+	
+	adj_array[16][17] = adj_array[17][16] = ((double) statistics[17]->throughput[0]) / ((double) Tput);//p16top17
+	adj_array[16][18] = adj_array[18][16] = ((double) statistics[18]->throughput[0]) / ((double) Tput);//p16top18
+	adj_array[17][20] = adj_array[20][17] = ((double) statistics[20]->throughput[0]) / ((double) Tput);//p17top20
+	adj_array[17][19] = adj_array[19][17] = ((double) statistics[19]->throughput[0]) / ((double) Tput);//p17top19
+	adj_array[18][19] = adj_array[19][18] = ((double) statistics[19]->throughput[1]) / ((double) Tput);//p18top19
+	adj_array[18][22] = adj_array[22][18] = ((double) statistics[22]->throughput[1]) / ((double) Tput);//p18top22
+	adj_array[20][21] = adj_array[21][20] = ((double) statistics[21]->throughput[0]) / ((double) Tput);//p20top21
+	adj_array[19][21] = adj_array[21][19] = ((double) statistics[21]->throughput[1]) / ((double) Tput);//p19top21
+	adj_array[19][22] = adj_array[22][19] = ((double) statistics[22]->throughput[0]) / ((double) Tput);//p19top22
+	adj_array[21][23] = adj_array[23][21] = ((double) statistics[23]->throughput[0]) / ((double) Tput);//p21top23
+	adj_array[22][23] = adj_array[23][22] = ((double) statistics[23]->throughput[1]) / ((double) Tput);//p22top23
+	
+	
+	adj_array[24][25] = adj_array[25][24] = ((double) statistics[25]->throughput[0]) / ((double) Tput);//p24top25
+	adj_array[24][26] = adj_array[26][24] = ((double) statistics[26]->throughput[0]) / ((double) Tput);//p24top26
+	adj_array[25][28] = adj_array[28][25] = ((double) statistics[28]->throughput[0]) / ((double) Tput);//p25top28
+	adj_array[25][27] = adj_array[27][25] = ((double) statistics[27]->throughput[0]) / ((double) Tput);//p25top27
+	adj_array[26][27] = adj_array[27][26] = ((double) statistics[27]->throughput[1]) / ((double) Tput);//p26top27
+	adj_array[26][30] = adj_array[30][26] = ((double) statistics[30]->throughput[1]) / ((double) Tput);//p26top30
+	adj_array[28][29] = adj_array[29][28] = ((double) statistics[29]->throughput[0]) / ((double) Tput);//p28top29
+	adj_array[27][29] = adj_array[29][27] = ((double) statistics[29]->throughput[1]) / ((double) Tput);//p27top29
+	adj_array[27][30] = adj_array[30][27] = ((double) statistics[30]->throughput[0]) / ((double) Tput);//p27top30
+	adj_array[29][31] = adj_array[31][29] = ((double) statistics[31]->throughput[0]) / ((double) Tput);//p29top31
+	adj_array[30][31] = adj_array[31][30] = ((double) statistics[31]->throughput[1]) / ((double) Tput);//p30top31
+	
+	
+	adj_array[32][33] = adj_array[33][32] = ((double) statistics[33]->throughput[0]) / ((double) Tput);//p32top33
+	adj_array[32][34] = adj_array[34][32] = ((double) statistics[34]->throughput[0]) / ((double) Tput);//p32top34
+	adj_array[33][36] = adj_array[36][33] = ((double) statistics[36]->throughput[0]) / ((double) Tput);//p33top36
+	adj_array[33][35] = adj_array[35][33] = ((double) statistics[35]->throughput[0]) / ((double) Tput);//p33top35
+	adj_array[34][35] = adj_array[35][34] = ((double) statistics[35]->throughput[1]) / ((double) Tput);//p34top35
+	adj_array[34][38] = adj_array[38][34] = ((double) statistics[38]->throughput[1]) / ((double) Tput);//p34top38
+	adj_array[36][37] = adj_array[37][36] = ((double) statistics[37]->throughput[0]) / ((double) Tput);//p36top37
+	adj_array[35][37] = adj_array[37][35] = ((double) statistics[37]->throughput[1]) / ((double) Tput);//p35top37
+	adj_array[35][38] = adj_array[38][35] = ((double) statistics[38]->throughput[0]) / ((double) Tput);//p35top38
+	adj_array[37][39] = adj_array[39][37] = ((double) statistics[39]->throughput[0]) / ((double) Tput);//p37top39
+	adj_array[38][39] = adj_array[39][38] = ((double) statistics[39]->throughput[1]) / ((double) Tput);//p38top39
 	show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array after update");
 }
 
