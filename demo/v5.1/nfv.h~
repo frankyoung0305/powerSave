@@ -47,12 +47,18 @@
 
 #define SHOW_FREQUENCY 100000
 
-#define SHOW_THRESHOLD 400
+#define SHOW_THRESHOLD 0
+
+#define SEND_SHOW_FREQUENCY  500000
+
+#define SEND_SLEEP_FREQUENCY	1
+
+#define SEND_SLEEP_TIME	10
 
 #define CHECKQUEUE_FREQUENCY 1000
 
 #define CONTROLLER_CPU 0
-
+////////////////////////////////
 #define SEND0_CPU 0
 
 #define P0_STARTING_CPU 1
@@ -70,11 +76,85 @@
 #define P6_STARTING_CPU 2
 
 #define P7_STARTING_CPU 2
+/////////////////////////////////
+#define SEND1_CPU 0
+
+#define P8_STARTING_CPU 1
+
+#define P9_STARTING_CPU 2
+
+#define P10_STARTING_CPU 2
+
+#define P11_STARTING_CPU 2
+
+#define P12_STARTING_CPU 2
+
+#define P13_STARTING_CPU 2
+
+#define P14_STARTING_CPU 2
+
+#define P15_STARTING_CPU 2
+////////////////////////////////
+#define SEND2_CPU 0
+
+#define P16_STARTING_CPU 1
+
+#define P17_STARTING_CPU 2
+
+#define P18_STARTING_CPU 2
+
+#define P19_STARTING_CPU 2
+
+#define P20_STARTING_CPU 2
+
+#define P21_STARTING_CPU 2
+
+#define P22_STARTING_CPU 2
+
+#define P23_STARTING_CPU 2
+////////////////////////////////
+#define SEND3_CPU 0
+
+#define P24_STARTING_CPU 1
+
+#define P25_STARTING_CPU 2
+
+#define P26_STARTING_CPU 2
+
+#define P27_STARTING_CPU 2
+
+#define P28_STARTING_CPU 2
+
+#define P29_STARTING_CPU 2
+
+#define P30_STARTING_CPU 2
+
+#define P31_STARTING_CPU 2
+////////////////////////////////
+#define SEND4_CPU 0
+
+#define P32_STARTING_CPU 1
+
+#define P33_STARTING_CPU 2
+
+#define P34_STARTING_CPU 2
+
+#define P35_STARTING_CPU 2
+
+#define P36_STARTING_CPU 2
+
+#define P37_STARTING_CPU 2
+
+#define P38_STARTING_CPU 2
+
+#define P39_STARTING_CPU 2
+
 
 
 #define FIRST_WORKING_CPU 1
 
 #define LAST_WORKING_CPU 2
+
 
 struct transfer {//this needs to be global struct.
 	mqd_t mqd_ctop;//queue from controlloer to process.
@@ -376,17 +456,17 @@ struct cpu_sta checkcpu() {////check which CPUs the process can run on.
 	return statistics;
 }
 
-void printstar() {
+void printstar(void) {
 	printf("******************************************\n");\
 	return;
 }
 
-void printnewline() {
+void printnewline(void) {
 	printf("\n");
 	return;
 }
 
-void printerror() {
+void printerror(void) {
 	printf("you should not see this line. Please debug your code!!!\n");
 	return;
 }

@@ -3,7 +3,6 @@ cpuon.sh will turn every CPU from number to cpunum on.Please remember to change 
 
 v5.1
 make topo to 40 processes and ready to run on server
-fix some bugs in extended_KL.h
 
 
 v5.0

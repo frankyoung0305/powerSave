@@ -51,7 +51,7 @@
 
 #define SEND_SHOW_FREQUENCY  500000
 
-#define SEND_SLEEP_FREQUENCY	10
+#define SEND_SLEEP_FREQUENCY	1
 
 #define SEND_SLEEP_TIME	10
 
@@ -171,6 +171,7 @@ struct ctrlmsg {
 				2:the answer message about vertex sent by processes.
 				3:the control message that controller sends.
 				4:the urgent message that process sends to controller that the process needs a new cpu immediately.
+				
 				5:the controller tells process to be quiet that it is already using up a CPU alone, controller can do nothing more.!!!!!!we may debate this later.
 				n:the processes send to controller to tell that the process has finished all work and controller could free the queues between them. */
 	pid_t pid_in_ctrlmsg;//the pid of process
