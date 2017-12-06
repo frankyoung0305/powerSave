@@ -347,7 +347,7 @@ int turn_cpu(int type, int cpu_id) {
 		char cmdcpu1[100];
 		char cmdcpu2[100];
 		sprintf(cmdcpu1, "%d/online ", cpu);
-		sprintf(cmdcpu2, "%d/online ", cpu + PHYSICAL_CPUS);
+		sprintf(cmdcpu2, "%d/online ", cpu + CORES_PER_CPUS);
 		char* cmdbashdown1 = (char*) calloc(1, strlen(cmdhead) + strlen(cmdcpu1) + 1);
 		char* cmdbashdown2 = (char*) calloc(1, strlen(cmdhead) + strlen(cmdcpu2) + 1);
 		
