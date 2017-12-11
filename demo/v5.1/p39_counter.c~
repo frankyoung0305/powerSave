@@ -8,7 +8,7 @@ int main() {
 	/*initialization about mqueue*/
 	char proname[] = "p39_counter";
 	setcpu(P39_STARTING_CPU);
-	//printf("after set cpu, cpu = %d \n", getcpu());
+	printf("after set cpu, cpu = %d \n", getcpu());
 
 	struct mq_attr attr, attr_ctrl, q_attr;
 	attr.mq_maxmsg = MAXMSG;

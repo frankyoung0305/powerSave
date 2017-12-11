@@ -86,10 +86,12 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 		}
 		for(i = 0;i < set_edges;i++) {
 			for(j = 0;j < set_edges;j++) {
-				gain_edgecut[i][j] = Diff_value(KL_re.set1[i], edges, adj_array, set_edges, KL_re.set1, KL_re.set2);
+				//gain_edgecut[i][j] = Diff_value(KL_re.set1[i], edges, adj_array, set_edges, KL_re.set1, KL_re.set2);
 				//printf("gain_edgecut[%d][%d] = %f Diff_value(KL_re.set1[%d]) = %d \n", i, j, gain_edgecut[i][j], i, Diff_value(KL_re.set1[i], edges, adj_array, set_edges, set1, set2));
-				gain_edgecut[i][j] = gain_edgecut[i][j] + Diff_value(KL_re.set2[j], edges, adj_array, set_edges, KL_re.set2, KL_re.set1);
+				//gain_edgecut[i][j] = gain_edgecut[i][j] + Diff_value(KL_re.set2[j], edges, adj_array, set_edges, KL_re.set2, KL_re.set1);
 				//printf("gain_edgecut[%d][%d] = %f Diff_value(KL_re.set2[%d]) = %d \n", i, j, gain_edgecut[i][j], j, Diff_value(KL_re.set1[i], edges, adj_array, set_edges, set2, set1));
+				
+				gain_edgecut[i][j] = set1_Dvalue[i] + set2_Dvalue[j];
 				gain_edgecut[i][j] = gain_edgecut[i][j] - 2 * adj_array[KL_re.set1[i]][KL_re.set2[j]];
 				//printf("adj_array[KL_re.set1[%d]][KL_re.set2[%d]] = %d", i, j, adj_array[KL_re.set1[i]][KL_re.set2[j]]);
 				gain_edgecut[i][j] = gain_edgecut[i][j] / edgecut_old;

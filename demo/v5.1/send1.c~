@@ -94,7 +94,7 @@ int main() {
 	printf("begin.tv_sec = %ld, begin.tv_usec = %ld \n", begin.tv_sec, begin.tv_usec);
 	printf("end.tv_sec = %ld, end.tv_usec = %ld \n", end.tv_sec, end.tv_usec);
 	printf("period = %lld \n", period);
-	printf("send1 has sent %lld packets and is closing.\n", i);
+	printf("packet_sending has sent %lld packets and is closing.\n", i);
 	mq_return = mq_close(mqd_send1top8);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_close");
 	mq_return = mq_unlink(send1top8);//returns 0 on success, or -1 on error.

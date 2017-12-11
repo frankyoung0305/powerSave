@@ -9,7 +9,7 @@
 
 #define ADJ_ARRAY_EDGES 40//same as PROC_NUMBER
 
-#define IDLE_THRESHOLD 0.5//point_weight less than IDLE_THRESHOLD is seen as idle.
+#define IDLE_THRESHOLD 0.75//point_weight less than IDLE_THRESHOLD is seen as idle.
 
 #define QUEUE_WEIGHT 0.1//every queue will add QUEUE_WEIGHT to point_weight.
 
@@ -307,16 +307,15 @@ void show_working_cpu(struct record * statistics[PROC_NUMBER]) {
 
 
 
-int turn_cpu(int type, int cpu_id) {
+int turn_cpu(int type, int cpu) {
+	if(cpu == 0 || cpu == 10 || cpu == 20 || cpu == 30)
 	int re = 0;
-	int cpu = 0;
-	if(type == 1 && cpu_id >= 1 && cpu_id < PHYSICAL_CPUS) {//turn on
-		cpu = cpu_id + (cpu_id / CORES_PER_CPU) * CORES_PER_CPU;
+	if(type == 1 && cpu >= 1 && cpu < PHYSICAL_CPUS) {//turn on
 		char cmdhead[] = "echo 1 > /sys/devices/system/cpu/cpu";
 		char cmdcpu1[100];
 		char cmdcpu2[100];
 		sprintf(cmdcpu1, "%d/online ", cpu);
-		sprintf(cmdcpu2, "%d/online ", cpu + CORES_PER_CPU);
+		sprintf(cmdcpu2, "%d/online ", cpu + PHYSICAL_CPUS);
 		char* cmdbashon1 = (char*) calloc(1, strlen(cmdhead) + strlen(cmdcpu1) + 1);
 		char* cmdbashon2 = (char*) calloc(1, strlen(cmdhead) + strlen(cmdcpu2) + 1);
 		
@@ -341,8 +340,7 @@ int turn_cpu(int type, int cpu_id) {
 		free(cmdbashon2);
 		return re;
 	}
-	else if(type == 0 && cpu_id >=1 && cpu_id < PHYSICAL_CPUS) {//turn down
-		cpu = cpu_id + (cpu_id / CORES_PER_CPU) * CORES_PER_CPU;
+	else if(type == 0 && cpu >=1 && cpu < PHYSICAL_CPUS) {//turn down
 		char cmdhead[] = "echo 0 > /sys/devices/system/cpu/cpu";
 		char cmdcpu1[100];
 		char cmdcpu2[100];
@@ -372,7 +370,7 @@ int turn_cpu(int type, int cpu_id) {
 		free(cmdbashdown2);
 		return re;
 	}
-	printf("turn_cpu:type = %d, cpu = %d, something wrong !!!\n", type, cpu_id);
+	printf("turn_cpu:type = %d, cpu = %d, something wrong !!!\n", type, cpu);
 	return 3;
 }
 
@@ -407,7 +405,7 @@ void changefrequency(long frequency, int cpu) {//frequency's unit is kHz
 
 //we need a better algorithm here.
 struct check_report check_status(struct record * statistics[PROC_NUMBER], double * point_weight) {
-	static int old_cpu_status[PHYSICAL_CPUS] = {-100};
+	static int old_cpu_status[PHYSICAL_CPUS] = {-100, -100, -100, -100};
 	int i = 0;
 	int j = 0;
 	struct check_report report;//return value
@@ -491,7 +489,7 @@ int find_idle_cpu(struct record * statistics[PROC_NUMBER]) {
 	for(i = 0;i < PROC_NUMBER;i++) {
 		cpu_status[statistics[i]->cpu] = 2;
 	}
-	for(i = 1;i < PHYSICAL_CPUS;i++) {//!!!!we will leave CPU0 for packet_sending.o and for control.o.
+	for(i = FIRST_WORKING_CPU;i < PHYSICAL_CPUS;i++) {//!!!!we will leave CPU0 for packet_sending.o and for control.o.
 		if(cpu_status[i] == 0) {
 			idle_cpu = i;
 			break;
@@ -578,17 +576,17 @@ void update_adj_array(struct record * statistics[PROC_NUMBER], double adj_array[
 	adj_array[30][31] = adj_array[31][30] = ((double) statistics[31]->throughput[1]) / ((double) Tput);//p30top31
 	
 	
-	adj_array[0][1] = adj_array[1][0] = ((double) statistics[1]->throughput[0]) / ((double) Tput);//p0top1
-	adj_array[0][2] = adj_array[2][0] = ((double) statistics[2]->throughput[0]) / ((double) Tput);//p0top2
-	adj_array[1][4] = adj_array[4][1] = ((double) statistics[4]->throughput[0]) / ((double) Tput);//p1top4
-	adj_array[1][3] = adj_array[3][1] = ((double) statistics[3]->throughput[0]) / ((double) Tput);//p1top3
-	adj_array[2][3] = adj_array[3][2] = ((double) statistics[3]->throughput[1]) / ((double) Tput);//p2top3
-	adj_array[2][6] = adj_array[6][2] = ((double) statistics[6]->throughput[1]) / ((double) Tput);//p2top6
-	adj_array[4][5] = adj_array[5][4] = ((double) statistics[5]->throughput[0]) / ((double) Tput);//p4top5
-	adj_array[3][5] = adj_array[5][3] = ((double) statistics[5]->throughput[1]) / ((double) Tput);//p3top5
-	adj_array[3][6] = adj_array[6][3] = ((double) statistics[6]->throughput[0]) / ((double) Tput);//p3top6
-	adj_array[5][7] = adj_array[7][5] = ((double) statistics[7]->throughput[0]) / ((double) Tput);//p5top7
-	adj_array[6][7] = adj_array[7][6] = ((double) statistics[7]->throughput[1]) / ((double) Tput);//p6top7
+	adj_array[32][33] = adj_array[33][32] = ((double) statistics[33]->throughput[0]) / ((double) Tput);//p32top33
+	adj_array[32][34] = adj_array[34][32] = ((double) statistics[34]->throughput[0]) / ((double) Tput);//p32top34
+	adj_array[33][36] = adj_array[36][33] = ((double) statistics[36]->throughput[0]) / ((double) Tput);//p33top36
+	adj_array[33][35] = adj_array[35][33] = ((double) statistics[35]->throughput[0]) / ((double) Tput);//p33top35
+	adj_array[34][35] = adj_array[35][34] = ((double) statistics[35]->throughput[1]) / ((double) Tput);//p34top35
+	adj_array[34][38] = adj_array[38][34] = ((double) statistics[38]->throughput[1]) / ((double) Tput);//p34top38
+	adj_array[36][37] = adj_array[37][36] = ((double) statistics[37]->throughput[0]) / ((double) Tput);//p36top37
+	adj_array[35][37] = adj_array[37][35] = ((double) statistics[37]->throughput[1]) / ((double) Tput);//p35top37
+	adj_array[35][38] = adj_array[38][35] = ((double) statistics[38]->throughput[0]) / ((double) Tput);//p35top38
+	adj_array[37][39] = adj_array[39][37] = ((double) statistics[39]->throughput[0]) / ((double) Tput);//p37top39
+	adj_array[38][39] = adj_array[39][38] = ((double) statistics[39]->throughput[1]) / ((double) Tput);//p38top39
 	show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array after update");
 }
 

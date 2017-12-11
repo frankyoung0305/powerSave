@@ -24,12 +24,11 @@
 
 #define PRINTMODE 1//if define PRINTMODE, successful printf will not work.
 
+//#define CPUS 4//should be change to 4/1!!!!!!!!!!!!!!!!!!!!!!!!!
 
-#define CPUS 1//should be change to 4!!!!!!!!!!!!!!!!!!!!!!!!!
+#define PHYSICAL_CPUS 40//should be change to 40/4!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-#define PHYSICAL_CPUS 4//should be change to 40!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-#define CORES_PER_CPU 4//should be changed to 10!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//#define CORES_PER_CPU 10//should be changed to 10/4!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #define PERM 0766//the authority of m_queue.
 
@@ -51,109 +50,123 @@
 
 #define SEND_SHOW_FREQUENCY  500000
 
+#define START_TIME	10000000
+
+#define END_TIME	20000000
+
 #define SEND_SLEEP_FREQUENCY	1
 
 #define SEND_SLEEP_TIME	10
 
 #define CHECKQUEUE_FREQUENCY 1000
 
+
+#define FIRST_WORKING_CPU 4
+
+#define LAST_WORKING_CPU 13
+
 #define CONTROLLER_CPU 0
 ////////////////////////////////
-#define SEND0_CPU 0
+#define SEND0_CPU 1
 
-#define P0_STARTING_CPU 1
+#define SEND1_CPU 1
 
-#define P1_STARTING_CPU 2
+#define SEND2_CPU 2
 
-#define P2_STARTING_CPU 2
+#define SEND3_CPU 2
 
-#define P3_STARTING_CPU 2
+#define SEND4_CPU 3
 
-#define P4_STARTING_CPU 2
+#define P0_STARTING_CPU 4
 
-#define P5_STARTING_CPU 2
+#define P1_STARTING_CPU 4
 
-#define P6_STARTING_CPU 2
+#define P2_STARTING_CPU 4
 
-#define P7_STARTING_CPU 2
+#define P3_STARTING_CPU 4
+
+#define P4_STARTING_CPU 5
+
+#define P5_STARTING_CPU 5
+
+#define P6_STARTING_CPU 5
+
+#define P7_STARTING_CPU 5
 /////////////////////////////////
-#define SEND1_CPU 0
 
-#define P8_STARTING_CPU 1
 
-#define P9_STARTING_CPU 2
+#define P8_STARTING_CPU 6
 
-#define P10_STARTING_CPU 2
+#define P9_STARTING_CPU 6
 
-#define P11_STARTING_CPU 2
+#define P10_STARTING_CPU 6
 
-#define P12_STARTING_CPU 2
+#define P11_STARTING_CPU 6
 
-#define P13_STARTING_CPU 2
+#define P12_STARTING_CPU 7
 
-#define P14_STARTING_CPU 2
+#define P13_STARTING_CPU 7
 
-#define P15_STARTING_CPU 2
+#define P14_STARTING_CPU 7
+
+#define P15_STARTING_CPU 7
 ////////////////////////////////
-#define SEND2_CPU 0
 
-#define P16_STARTING_CPU 1
 
-#define P17_STARTING_CPU 2
+#define P16_STARTING_CPU 8
 
-#define P18_STARTING_CPU 2
+#define P17_STARTING_CPU 8
 
-#define P19_STARTING_CPU 2
+#define P18_STARTING_CPU 8
 
-#define P20_STARTING_CPU 2
+#define P19_STARTING_CPU 8
 
-#define P21_STARTING_CPU 2
+#define P20_STARTING_CPU 9
 
-#define P22_STARTING_CPU 2
+#define P21_STARTING_CPU 9
 
-#define P23_STARTING_CPU 2
+#define P22_STARTING_CPU 9
+
+#define P23_STARTING_CPU 9
 ////////////////////////////////
-#define SEND3_CPU 0
 
-#define P24_STARTING_CPU 1
 
-#define P25_STARTING_CPU 2
+#define P24_STARTING_CPU 10
 
-#define P26_STARTING_CPU 2
+#define P25_STARTING_CPU 10
 
-#define P27_STARTING_CPU 2
+#define P26_STARTING_CPU 10
 
-#define P28_STARTING_CPU 2
+#define P27_STARTING_CPU 10
 
-#define P29_STARTING_CPU 2
+#define P28_STARTING_CPU 11
 
-#define P30_STARTING_CPU 2
+#define P29_STARTING_CPU 11
 
-#define P31_STARTING_CPU 2
+#define P30_STARTING_CPU 11
+
+#define P31_STARTING_CPU 11
 ////////////////////////////////
-#define SEND4_CPU 0
-
-#define P32_STARTING_CPU 1
-
-#define P33_STARTING_CPU 2
-
-#define P34_STARTING_CPU 2
-
-#define P35_STARTING_CPU 2
-
-#define P36_STARTING_CPU 2
-
-#define P37_STARTING_CPU 2
-
-#define P38_STARTING_CPU 2
-
-#define P39_STARTING_CPU 2
 
 
+#define P32_STARTING_CPU 12
 
-#define FIRST_WORKING_CPU 1
+#define P33_STARTING_CPU 12
 
-#define LAST_WORKING_CPU 2
+#define P34_STARTING_CPU 12
+
+#define P35_STARTING_CPU 12
+
+#define P36_STARTING_CPU 13
+
+#define P37_STARTING_CPU 13
+
+#define P38_STARTING_CPU 13
+
+#define P39_STARTING_CPU 13
+
+
+
 
 
 struct transfer {//this needs to be global struct.
@@ -171,6 +184,7 @@ struct ctrlmsg {
 				2:the answer message about vertex sent by processes.
 				3:the control message that controller sends.
 				4:the urgent message that process sends to controller that the process needs a new cpu immediately.
+				
 				5:the controller tells process to be quiet that it is already using up a CPU alone, controller can do nothing more.!!!!!!we may debate this later.
 				n:the processes send to controller to tell that the process has finished all work and controller could free the queues between them. */
 	pid_t pid_in_ctrlmsg;//the pid of process
@@ -384,17 +398,19 @@ int setcpu(int cpu_id) {//set the process to work on cpu 'cpu_id'.
 	#ifndef PRINTMODE
 	printf("setcpu's pid is %d, set to CPU %d \n", getpid(), cpu_id);
 	#endif
-	cpu_id = cpu_id + (cpu_id / CORES_PER_CPU) * CORES_PER_CPU;//CORES_PER_CPU = 10 or 4
 	cpu_set_t mask;
 	CPU_ZERO(&mask);
 	CPU_SET(cpu_id, &mask);
-	CPU_SET(cpu_id + CORES_PER_CPU, &mask);
+	CPU_SET(cpu_id + PHYSICAL_CPUS, &mask);
 	int check;
 	check = sched_setaffinity(getpid(), sizeof(mask), &mask);
 	check_return(check, "setcpu", "sched_setaffinity");
-
+	//checkcpu();
+	//printf("after setcpu cpu = %d \n", getcpu());
 	return 0;
 }//  set cpu affinity
+
+
 
 int getcpu() {//get the cpu where the process is working on.
 	#ifdef RUNMODE
@@ -413,23 +429,23 @@ int getcpu() {//get the cpu where the process is working on.
 	int cpunow = -1;
 	int test_cpu = 0;
 	int count = 0;
-	for(i = 0;i < CPUS;i++) {
-		for(j = 0;j < CORES_PER_CPU;j++) {
-			test_cpu = CPU_ISSET(i * 2 * CORES_PER_CPU + j, &set);
-			//printf("i = %d, test_cpu = %d \n", i, test_cpu);
-			if(test_cpu != 0) {
-				cpunow = i * CORES_PER_CPU + j;
-				count++;
-			}
+	for(i = 0;i < PHYSICAL_CPUS;i++) {
+		test_cpu = CPU_ISSET(i, &set);
+		if(test_cpu != 0) {
+			cpunow = i;
+			count++;
 		}
 	}
+	printf("\n");
 	if(count == 1) {
 		return cpunow;
 	}
 	else if(count > 1) {
-		printf("there are more than one CPUs being used!\n");
+		//printf("count = %d, there are more than one CPUs being used!\n", count);
 		return -1000;//there is more than one physical cpu being used.
 	}
+	//count == 0
+	//printf("count = %d, something wrong!\n", count);
 	else return -1;//something wrong.
 }
 
@@ -442,7 +458,7 @@ struct cpu_sta checkcpu() {////check which CPUs the process can run on.
 	int i = 0;
 	int test_cpu = 0;
 	struct cpu_sta statistics;
-	for(i = 0;i < PHYSICAL_CPUS;i++) {
+	for(i = 0;i < PHYSICAL_CPUS * 2;i++) {
 		test_cpu = CPU_ISSET(i, &cpuset);
 		if(test_cpu != 0) {
 			printf("test_cpu = %d, process can work on CPU %d\n", test_cpu, i);

@@ -101,17 +101,18 @@ int main(void) {
 		noti_p[i].adj_array = adj_array;
 		noti_p[i].point_weight = point_weight;
 		ctrl_notifysetup(&noti_p[i]);//pthread
-		usleep(50000);//why sleep? wait for notifysetup?
+		usleep(5000);//why sleep? wait for notifysetup?
 	}
 
 
 	//char buffer[2048];
 	struct ctrlmsg ctrlbuffer;
-	ctrlbuffer.cpu = 5;
+	ctrlbuffer.cpu = -100;
+	ctrlbuffer.service_number = 1;
 
-
+	printf("everything is ready, controller is going to work!\n");
+	sleep(3);
 	for(i = 0;i < 180;i++) {
-		ctrlbuffer.service_number = 1;
 		for(j = 0;j < PROC_NUMBER;j++) {
 			mq_return = mq_send(mqd_ctop[j], (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
 			check_return(mq_return, ctop[j], "mq_send in controller");

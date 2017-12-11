@@ -35,12 +35,64 @@ int main() {
 	clearqueue("/p5top7");
 	clearqueue("/p6top7");
 
+	clearqueue("/send1top8");
+	clearqueue("/p8top9");
+	clearqueue("/p8top10");
+	clearqueue("/p9top12");
+	clearqueue("/p9top11");
+	clearqueue("/p10top11");
+	clearqueue("/p10top14");
+	clearqueue("/p12top13");
+	clearqueue("/p11top13");
+	clearqueue("/p11top14");
+	clearqueue("/p13top15");
+	clearqueue("/p14top15");
+
+	clearqueue("/send2top16");
+	clearqueue("/p16top17");
+	clearqueue("/p16top18");
+	clearqueue("/p17top20");
+	clearqueue("/p17top19");
+	clearqueue("/p18top19");
+	clearqueue("/p18top22");
+	clearqueue("/p20top21");
+	clearqueue("/p19top21");
+	clearqueue("/p19top22");
+	clearqueue("/p21top23");
+	clearqueue("/p22top23");
+
+	clearqueue("/send3top24");
+	clearqueue("/p24top25");
+	clearqueue("/p24top26");
+	clearqueue("/p25top28");
+	clearqueue("/p25top27");
+	clearqueue("/p26top27");
+	clearqueue("/p26top30");
+	clearqueue("/p28top29");
+	clearqueue("/p27top29");
+	clearqueue("/p27top30");
+	clearqueue("/p29top31");
+	clearqueue("/p30top31");
+
+	clearqueue("/send4top32");
+	clearqueue("/p32top33");
+	clearqueue("/p32top34");
+	clearqueue("/p33top36");
+	clearqueue("/p33top35");
+	clearqueue("/p34top35");
+	clearqueue("/p34top38");
+	clearqueue("/p36top37");
+	clearqueue("/p35top37");
+	clearqueue("/p35top38");
+	clearqueue("/p37top39");
+	clearqueue("/p38top39");
+
 	int i = 0;
 	char temp[20];
 	for(i = 0;i < PROC_NUMBER;i++) {
-		sprintf(temp, "/ctrltop%d", i + 1);
+		sprintf(temp, "/ctrltop%d", i);
 		clearqueue(temp);
-		sprintf(temp, "/p%dtoctrl", i + 1);
+		sprintf(temp, "/p%dtoctrl", i);
 		clearqueue(temp);
 	
 	}
@@ -97,12 +149,12 @@ void clearqueue(char * queuename) {
 
 	}
 	if(i > 0) {
-		printf("ATTENTION PLEASE!!!ATTENTION PLEASE!!!ATTENTION PLEASE!!!\n\n");
+		printf("ATTENTION PLEASE!!!ATTENTION PLEASE!!!ATTENTION PLEASE!!!\n");
 		printf("In queue %s, there are %lld packets left. \n", queuename, i);
 		printf("\nATTENTION PLEASE!!!ATTENTION PLEASE!!!ATTENTION PLEASE!!!\n");
 	}
 	else {
-		printf("There is nothing left in queue %s. \n", queuename);
+		//printf("There is nothing left in queue %s. \n", queuename);
 	}
 	func_re = mq_close(mqd_clear);//returns 0 on success, or -1 on error.
 	check_return(func_re, queuename, "mq_close");

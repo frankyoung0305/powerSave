@@ -9,6 +9,7 @@ int main() {
 	/*initialization about mqueue*/
 	char proname[] = "p0_l3";
 	setcpu(P0_STARTING_CPU);
+	//printf("after set cpu, cpu = %d \n", getcpu());
 
 	struct mq_attr attr, attr_ctrl;
 	//struct mq_attr q_attr;
@@ -85,7 +86,7 @@ int main() {
 	int port = 0;
 	u_int32_t nip = 0;
 
-	for(i = 0;i < PACKETS;i++) {//PACKETS = 5000 now.
+	for(i = 0;1;i++) {//same as while(1)
 		mq_return = mq_receive(mqd_send0top0, buffer, 2048, 0);
 		if(mq_return == -1) {
 			printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, send0top0, i, strerror(errno), errno);

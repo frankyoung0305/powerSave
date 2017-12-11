@@ -149,17 +149,15 @@ void clearqueue(char * queuename) {
 
 	}
 	if(i > 0) {
-		printf("ATTENTION PLEASE!!!ATTENTION PLEASE!!!ATTENTION PLEASE!!!\n\n");
+		printf("ATTENTION PLEASE!!!ATTENTION PLEASE!!!ATTENTION PLEASE!!!\n");
 		printf("In queue %s, there are %lld packets left. \n", queuename, i);
-		printf("\nATTENTION PLEASE!!!ATTENTION PLEASE!!!ATTENTION PLEASE!!!\n");
 	}
 	else {
-		printf("There is nothing left in queue %s. \n", queuename);
+		//printf("There is nothing left in queue %s. \n", queuename);
 	}
 	func_re = mq_close(mqd_clear);//returns 0 on success, or -1 on error.
 	check_return(func_re, queuename, "mq_close");
 	func_re = mq_unlink(queuename);//returns 0 on success, or -1 on error.
 	check_return(func_re, queuename, "mq_unlink");
-	printnewline();
 }
 

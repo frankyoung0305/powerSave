@@ -85,7 +85,7 @@ int main() {
 	int port = 0;
 	u_int32_t nip = 0;
 
-	for(i = 0;1;i++) {//PACKETS = 5000 now.
+	for(i = 0;i < PACKETS;i++) {//PACKETS = 5000 now.
 		mq_return = mq_receive(mqd_send1top8, buffer, 2048, 0);
 		if(mq_return == -1) {
 			printf("%s:%s receive %lld times fails:%s, errno = %d \n", proname, send1top8, i, strerror(errno), errno);

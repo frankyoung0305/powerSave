@@ -11,11 +11,11 @@ struct ndpi_iphdr * packet_preprocess(const u_int16_t pktlen, const u_char * pac
 
 int main() {
 	/*initialization about mqueue*/
-	char proname[] = "send1";
+	char proname[] = "send4";
 	struct timeval begin;
 	struct timeval end;
 	
-	setcpu(SEND1_CPU);
+	setcpu(SEND4_CPU);
 
 	printf("Now is in packet_sending!\n");
 
@@ -26,19 +26,19 @@ int main() {
 	int flags = O_CREAT | O_RDWR;
 	//int flags_ctrl = O_CREAT | O_RDWR | O_NONBLOCK;
 
-	mqd_t mqd_send1top8;
+	mqd_t mqd_send4top32;
 	int mq_return = 0;
-	char send1top8[]="/send1top8";
+	char send4top32[]="/send4top32";
 
-	mqd_send1top8 = mq_open(send1top8, flags, PERM, &attr);
-	check_return(mqd_send1top8, proname, "mq_open");
+	mqd_send4top32 = mq_open(send4top32, flags, PERM, &attr);
+	check_return(mqd_send4top32, proname, "mq_open");
 
 
 
-	system("cp ../posix/traffic_sample.pcap /tmp/traffic_sample1.pcap");   //转移到tmpfs
+	system("cp ../posix/traffic_sample.pcap /tmp/traffic_sample4.pcap");   //转移到tmpfs
 	char errbuf[100];  //error buf for pcapReader
 
-	pcap_t *pfile = pcap_open_offline("/tmp/traffic_sample1.pcap", errbuf);  //head
+	pcap_t *pfile = pcap_open_offline("/tmp/traffic_sample4.pcap", errbuf);  //head
 	if (pfile == NULL) {
 		printf("%s\n", errbuf);
 		return -1;
@@ -56,12 +56,12 @@ int main() {
 	for(i = 0; i < PACKETS; i++){//9715
 		getPkt(pfile, &pkthdr, &pktdata);
 		iph = packet_preprocess(pkthdr->caplen, pktdata);
-		mq_return = mq_send(mqd_send1top8, (char *) iph, /*pkthdr->caplen*/40, 0);
+		mq_return = mq_send(mqd_send4top32, (char *) iph, /*pkthdr->caplen*/40, 0);
 		if(mq_return == -1) {
 			printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 		}
 		if(i % SEND_SHOW_FREQUENCY == 0 || i < SHOW_THRESHOLD) {
-			printf("%s:%s packet_sending has sent %lld packets \n", proname, send1top8, i);
+			printf("%s:%s packet_sending has sent %lld packets \n", proname, send4top32, i);
 			if(i == START_TIME) {
 				if(gettimeofday(&begin, NULL) != 0) {
 					printf("gettimeofday for begin failed \n");
@@ -94,10 +94,10 @@ int main() {
 	printf("begin.tv_sec = %ld, begin.tv_usec = %ld \n", begin.tv_sec, begin.tv_usec);
 	printf("end.tv_sec = %ld, end.tv_usec = %ld \n", end.tv_sec, end.tv_usec);
 	printf("period = %lld \n", period);
-	printf("send1 has sent %lld packets and is closing.\n", i);
-	mq_return = mq_close(mqd_send1top8);//returns 0 on success, or -1 on error.
+	printf("packet_sending has sent %lld packets and is closing.\n", i);
+	mq_return = mq_close(mqd_send4top32);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_close");
-	mq_return = mq_unlink(send1top8);//returns 0 on success, or -1 on error.
+	mq_return = mq_unlink(send4top32);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_unlink");
 
 	func_quit(proname);

@@ -14,10 +14,7 @@ int main() {
 	char proname[] = "send4";
 	struct timeval begin;
 	struct timeval end;
-	if(gettimeofday(&begin, NULL) != 0) {
-		printf("gettimeofday for begin failed \n");
-		return 1;
-	}
+	
 	setcpu(SEND4_CPU);
 
 	printf("Now is in packet_sending!\n");
@@ -65,6 +62,18 @@ int main() {
 		}
 		if(i % SEND_SHOW_FREQUENCY == 0 || i < SHOW_THRESHOLD) {
 			printf("%s:%s packet_sending has sent %lld packets \n", proname, send4top32, i);
+			if(i == START_TIME) {
+				if(gettimeofday(&begin, NULL) != 0) {
+					printf("gettimeofday for begin failed \n");
+					return 1;
+				}
+			}
+			if(i == END_TIME) {
+				if(gettimeofday(&end, NULL) != 0) {
+					printf("gettimeofday for end failed \n");
+					return 1;
+				}
+			}
 		}
 		//let the packet_sending.o works more slowly.
 		else if(i%SEND_SLEEP_FREQUENCY == 0) {
@@ -79,16 +88,13 @@ int main() {
 	}
 
 	printstar();
-	if(gettimeofday(&end, NULL) != 0) {
-		printf("gettimeofday for end failed \n");
-		return 1;
-	}
+	
 	long long int period = 0;
 	period = ((long long int) (end.tv_sec - begin.tv_sec)) * 1000000 + end.tv_usec - begin.tv_usec;
 	printf("begin.tv_sec = %ld, begin.tv_usec = %ld \n", begin.tv_sec, begin.tv_usec);
 	printf("end.tv_sec = %ld, end.tv_usec = %ld \n", end.tv_sec, end.tv_usec);
 	printf("period = %lld \n", period);
-	printf("packet_sending has sent %lld packets and is closing.\n", i);
+	printf("send4 has sent %lld packets and is closing.\n", i);
 	mq_return = mq_close(mqd_send4top32);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_close");
 	mq_return = mq_unlink(send4top32);//returns 0 on success, or -1 on error.

@@ -9,7 +9,7 @@
 
 #define ADJ_ARRAY_EDGES 40//same as PROC_NUMBER
 
-#define IDLE_THRESHOLD 0.5//point_weight less than IDLE_THRESHOLD is seen as idle.
+#define IDLE_THRESHOLD 0.75//point_weight less than IDLE_THRESHOLD is seen as idle.
 
 #define QUEUE_WEIGHT 0.1//every queue will add QUEUE_WEIGHT to point_weight.
 
@@ -307,16 +307,15 @@ void show_working_cpu(struct record * statistics[PROC_NUMBER]) {
 
 
 
-int turn_cpu(int type, int cpu_id) {
+int turn_cpu(int type, int cpu) {
+	if(cpu == 0 || cpu == 10 || cpu == 20 || cpu == 30) return 0;
 	int re = 0;
-	int cpu = 0;
-	if(type == 1 && cpu_id >= 1 && cpu_id < PHYSICAL_CPUS) {//turn on
-		cpu = cpu_id + (cpu_id / CORES_PER_CPU) * CORES_PER_CPU;
+	if(type == 1 && cpu >= 1 && cpu < PHYSICAL_CPUS) {//turn on
 		char cmdhead[] = "echo 1 > /sys/devices/system/cpu/cpu";
 		char cmdcpu1[100];
 		char cmdcpu2[100];
 		sprintf(cmdcpu1, "%d/online ", cpu);
-		sprintf(cmdcpu2, "%d/online ", cpu + CORES_PER_CPU);
+		sprintf(cmdcpu2, "%d/online ", cpu + PHYSICAL_CPUS);
 		char* cmdbashon1 = (char*) calloc(1, strlen(cmdhead) + strlen(cmdcpu1) + 1);
 		char* cmdbashon2 = (char*) calloc(1, strlen(cmdhead) + strlen(cmdcpu2) + 1);
 		
@@ -341,13 +340,12 @@ int turn_cpu(int type, int cpu_id) {
 		free(cmdbashon2);
 		return re;
 	}
-	else if(type == 0 && cpu_id >=1 && cpu_id < PHYSICAL_CPUS) {//turn down
-		cpu = cpu_id + (cpu_id / CORES_PER_CPU) * CORES_PER_CPU;
+	else if(type == 0 && cpu >=1 && cpu < PHYSICAL_CPUS) {//turn down
 		char cmdhead[] = "echo 0 > /sys/devices/system/cpu/cpu";
 		char cmdcpu1[100];
 		char cmdcpu2[100];
 		sprintf(cmdcpu1, "%d/online ", cpu);
-		sprintf(cmdcpu2, "%d/online ", cpu + CORES_PER_CPU);
+		sprintf(cmdcpu2, "%d/online ", cpu + PHYSICAL_CPUS);
 		char* cmdbashdown1 = (char*) calloc(1, strlen(cmdhead) + strlen(cmdcpu1) + 1);
 		char* cmdbashdown2 = (char*) calloc(1, strlen(cmdhead) + strlen(cmdcpu2) + 1);
 		
@@ -372,7 +370,7 @@ int turn_cpu(int type, int cpu_id) {
 		free(cmdbashdown2);
 		return re;
 	}
-	printf("turn_cpu:type = %d, cpu = %d, something wrong !!!\n", type, cpu_id);
+	printf("turn_cpu:type = %d, cpu = %d, something wrong !!!\n", type, cpu);
 	return 3;
 }
 
@@ -407,7 +405,7 @@ void changefrequency(long frequency, int cpu) {//frequency's unit is kHz
 
 //we need a better algorithm here.
 struct check_report check_status(struct record * statistics[PROC_NUMBER], double * point_weight) {
-	static int old_cpu_status[PHYSICAL_CPUS] = {-100};
+	static int old_cpu_status[PHYSICAL_CPUS] = {-100, -100, -100, -100};
 	int i = 0;
 	int j = 0;
 	struct check_report report;//return value
@@ -491,7 +489,7 @@ int find_idle_cpu(struct record * statistics[PROC_NUMBER]) {
 	for(i = 0;i < PROC_NUMBER;i++) {
 		cpu_status[statistics[i]->cpu] = 2;
 	}
-	for(i = 1;i < PHYSICAL_CPUS;i++) {//!!!!we will leave CPU0 for packet_sending.o and for control.o.
+	for(i = FIRST_WORKING_CPU;i < PHYSICAL_CPUS;i++) {//!!!!we will leave CPU0 for packet_sending.o and for control.o.
 		if(cpu_status[i] == 0) {
 			idle_cpu = i;
 			break;
