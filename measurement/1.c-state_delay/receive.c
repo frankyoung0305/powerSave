@@ -32,14 +32,15 @@ int main(void) {
 			printf("%s:receive %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 			return -1;
 		}
+		printf("i = %lld time = %ld \n", i, (end.tv_sec - buffer.time.tv_sec) * 1000000 + (end.tv_usec - buffer.time.tv_usec));
 		sum += ((end.tv_sec - buffer.time.tv_sec) * 1000000 + (end.tv_usec - buffer.time.tv_usec));
 		
 		
 		
-		if(i % SHOW_FREQUENCY == 0) {
+/*		if(i % SHOW_FREQUENCY == 0) {
 			printf("receive has received %lld packets \n", i);
 		}
-			
+*/			
 	}
 	
 	sleep(1);

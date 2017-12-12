@@ -27,11 +27,16 @@ int main(void) {
 	struct datamsg buffer;
 	
 	long long int i = 0;
+	int j = 0;
 	for(i = 0;i < PACKETS;i++) {
 		mq_return = mq_receive(mqd_sendtofwd, (char *) &buffer, pktsize, 0);
 		if(mq_return == -1) {
 			printf("%s:receive %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 			return -1;
+		}
+		j = 0;
+		while(j < 1000) {
+			j++;
 		}
 		mq_return = mq_send(mqd_fwdtoreceive, (char *) &buffer, pktsize, 0);
 		if(mq_return == -1) {

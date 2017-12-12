@@ -3,7 +3,7 @@
 
 int main(void) {
 	char proname[] = "send";
-	struct timeval start;
+	//struct timeval start;
 	setcpu(SEND_CPU);
 	printf("now in %s \n", proname);
 
@@ -25,22 +25,20 @@ int main(void) {
 	
 	long long int i = 0;
 	for(i = 0;i < PACKETS;i++) {
-		gettimeofday(&(start), 0);
-		buffer.time = start;
 		buffer.i = i;
+		gettimeofday(&(buffer.time), 0);
 		mq_return = mq_send(mqd_sendtofwd, (char *) &buffer, pktsize, 0);
 		if(mq_return == -1) {
 			printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 			return -1;
 		}
+		usleep(1000);
+		/*if(i % USLEEP_FREQUENCY == 0) {
+                        usleep(USLEEP_TIME);
+                }*/
 		if(i % SHOW_FREQUENCY == 0) {
 			printf("send has sent %lld packets \n", i);
 		}
-		/*if(i % USLEEP_FREQUENCY == 0) {
-			usleep(USLEEP_TIME);
-		}*/
-		usleep(10);
-	
 	}
 	
 	sleep(1);

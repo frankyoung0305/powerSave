@@ -15,13 +15,13 @@
 #include<sched.h>//sched_setaffinity
 #include<sys/time.h>//for timeval, gettimeofday()
 
-#define PHYSICAL_CPUS 4
+#define PHYSICAL_CPUS 40
 
-#define CORES_PER_CPU 4
+#define CORES_PER_CPU 10
 
-#define SEND_CPU 2
-#define FWD_CPU 2
-#define RECEIVE_CPU 2
+#define SEND_CPU 4
+#define FWD_CPU 5
+#define RECEIVE_CPU 6
 
 #define USLEEP_FREQUENCY 1000
 
@@ -30,7 +30,7 @@
 
 #define SHOW_FREQUENCY 1000
 
-#define PACKETS 100000
+#define PACKETS 200
 
 #define PERM 0666
 
