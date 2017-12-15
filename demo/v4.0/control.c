@@ -129,6 +129,7 @@ int main() {
 		pstats[i].number = i;
 		pstats[i].queues = 0;
 		pstats[i].cpu = 1;
+		pstats[i].cpu_usage = 0.3;
 		for(j = 0;j < MAXQUEUES;j++) {
 			//pstats[i].queuelength[j] = 0;
 			//pstats[i].qmax[j] = MAXMSG;
