@@ -1,0 +1,152 @@
+edges is 10, loop_times goes from 1 to 20, per case tested 10000 times 
+loop_times = 1, rating = 0.052819, rank_sum = 528.190476, KL_time = 4.641600, KL_time sum = 46416, real loop = 1.000000, loop_sum = 10000
+loop_times = 2, rating = 0.019020, rank_sum = 190.198413, KL_time = 8.185600, KL_time sum = 81856, real loop = 1.967700, loop_sum = 19677
+loop_times = 3, rating = 0.015371, rank_sum = 153.714286, KL_time = 9.908100, KL_time sum = 99081, real loop = 2.521100, loop_sum = 25211
+loop_times = 4, rating = 0.014350, rank_sum = 143.500000, KL_time = 10.414700, KL_time sum = 104147, real loop = 2.696400, loop_sum = 26964
+loop_times = 5, rating = 0.014907, rank_sum = 149.071429, KL_time = 10.471800, KL_time sum = 104718, real loop = 2.712500, loop_sum = 27125
+loop_times = 6, rating = 0.014619, rank_sum = 146.190476, KL_time = 11.045500, KL_time sum = 110455, real loop = 2.713400, loop_sum = 27134
+loop_times = 7, rating = 0.014748, rank_sum = 147.476190, KL_time = 11.168200, KL_time sum = 111682, real loop = 2.722800, loop_sum = 27228
+loop_times = 8, rating = 0.014743, rank_sum = 147.428571, KL_time = 10.621200, KL_time sum = 106212, real loop = 2.717700, loop_sum = 27177
+loop_times = 9, rating = 0.015052, rank_sum = 150.515873, KL_time = 10.506100, KL_time sum = 105061, real loop = 2.722300, loop_sum = 27223
+loop_times = 10, rating = 0.014961, rank_sum = 149.611111, KL_time = 7.202200, KL_time sum = 72022, real loop = 2.720000, loop_sum = 27200
+loop_times = 11, rating = 0.015081, rank_sum = 150.809524, KL_time = 6.613100, KL_time sum = 66131, real loop = 2.717600, loop_sum = 27176
+loop_times = 12, rating = 0.014683, rank_sum = 146.825397, KL_time = 6.908100, KL_time sum = 69081, real loop = 2.726300, loop_sum = 27263
+loop_times = 13, rating = 0.014817, rank_sum = 148.166667, KL_time = 8.504400, KL_time sum = 85044, real loop = 2.710100, loop_sum = 27101
+loop_times = 14, rating = 0.014583, rank_sum = 145.825397, KL_time = 7.458900, KL_time sum = 74589, real loop = 2.711600, loop_sum = 27116
+loop_times = 15, rating = 0.015013, rank_sum = 150.134921, KL_time = 7.268100, KL_time sum = 72681, real loop = 2.713900, loop_sum = 27139
+loop_times = 16, rating = 0.014810, rank_sum = 148.095238, KL_time = 10.464500, KL_time sum = 104645, real loop = 2.708400, loop_sum = 27084
+loop_times = 17, rating = 0.015036, rank_sum = 150.357143, KL_time = 10.950300, KL_time sum = 109503, real loop = 2.713700, loop_sum = 27137
+loop_times = 18, rating = 0.014933, rank_sum = 149.325397, KL_time = 11.066700, KL_time sum = 110667, real loop = 2.705800, loop_sum = 27058
+loop_times = 19, rating = 0.014837, rank_sum = 148.365079, KL_time = 10.545200, KL_time sum = 105452, real loop = 2.700900, loop_sum = 27009
+loop_times = 20, rating = 0.014970, rank_sum = 149.698413, KL_time = 10.579000, KL_time sum = 105790, real loop = 2.711400, loop_sum = 27114
+
+
+
+
+
+edges is 12, loop_times goes from 1 to 20, per case tested 10000 times 
+loop_times = 1, rating = 0.053552, rank_sum = 535.523810, KL_time = 6.910100, KL_time sum = 69101, real loop = 1.000000, loop_sum = 10000
+loop_times = 2, rating = 0.015015, rank_sum = 150.147186, KL_time = 12.173000, KL_time sum = 121730, real loop = 1.978700, loop_sum = 19787
+loop_times = 3, rating = 0.011981, rank_sum = 119.805195, KL_time = 13.650900, KL_time sum = 136509, real loop = 2.583600, loop_sum = 25836
+loop_times = 4, rating = 0.011557, rank_sum = 115.569264, KL_time = 10.575800, KL_time sum = 105758, real loop = 2.796700, loop_sum = 27967
+loop_times = 5, rating = 0.011644, rank_sum = 116.437229, KL_time = 10.817700, KL_time sum = 108177, real loop = 2.849600, loop_sum = 28496
+loop_times = 6, rating = 0.011820, rank_sum = 118.203463, KL_time = 13.321700, KL_time sum = 133217, real loop = 2.836100, loop_sum = 28361
+loop_times = 7, rating = 0.011229, rank_sum = 112.292208, KL_time = 12.205700, KL_time sum = 122057, real loop = 2.837300, loop_sum = 28373
+loop_times = 8, rating = 0.011550, rank_sum = 115.497835, KL_time = 11.260200, KL_time sum = 112602, real loop = 2.833300, loop_sum = 28333
+loop_times = 9, rating = 0.011688, rank_sum = 116.876623, KL_time = 11.405900, KL_time sum = 114059, real loop = 2.823300, loop_sum = 28233
+loop_times = 10, rating = 0.011507, rank_sum = 115.073593, KL_time = 11.439700, KL_time sum = 114397, real loop = 2.840600, loop_sum = 28406
+loop_times = 11, rating = 0.011514, rank_sum = 115.138528, KL_time = 11.106300, KL_time sum = 111063, real loop = 2.852300, loop_sum = 28523
+loop_times = 12, rating = 0.011773, rank_sum = 117.731602, KL_time = 11.046100, KL_time sum = 110461, real loop = 2.821400, loop_sum = 28214
+loop_times = 13, rating = 0.011453, rank_sum = 114.534632, KL_time = 10.599500, KL_time sum = 105995, real loop = 2.829900, loop_sum = 28299
+loop_times = 14, rating = 0.011545, rank_sum = 115.445887, KL_time = 10.594200, KL_time sum = 105942, real loop = 2.831900, loop_sum = 28319
+loop_times = 15, rating = 0.011903, rank_sum = 119.025974, KL_time = 11.819300, KL_time sum = 118193, real loop = 2.823500, loop_sum = 28235
+loop_times = 16, rating = 0.011273, rank_sum = 112.729437, KL_time = 11.480800, KL_time sum = 114808, real loop = 2.833200, loop_sum = 28332
+loop_times = 17, rating = 0.011787, rank_sum = 117.874459, KL_time = 15.501300, KL_time sum = 155013, real loop = 2.820700, loop_sum = 28207
+loop_times = 18, rating = 0.011433, rank_sum = 114.331169, KL_time = 13.335200, KL_time sum = 133352, real loop = 2.842000, loop_sum = 28420
+loop_times = 19, rating = 0.011422, rank_sum = 114.220779, KL_time = 10.653700, KL_time sum = 106537, real loop = 2.831500, loop_sum = 28315
+loop_times = 20, rating = 0.011708, rank_sum = 117.080087, KL_time = 10.584100, KL_time sum = 105841, real loop = 2.820600, loop_sum = 28206
+
+
+
+
+
+
+
+edges is 14, loop_times goes from 1 to 20, per case tested 10000 times 
+loop_times = 1, rating = 0.053174, rank_sum = 531.738345, KL_time = 7.290000, KL_time sum = 72900, real loop = 1.000000, loop_sum = 10000
+loop_times = 2, rating = 0.011599, rank_sum = 115.991841, KL_time = 12.668000, KL_time sum = 126680, real loop = 1.987100, loop_sum = 19871
+loop_times = 3, rating = 0.008816, rank_sum = 88.163753, KL_time = 15.800500, KL_time sum = 158005, real loop = 2.637400, loop_sum = 26374
+loop_times = 4, rating = 0.008331, rank_sum = 83.309441, KL_time = 17.203900, KL_time sum = 172039, real loop = 2.855400, loop_sum = 28554
+loop_times = 5, rating = 0.008382, rank_sum = 83.819930, KL_time = 17.456900, KL_time sum = 174569, real loop = 2.926900, loop_sum = 29269
+loop_times = 6, rating = 0.008486, rank_sum = 84.855478, KL_time = 22.268100, KL_time sum = 222681, real loop = 2.909300, loop_sum = 29093
+loop_times = 7, rating = 0.008511, rank_sum = 85.113636, KL_time = 22.676900, KL_time sum = 226769, real loop = 2.906300, loop_sum = 29063
+loop_times = 8, rating = 0.008457, rank_sum = 84.571096, KL_time = 23.664100, KL_time sum = 236641, real loop = 2.921900, loop_sum = 29219
+loop_times = 9, rating = 0.008513, rank_sum = 85.127622, KL_time = 21.342600, KL_time sum = 213426, real loop = 2.910000, loop_sum = 29100
+loop_times = 10, rating = 0.008355, rank_sum = 83.546037, KL_time = 23.918800, KL_time sum = 239188, real loop = 2.919600, loop_sum = 29196
+loop_times = 11, rating = 0.008314, rank_sum = 83.139277, KL_time = 23.714400, KL_time sum = 237144, real loop = 2.909900, loop_sum = 29099
+loop_times = 12, rating = 0.008257, rank_sum = 82.573427, KL_time = 23.922300, KL_time sum = 239223, real loop = 2.921200, loop_sum = 29212
+loop_times = 13, rating = 0.008443, rank_sum = 84.433566, KL_time = 24.446200, KL_time sum = 244462, real loop = 2.919300, loop_sum = 29193
+loop_times = 14, rating = 0.008406, rank_sum = 84.061189, KL_time = 23.425300, KL_time sum = 234253, real loop = 2.920400, loop_sum = 29204
+loop_times = 15, rating = 0.008287, rank_sum = 82.872960, KL_time = 26.494000, KL_time sum = 264940, real loop = 2.933500, loop_sum = 29335
+loop_times = 16, rating = 0.008337, rank_sum = 83.373543, KL_time = 25.686500, KL_time sum = 256865, real loop = 2.907200, loop_sum = 29072
+loop_times = 17, rating = 0.008287, rank_sum = 82.870047, KL_time = 25.925800, KL_time sum = 259258, real loop = 2.928400, loop_sum = 29284
+loop_times = 18, rating = 0.008387, rank_sum = 83.873543, KL_time = 25.378900, KL_time sum = 253789, real loop = 2.914700, loop_sum = 29147
+loop_times = 19, rating = 0.008527, rank_sum = 85.269814, KL_time = 25.208300, KL_time sum = 252083, real loop = 2.907400, loop_sum = 29074
+loop_times = 20, rating = 0.008536, rank_sum = 85.361888, KL_time = 25.711800, KL_time sum = 257118, real loop = 2.914400, loop_sum = 29144
+
+
+
+
+edges is 16, loop_times goes from 1 to 20, per case tested 10000 times 
+loop_times = 1, rating = 0.054437, rank_sum = 544.370629, KL_time = 12.727000, KL_time sum = 127270, real loop = 1.000000, loop_sum = 10000
+loop_times = 2, rating = 0.009185, rank_sum = 91.847086, KL_time = 23.826300, KL_time sum = 238263, real loop = 1.990100, loop_sum = 19901
+loop_times = 3, rating = 0.006420, rank_sum = 64.201088, KL_time = 32.439200, KL_time sum = 324392, real loop = 2.675900, loop_sum = 26759
+loop_times = 4, rating = 0.006055, rank_sum = 60.548563, KL_time = 35.264000, KL_time sum = 352640, real loop = 2.942600, loop_sum = 29426
+loop_times = 5, rating = 0.006110, rank_sum = 61.104118, KL_time = 28.038200, KL_time sum = 280382, real loop = 2.992100, loop_sum = 29921
+loop_times = 6, rating = 0.006004, rank_sum = 60.036053, KL_time = 31.364900, KL_time sum = 313649, real loop = 2.989300, loop_sum = 29893
+loop_times = 7, rating = 0.006053, rank_sum = 60.526651, KL_time = 36.033900, KL_time sum = 360339, real loop = 2.988700, loop_sum = 29887
+loop_times = 8, rating = 0.006093, rank_sum = 60.934110, KL_time = 35.830100, KL_time sum = 358301, real loop = 2.974400, loop_sum = 29744
+loop_times = 9, rating = 0.006169, rank_sum = 61.691064, KL_time = 35.553500, KL_time sum = 355535, real loop = 2.999400, loop_sum = 29994
+loop_times = 10, rating = 0.006121, rank_sum = 61.213209, KL_time = 35.987200, KL_time sum = 359872, real loop = 2.990300, loop_sum = 29903
+loop_times = 11, rating = 0.006327, rank_sum = 63.269308, KL_time = 35.035400, KL_time sum = 350354, real loop = 2.986900, loop_sum = 29869
+loop_times = 12, rating = 0.006057, rank_sum = 60.570474, KL_time = 35.437300, KL_time sum = 354373, real loop = 2.975400, loop_sum = 29754
+loop_times = 13, rating = 0.006044, rank_sum = 60.440715, KL_time = 36.246000, KL_time sum = 362460, real loop = 2.988700, loop_sum = 29887
+loop_times = 14, rating = 0.006144, rank_sum = 61.441647, KL_time = 36.434800, KL_time sum = 364348, real loop = 2.995600, loop_sum = 29956
+loop_times = 15, rating = 0.006202, rank_sum = 62.015385, KL_time = 35.242700, KL_time sum = 352427, real loop = 2.973500, loop_sum = 29735
+loop_times = 16, rating = 0.006009, rank_sum = 60.088733, KL_time = 36.162300, KL_time sum = 361623, real loop = 2.990600, loop_sum = 29906
+loop_times = 17, rating = 0.006093, rank_sum = 60.932401, KL_time = 36.128000, KL_time sum = 361280, real loop = 2.987100, loop_sum = 29871
+loop_times = 18, rating = 0.006100, rank_sum = 60.997980, KL_time = 36.246400, KL_time sum = 362464, real loop = 2.999100, loop_sum = 29991
+loop_times = 19, rating = 0.006030, rank_sum = 60.296037, KL_time = 36.220500, KL_time sum = 362205, real loop = 2.995800, loop_sum = 29958
+loop_times = 20, rating = 0.006147, rank_sum = 61.465579, KL_time = 36.606900, KL_time sum = 366069, real loop = 2.988200, loop_sum = 29882 
+
+
+
+edges is 18, loop_times goes from 1 to 20, per case tested 10000 times 
+loop_times = 1, rating = 0.060170, rank_sum = 601.695393, KL_time = 18.725500, KL_time sum = 187255, real loop = 1.000000, loop_sum = 10000
+loop_times = 2, rating = 0.007814, rank_sum = 78.139325, KL_time = 27.092100, KL_time sum = 270921, real loop = 1.992300, loop_sum = 19923
+loop_times = 3, rating = 0.004888, rank_sum = 48.875360, KL_time = 31.892500, KL_time sum = 318925, real loop = 2.702800, loop_sum = 27028
+loop_times = 4, rating = 0.004654, rank_sum = 46.542369, KL_time = 48.656900, KL_time sum = 486569, real loop = 2.975600, loop_sum = 29756
+loop_times = 5, rating = 0.004467, rank_sum = 44.668573, KL_time = 48.309800, KL_time sum = 483098, real loop = 3.041300, loop_sum = 30413
+loop_times = 6, rating = 0.004490, rank_sum = 44.895845, KL_time = 46.094200, KL_time sum = 460942, real loop = 3.050100, loop_sum = 30501
+loop_times = 7, rating = 0.004573, rank_sum = 45.729329, KL_time = 41.541900, KL_time sum = 415419, real loop = 3.049000, loop_sum = 30490
+loop_times = 8, rating = 0.004540, rank_sum = 45.404031, KL_time = 39.601400, KL_time sum = 396014, real loop = 3.049000, loop_sum = 30490
+loop_times = 9, rating = 0.004626, rank_sum = 46.256643, KL_time = 41.785900, KL_time sum = 417859, real loop = 3.039400, loop_sum = 30394
+loop_times = 10, rating = 0.004573, rank_sum = 45.726121, KL_time = 43.620800, KL_time sum = 436208, real loop = 3.047500, loop_sum = 30475
+loop_times = 11, rating = 0.004549, rank_sum = 45.491855, KL_time = 43.337200, KL_time sum = 433372, real loop = 3.047900, loop_sum = 30479
+loop_times = 12, rating = 0.004532, rank_sum = 45.319292, KL_time = 47.240900, KL_time sum = 472409, real loop = 3.051200, loop_sum = 30512
+loop_times = 13, rating = 0.004610, rank_sum = 46.100740, KL_time = 41.737300, KL_time sum = 417373, real loop = 3.051700, loop_sum = 30517
+loop_times = 14, rating = 0.004506, rank_sum = 45.058494, KL_time = 32.701400, KL_time sum = 327014, real loop = 3.062600, loop_sum = 30626
+loop_times = 15, rating = 0.004632, rank_sum = 46.324928, KL_time = 43.601700, KL_time sum = 436017, real loop = 3.050900, loop_sum = 30509
+loop_times = 16, rating = 0.004507, rank_sum = 45.074208, KL_time = 44.396300, KL_time sum = 443963, real loop = 3.064700, loop_sum = 30647
+loop_times = 17, rating = 0.004455, rank_sum = 44.547594, KL_time = 43.144600, KL_time sum = 431446, real loop = 3.041200, loop_sum = 30412
+loop_times = 18, rating = 0.004636, rank_sum = 46.362238, KL_time = 43.476400, KL_time sum = 434764, real loop = 3.035500, loop_sum = 30355
+loop_times = 19, rating = 0.004649, rank_sum = 46.489798, KL_time = 43.895100, KL_time sum = 438951, real loop = 3.039900, loop_sum = 30399
+loop_times = 20, rating = 0.004564, rank_sum = 45.641053, KL_time = 42.593100, KL_time sum = 425931, real loop = 3.037600, loop_sum = 30376
+
+
+
+
+
+
+edges is 20, loop_times goes from 1 to 20, per case tested 10000 times 
+loop_times = 1, rating = 0.062893, rank_sum = 628.927439, KL_time = 24.489200, KL_time sum = 244892, real loop = 1.000000, loop_sum = 10000
+loop_times = 2, rating = 0.006916, rank_sum = 69.161705, KL_time = 39.882100, KL_time sum = 398821, real loop = 1.994200, loop_sum = 19942
+loop_times = 3, rating = 0.003740, rank_sum = 37.402011, KL_time = 47.271100, KL_time sum = 472711, real loop = 2.726400, loop_sum = 27264
+loop_times = 4, rating = 0.003447, rank_sum = 34.471010, KL_time = 56.719800, KL_time sum = 567198, real loop = 3.031900, loop_sum = 30319
+loop_times = 5, rating = 0.003525, rank_sum = 35.245903, KL_time = 50.782000, KL_time sum = 507820, real loop = 3.086000, loop_sum = 30860
+loop_times = 6, rating = 0.003518, rank_sum = 35.182533, KL_time = 43.373800, KL_time sum = 433738, real loop = 3.089200, loop_sum = 30892
+loop_times = 7, rating = 0.003477, rank_sum = 34.765615, KL_time = 43.605400, KL_time sum = 436054, real loop = 3.095900, loop_sum = 30959
+loop_times = 8, rating = 0.003500, rank_sum = 35.002230, KL_time = 43.396400, KL_time sum = 433964, real loop = 3.086800, loop_sum = 30868
+loop_times = 9, rating = 0.003504, rank_sum = 35.042792, KL_time = 44.269400, KL_time sum = 442694, real loop = 3.105700, loop_sum = 31057
+loop_times = 10, rating = 0.003580, rank_sum = 35.798740, KL_time = 55.021000, KL_time sum = 550210, real loop = 3.089900, loop_sum = 30899
+loop_times = 11, rating = 0.003516, rank_sum = 35.160103, KL_time = 62.382200, KL_time sum = 623822, real loop = 3.106700, loop_sum = 31067
+loop_times = 12, rating = 0.003509, rank_sum = 35.094016, KL_time = 59.177700, KL_time sum = 591777, real loop = 3.096700, loop_sum = 30967
+loop_times = 13, rating = 0.003557, rank_sum = 35.569161, KL_time = 58.212800, KL_time sum = 582128, real loop = 3.095300, loop_sum = 30953
+loop_times = 14, rating = 0.003624, rank_sum = 36.238044, KL_time = 56.953300, KL_time sum = 569533, real loop = 3.095700, loop_sum = 30957
+loop_times = 15, rating = 0.003531, rank_sum = 35.309598, KL_time = 60.092200, KL_time sum = 600922, real loop = 3.096500, loop_sum = 30965
+loop_times = 16, rating = 0.003523, rank_sum = 35.225183, KL_time = 56.668100, KL_time sum = 566681, real loop = 3.109000, loop_sum = 31090
+loop_times = 17, rating = 0.003471, rank_sum = 34.714607, KL_time = 58.247900, KL_time sum = 582479, real loop = 3.116900, loop_sum = 31169
+loop_times = 18, rating = 0.003464, rank_sum = 34.639232, KL_time = 58.169700, KL_time sum = 581697, real loop = 3.090700, loop_sum = 30907
+loop_times = 19, rating = 0.003489, rank_sum = 34.888902, KL_time = 52.997400, KL_time sum = 529974, real loop = 3.089200, loop_sum = 30892
+loop_times = 20, rating = 0.003496, rank_sum = 34.963238, KL_time = 50.401200, KL_time sum = 504012, real loop = 3.091300, loop_sum = 30913
+
