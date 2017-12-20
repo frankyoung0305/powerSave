@@ -29,7 +29,7 @@
 
 # define MAX_DELAY 100
 # define MIN_DELAY 0
-# define DELAY_CHANGE_FREQ 5000000 //pkts
+# define DELAY_CHANGE_FREQ 10000000 //pkts
 
 //#define PRINT    // vnf print when defined
 

@@ -79,8 +79,9 @@ int main() {
 			}
 		}
 		if(i % DELAY_CHANGE_FREQ == 0){
-			delay = (int)gendelay(MAX_DELAY, MIN_DELAY);
-			printf("*****delay: %d*****\n", delay);			
+			//delay = (int)gendelay(MAX_DELAY, MIN_DELAY);
+			delay = (delay == 10)?100:10;
+			printf("%s: delay: %d  *****\n", proname, delay);			
 		}
 		//let the packet_sending.o works more slowly.
 		else if(i%SEND_SLEEP_FREQUENCY == 0) {
