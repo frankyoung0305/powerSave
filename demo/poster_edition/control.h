@@ -657,7 +657,9 @@ void update_adj_array(struct record * statistics[PROC_NUMBER], double adj_array[
 	adj_array[35][38] = adj_array[38][35] = ((double) statistics[38]->throughput[0]) / ((double) Tput);//p35top38
 	adj_array[37][39] = adj_array[39][37] = ((double) statistics[39]->throughput[0]) / ((double) Tput);//p37top39
 	adj_array[38][39] = adj_array[39][38] = ((double) statistics[39]->throughput[1]) / ((double) Tput);//p38top39
+	#ifndef PRINTMODE
 	show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array after update");
+	#endif
 }
 
 

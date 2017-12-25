@@ -20,7 +20,7 @@
 
 
 /***Look at here, the RUNMODE is here!!!***/
-//#define RUNMODE 1//if define RUNMODE, setcpu() will not work.
+#define RUNMODE 1//if define RUNMODE, setcpu() will not work.
 
 #define PRINTMODE 1//if define PRINTMODE, successful printf will not work.
 
@@ -54,116 +54,116 @@
 
 #define END_TIME	20000000
 
-#define SEND_SLEEP_FREQUENCY	1
+#define SEND_SLEEP_FREQUENCY	1000
 
 #define SEND_SLEEP_TIME	10
 
 #define CHECKQUEUE_FREQUENCY 1000
 
 
-#define FIRST_WORKING_CPU 4
+#define FIRST_WORKING_CPU 6
 
-#define LAST_WORKING_CPU 13
+#define LAST_WORKING_CPU 20
 
 #define CONTROLLER_CPU 0
 ////////////////////////////////
 #define SEND0_CPU 1
 
-#define SEND1_CPU 1
+#define SEND1_CPU 2
 
-#define SEND2_CPU 2
+#define SEND2_CPU 3
 
-#define SEND3_CPU 2
+#define SEND3_CPU 4
 
-#define SEND4_CPU 3
+#define SEND4_CPU 5
 
-#define P0_STARTING_CPU 4
+#define P0_STARTING_CPU 6
 
-#define P1_STARTING_CPU 4
+#define P1_STARTING_CPU 6
 
-#define P2_STARTING_CPU 4
+#define P2_STARTING_CPU 7
 
-#define P3_STARTING_CPU 4
+#define P3_STARTING_CPU 7
 
-#define P4_STARTING_CPU 5
+#define P4_STARTING_CPU 7
 
-#define P5_STARTING_CPU 5
+#define P5_STARTING_CPU 8
 
-#define P6_STARTING_CPU 5
+#define P6_STARTING_CPU 8
 
-#define P7_STARTING_CPU 5
+#define P7_STARTING_CPU 8
 /////////////////////////////////
 
 
-#define P8_STARTING_CPU 6
+#define P8_STARTING_CPU 9
 
-#define P9_STARTING_CPU 6
+#define P9_STARTING_CPU 9
 
-#define P10_STARTING_CPU 6
+#define P10_STARTING_CPU 10
 
-#define P11_STARTING_CPU 6
+#define P11_STARTING_CPU 10
 
-#define P12_STARTING_CPU 7
+#define P12_STARTING_CPU 10
 
-#define P13_STARTING_CPU 7
+#define P13_STARTING_CPU 11
 
-#define P14_STARTING_CPU 7
+#define P14_STARTING_CPU 11
 
-#define P15_STARTING_CPU 7
+#define P15_STARTING_CPU 11
 ////////////////////////////////
 
 
-#define P16_STARTING_CPU 8
+#define P16_STARTING_CPU 12
 
-#define P17_STARTING_CPU 8
+#define P17_STARTING_CPU 12
 
-#define P18_STARTING_CPU 8
+#define P18_STARTING_CPU 13
 
-#define P19_STARTING_CPU 8
+#define P19_STARTING_CPU 13
 
-#define P20_STARTING_CPU 9
+#define P20_STARTING_CPU 13
 
-#define P21_STARTING_CPU 9
+#define P21_STARTING_CPU 14
 
-#define P22_STARTING_CPU 9
+#define P22_STARTING_CPU 14
 
-#define P23_STARTING_CPU 9
+#define P23_STARTING_CPU 14
 ////////////////////////////////
 
 
-#define P24_STARTING_CPU 10
+#define P24_STARTING_CPU 15
 
-#define P25_STARTING_CPU 10
+#define P25_STARTING_CPU 15
 
-#define P26_STARTING_CPU 10
+#define P26_STARTING_CPU 16
 
-#define P27_STARTING_CPU 10
+#define P27_STARTING_CPU 16
 
-#define P28_STARTING_CPU 11
+#define P28_STARTING_CPU 16
 
-#define P29_STARTING_CPU 11
+#define P29_STARTING_CPU 17
 
-#define P30_STARTING_CPU 11
+#define P30_STARTING_CPU 17
 
-#define P31_STARTING_CPU 11
+#define P31_STARTING_CPU 17
 ////////////////////////////////
 
 
-#define P32_STARTING_CPU 12
+#define P32_STARTING_CPU 18
 
-#define P33_STARTING_CPU 12
+#define P33_STARTING_CPU 18
 
-#define P34_STARTING_CPU 12
+#define P34_STARTING_CPU 19
 
-#define P35_STARTING_CPU 12
+#define P35_STARTING_CPU 19
 
-#define P36_STARTING_CPU 13
+#define P36_STARTING_CPU 19
 
-#define P37_STARTING_CPU 13
+#define P37_STARTING_CPU 20
 
-#define P38_STARTING_CPU 13
+#define P38_STARTING_CPU 20
 
-#define P39_STARTING_CPU 13
+#define P39_STARTING_CPU 20
 
 
 
@@ -436,7 +436,6 @@ int getcpu() {//get the cpu where the process is working on.
 			count++;
 		}
 	}
-	printf("\n");
 	if(count == 1) {
 		return cpunow;
 	}
