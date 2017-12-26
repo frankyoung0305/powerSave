@@ -6,6 +6,8 @@
 #include <string.h> 
 #include <pcap.h>
 #include <assert.h>
+
+#include<sys/time.h>//for timeval
 /////////////////////////////////////////////
 #define	MAX_NDPI_FLOWS     20000000
 
@@ -30,6 +32,9 @@
 # define MAX_DELAY 100
 # define MIN_DELAY 0
 # define DELAY_CHANGE_FREQ 5000000 //pkts
+///////////////wave
+# define TIME_CHECK_FREQ 1000
+# define FREQ_CHANGE_SPAN 5 //seconds
 
 //#define PRINT    // vnf print when defined
 
@@ -64,6 +69,7 @@ static u_int64_t acl_count = 0;   //firewall
 float map[10] = {1, 1, 1, 1, 1, 0.01, 0.01, 0.01, 0.01, 0.01}; //randgen比例分布
 
 float wave[8] = {1, 10, 100, 300, 1000, 300, 100, 10}; //wave shape for send
+
 ////////////////////////////////rand gen/////////////
 float gendelay(float top, float btm){//generate delay
 	int temp;
@@ -86,9 +92,8 @@ float gendelay(float top, float btm){//generate delay
 	return delay;
 }
 /////////////////////////////////////wave gen/////////////
-int genSleepFreq(i, change_freq){
-	int n = i/change_freq;  //CHANGE_FREQ
-	return wave[n%8];
+int genSleepFreq(i){
+	return wave[i%8];
 }
 
 ////hash ///////////////////////////new l3////////////////////
