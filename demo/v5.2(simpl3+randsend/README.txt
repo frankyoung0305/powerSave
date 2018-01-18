@@ -1,6 +1,10 @@
 Please run control.o in root terminal!!!
 cpuon.sh will turn every CPU from number to cpunum on.Please remember to change cpunum!
 
+v5.2
+change p0_l3.c p8_l3.c p16_l3.c p24_l3.c p32_l3.c to forward packets simplely
+send0.c send1.c send2.c send3.c send4.c send packets between usleep(100) or usleep(10).
+
 v5.1
 make topo to 40 processes and ready to run on server
 fix some bugs in extended_KL.h
