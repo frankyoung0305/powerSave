@@ -85,7 +85,7 @@ int main(void) {
 
 	double adj_array[ADJ_ARRAY_EDGES][ADJ_ARRAY_EDGES];
 	clear_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array in control.c first time");
-	show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array in control.c first time");
+	//show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array in control.c first time");
 
 	double point_weight[PROC_NUMBER];
 	clear_double_series(PROC_NUMBER, point_weight, "point_weight in control.c first time");
