@@ -590,6 +590,7 @@ void update_adj_array(struct record * statistics[PROC_NUMBER], double adj_array[
 	#ifndef PRINTMODE
 	show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array after update");
 	#endif
+	printf("finish update_adj_array! \n");
 }
 
 
