@@ -112,7 +112,8 @@ int main(void) {
 	ctrlbuffer.service_number = 1;
 
 	printf("everything is ready, controller is going to work!\n");
-	sleep(3);
+	printf("please wait for 2 seconds and start send.sh!\n");
+	sleep(1);
 	for(i = 0;i < 180;i++) {
 		for(j = 0;j < PROC_NUMBER;j++) {
 			mq_return = mq_send(mqd_ctop[j], (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
