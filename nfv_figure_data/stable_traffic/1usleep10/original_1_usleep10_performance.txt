@@ -1,0 +1,20 @@
+10,000,000 pkts
+begin.tv_sec = 1516627827, begin.tv_usec = 603301 
+end.tv_sec = 1516628493, end.tv_usec = 967795 
+period = 666364494
+
+begin.tv_sec = 1516627824, begin.tv_usec = 72738 
+end.tv_sec = 1516628488, end.tv_usec = 974112 
+period = 664901374
+
+begin.tv_sec = 1516627827, begin.tv_usec = 735168 
+end.tv_sec = 1516628494, end.tv_usec = 415477 
+period = 666680309
+
+begin.tv_sec = 1516627827, begin.tv_usec = 538309 
+end.tv_sec = 1516628494, end.tv_usec = 415242 
+period = 666876933 
+
+begin.tv_sec = 1516627834, begin.tv_usec = 822047 
+end.tv_sec = 1516628501, end.tv_usec = 980679 
+period = 667158632 
