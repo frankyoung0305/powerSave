@@ -201,6 +201,7 @@ void controller_control(union sigval sv) {
 				}
 				//#ifndef PRINTMODE maybe we will use this later.
 				show_working_cpu(parameter->statistics);
+				printf("finish a loop update\n\n");
 			}
 			break;
 
@@ -292,8 +293,10 @@ void controller_control(union sigval sv) {
 			partitioning_cpu = -1;
 			break;
 	}
-
+	#ifndef PRINTMODE
 	printf("FINISH A CONTROLLER CONTROL from process %d ctrlbuffer.service_number = %ld \n", parameter->p_number, ctrlbuffer.service_number);
+	#endif
+
 	pthread_exit(NULL);
 }
 
