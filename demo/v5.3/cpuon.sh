@@ -7,4 +7,5 @@ do
 	echo $mode > /sys/devices/system/cpu/cpu"$number"/online
 	number=`expr $number + 1`
 done
+sh /home/fnl/changecstate.sh
 cat /sys/devices/system/cpu/online
