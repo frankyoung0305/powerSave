@@ -1,0 +1,21 @@
+begin.tv_sec = 1521426564, begin.tv_usec = 481479 
+end.tv_sec = 1521426688, end.tv_usec = 995671 
+period = 124514192
+
+begin.tv_sec = 1521426563, begin.tv_usec = 365565 
+end.tv_sec = 1521426687, end.tv_usec = 791824 
+period = 124426259
+
+begin.tv_sec = 1521426563, begin.tv_usec = 146889 
+end.tv_sec = 1521426686, end.tv_usec = 606174 
+period = 123459285
+
+begin.tv_sec = 1521426563, begin.tv_usec = 849178 
+end.tv_sec = 1521426686, end.tv_usec = 90593 
+period = 122241415
+
+begin.tv_sec = 1521426551, begin.tv_usec = 308064 
+end.tv_sec = 1521426660, end.tv_usec = 54030 
+period = 108745966 
+
+average = 120677423.4
