@@ -201,6 +201,7 @@ void controller_control(union sigval sv) {
 				}
 				//#ifndef PRINTMODE maybe we will use this later.
 				show_working_cpu(parameter->statistics);
+				printf("finish a loop update\n\n");
 			}
 			break;
 
@@ -292,8 +293,10 @@ void controller_control(union sigval sv) {
 			partitioning_cpu = -1;
 			break;
 	}
-
+	#ifndef PRINTMODE
 	printf("FINISH A CONTROLLER CONTROL from process %d ctrlbuffer.service_number = %ld \n", parameter->p_number, ctrlbuffer.service_number);
+	#endif
+
 	pthread_exit(NULL);
 }
 
@@ -587,7 +590,10 @@ void update_adj_array(struct record * statistics[PROC_NUMBER], double adj_array[
 	adj_array[35][38] = adj_array[38][35] = ((double) statistics[38]->throughput[0]) / ((double) Tput);//p35top38
 	adj_array[37][39] = adj_array[39][37] = ((double) statistics[39]->throughput[0]) / ((double) Tput);//p37top39
 	adj_array[38][39] = adj_array[39][38] = ((double) statistics[39]->throughput[1]) / ((double) Tput);//p38top39
+	#ifndef PRINTMODE
 	show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array after update");
+	#endif
+	printf("finish update_adj_array! \n");
 }
 
 

@@ -85,7 +85,7 @@ int main(void) {
 
 	double adj_array[ADJ_ARRAY_EDGES][ADJ_ARRAY_EDGES];
 	clear_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array in control.c first time");
-	show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array in control.c first time");
+	//show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array in control.c first time");
 
 	double point_weight[PROC_NUMBER];
 	clear_double_series(PROC_NUMBER, point_weight, "point_weight in control.c first time");
@@ -112,7 +112,8 @@ int main(void) {
 	ctrlbuffer.service_number = 1;
 
 	printf("everything is ready, controller is going to work!\n");
-	sleep(3);
+	printf("please wait for 2 seconds and start send.sh!\n");
+	sleep(1);
 	for(i = 0;i < 180;i++) {
 		for(j = 0;j < PROC_NUMBER;j++) {
 			mq_return = mq_send(mqd_ctop[j], (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);

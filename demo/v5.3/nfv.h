@@ -436,7 +436,7 @@ int getcpu() {//get the cpu where the process is working on.
 			count++;
 		}
 	}
-	printf("\n");
+	//printf("\n");
 	if(count == 1) {
 		return cpunow;
 	}
