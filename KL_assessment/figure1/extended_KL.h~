@@ -13,7 +13,7 @@
 
 #define EPSILON 1e-7
 
-#define MAX_LOOP_TIMES 10
+#define MAX_LOOP_TIMES 50
 
 #define KL_ALPHA 0.3
 
@@ -21,8 +21,8 @@
 
 struct KL_return {
 	//int length;
-	int set1[200];
-	int set2[200];
+	int set1[50];
+	int set2[50];
 };//maybe we could use a two-dimensional array to replace the struct.
 
 
@@ -39,13 +39,18 @@ double Diff_value(int row_number, int edges, double adj_array[edges][edges], int
 
 
 struct KL_return KL_step(int edges, double adj_array[edges][edges], double point_weight[edges],int set_edges, int set1[set_edges], int set2[set_edges]) {
-	#ifndef PRINT_MODE
+	#ifdef PRINT_MODE
 	printf("now is in KL_step, set_edges = %d\n", set_edges);
 	#endif
+	
 	struct KL_return KL_re;
+	if(edges > 50) {
+		printf("too large topo!!!\n");
+		return KL_re;
+	}
 	copy_int_series(set_edges, set1, KL_re.set1);
 	copy_int_series(set_edges, set2, KL_re.set2);
-	#ifndef PRINT_MODE
+	#ifdef PRINT_MODE
 	show_int_series(set_edges, KL_re.set1, "KL_step's return value: KL_re.set1");
 	show_int_series(set_edges, KL_re.set2, "KL_step's return value: KL_re.set2");
 	show_double_series(edges, point_weight, "point_weight");
@@ -67,7 +72,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 
 	do {
 		loop_times++;
-		#ifndef PRINT_MODE
+		#ifdef PRINT_MODE
 		printf("******************************************\n");
 		printf("LOOP %d!!!\n", loop_times);
 		show_int_series(set_edges, KL_re.set1, "KL_re.set1");
@@ -80,12 +85,12 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 				edgecut_old = edgecut_old + adj_array[KL_re.set1[i]][KL_re.set2[j]];
 			}
 		}
-		#ifndef PRINT_MODE
+		#ifdef PRINT_MODE
 		printf("edgecut_old = %f\n", edgecut_old);
 		#endif
 		
 		if(fabs(edgecut_old) <= EPSILON) {
-			#ifndef PRINT_MODE
+			#ifdef PRINT_MODE
 			printf("Surprise!edgecut_old = 0!!!!\n");
 			#endif
 			edgecut_old = 1;
@@ -110,7 +115,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 
 			}
 		}*/
-		#ifndef PRINT_MODE
+		#ifdef PRINT_MODE
 		printf("got the gain_edgecut array\n");
 		show_double_array(set_edges, gain_edgecut, "gain_edgecut");
 		#endif
@@ -118,18 +123,18 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 		double D_workloaddiff = 0;
 		double workloaddiff_old = 0;
 		double workloaddiff_new = 0;
-		#ifndef PRINT_MODE
+		#ifdef PRINT_MODE
 		printf("******************************************\n");
 		#endif
 		for(i = 0;i < set_edges;i++) {
 			workloaddiff_old = workloaddiff_old + point_weight[KL_re.set1[i]] - point_weight[KL_re.set2[i]];
 			//printf("point_weight[KL_re.set1[%d]] = %f, point_weight[KL_re.set2[%d]] = %f\n", i, point_weight[KL_re.set1[i]], i, point_weight[KL_re.set2[i]]);
 		}
-		#ifndef PRINT_MODE
+		#ifdef PRINT_MODE
 		printf("workloaddiff_old = %f \n", workloaddiff_old);
 		#endif
 
-		if(fabs(workloaddiff_old) <= EPSILON) {
+		if(fabs(workloaddiff_old) <= EPSILON) {//workloaddiff_old == 0, point_weight_set1 == point_weight_set2
 			for(i = 0;i < set_edges;i++) {
 				for(j = 0;j < set_edges;j++) {
 					workloaddiff_new = workloaddiff_old - 2 * point_weight[KL_re.set1[i]] + 2 * point_weight[KL_re.set2[j]];
@@ -146,7 +151,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 			}
 
 		}
-		else {
+		else {//workloaddiff_old != 0.00, point_weight_set1 != point_weight_set2
 			for(i = 0;i < set_edges;i++) {
 				for(j = 0;j < set_edges;j++) {
 					workloaddiff_new = workloaddiff_old - 2 * point_weight[KL_re.set1[i]] + 2 * point_weight[KL_re.set2[j]];
@@ -159,7 +164,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 		}
 
 		
-		#ifndef PRINT_MODE
+		#ifdef PRINT_MODE
 		printf("got the gain_balance array\n");
 		show_double_array(set_edges, gain_balance, "gain_balance");
 		#endif
@@ -170,7 +175,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 				gain[i][j] = alpha * gain_edgecut[i][j] + (1 - alpha) * gain_balance[i][j];
 			}
 		}
-		#ifndef PRINT_MODE
+		#ifdef PRINT_MODE
 		printf("got the gain array\n");
 		show_double_array(set_edges, gain, "gain");
 		#endif
@@ -186,7 +191,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 				}
 			}
 		}
-		#ifndef PRINT_MODE
+		#ifdef PRINT_MODE
 		printf("max_gain is gain[%d][%d] = %f\n", max_i, max_j, gain[max_i][max_j]);
 		#endif
 		if(max_gain > 0) {
@@ -195,7 +200,7 @@ struct KL_return KL_step(int edges, double adj_array[edges][edges], double point
 			KL_re.set1[max_i] = KL_re.set2[max_j];
 			KL_re.set2[max_j] = temp;
 		}
-	}while(max_gain > EPSILON /*&& loop_times < MAX_LOOP_TIMES*/);
+	}while(max_gain > EPSILON && loop_times < MAX_LOOP_TIMES);
 
 
 	return KL_re;

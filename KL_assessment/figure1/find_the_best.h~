@@ -189,7 +189,7 @@ struct rank_ans rank(int ADJ_SIZE) {
 		printf("re.edge_cut = %f, re.workload_diff = %f \n", re.edge_cut, re.workload_diff);
 		#endif
 		gain = score_cmp(ours, re);
-		if(gain > EPSILON) {
+		if(gain > ) {
 			#ifdef PRINT_MODE
 			//record the better combination
 			if(gain > gain_max) {

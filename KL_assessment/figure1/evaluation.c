@@ -1,7 +1,7 @@
 #include "find_the_best.h"
 
-#define EDGES_START 30
-#define EDGES_END 30 //15
+#define EDGES_START 24
+#define EDGES_END 24 //15
 #define PER_CASE_TIMES 10000 //5000
 
 int main(void) {
