@@ -1,0 +1,48 @@
+#include "find_the_best.h"
+
+#define EDGES 4
+#define PER_CASE_TIMES 10000 //5000
+
+#define LOOP_TIMES_START 1
+#define MAX_LOOP_TIMES 20
+
+int main(void) {
+	int i = 0;
+	int edges = EDGES;
+	struct rank_ans ans;
+	double temp_rank = 0;
+	long int temp_time = 0;
+	int temp_loop = 0;
+	double rank_sum[MAX_LOOP_TIMES + 1];
+	double rating[MAX_LOOP_TIMES + 1];
+	long int time_sum[MAX_LOOP_TIMES + 1];
+	double time[MAX_LOOP_TIMES + 1];
+	int loop_sum[MAX_LOOP_TIMES + 1];
+	double loop[MAX_LOOP_TIMES + 1];
+	printf("edges is %d, loop_times goes from %d to %d, per case tested %d times \n", edges, LOOP_TIMES_START, MAX_LOOP_TIMES, PER_CASE_TIMES);
+	int loop_times = LOOP_TIMES_START;
+	for(;loop_times <= MAX_LOOP_TIMES;loop_times++) {
+		printf("now start loop_times = %d KL_assessment \n", loop_times);
+		temp_rank = 0;
+		temp_time = 0;
+		temp_loop = 0;
+		for(i = 0;i < PER_CASE_TIMES;i++) {
+			ans = rank(edges, loop_times);
+			temp_rank += ans.rank_rating;
+			temp_time += ans.KL_time;
+			temp_loop += ans.loop_times;
+			//printf("i = %d, rating = %f \n", i, ans);
+		}
+		rank_sum[loop_times] = temp_rank;
+		time_sum[loop_times] = temp_time;
+		loop_sum[loop_times] = temp_loop;
+		rating[loop_times] = temp_rank / PER_CASE_TIMES;
+		time[loop_times] = ((double) temp_time) / PER_CASE_TIMES;
+		loop[loop_times] = ((double) temp_loop) / PER_CASE_TIMES;
+	}
+	printf("edges is %d, loop_times goes from %d to %d, per case tested %d times \n", edges, LOOP_TIMES_START, MAX_LOOP_TIMES, PER_CASE_TIMES);
+	for(loop_times = LOOP_TIMES_START;loop_times <= MAX_LOOP_TIMES;loop_times++) {
+		printf("loop_times = %d, rating = %f, rank_sum = %f, KL_time = %f, KL_time sum = %ld, real loop = %f, loop_sum = %d\n", loop_times, rating[loop_times], rank_sum[loop_times], time[loop_times], time_sum[loop_times], loop[loop_times], loop_sum[loop_times]);
+	}
+	return 0;
+}
