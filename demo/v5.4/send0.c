@@ -93,8 +93,18 @@ int main() {
 			;
 		}*/
 	}
-
-	printstar();
+	
+	//show cpu online
+	/*
+	char cmd_cpu_online[] = "cat /sys/devices/system/cpu/online";
+	char re_cpu_online[200];
+	FILE * bash_cpu_online = popen(show_cpu_online, "r");
+	if(bash_cpu_online != NULL) {
+		fgets(re_cpu_online, 200, bash_cpu_online);
+		printf("cpu online:%s \n", re_cpu_online);
+	}
+	pclose(bashPipe);
+	printstar();*/
 	
 	
 	long long int period = 0;

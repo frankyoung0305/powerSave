@@ -14,7 +14,7 @@ int main(void) {
 	return 1;
 	#endif
 	
-	init_thread_attr();
+	init_controller();
 	int i = 0, j = 0;
 	int re_turn_cpu = 0;
 	//turn on CPUs
@@ -168,7 +168,7 @@ int main(void) {
 		}
 	}
 
-
+	destroy_controller();
 	func_quit(proname);
 	return 0;
 
