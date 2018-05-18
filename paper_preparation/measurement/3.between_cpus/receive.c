@@ -32,7 +32,9 @@ int main(void) {
 			printf("%s:receive %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 			return -1;
 		}
+		#ifdef PRINTMODE
 		printf("i = %lld time = %ld \n", i, (end.tv_sec - buffer.time.tv_sec) * 1000000 + (end.tv_usec - buffer.time.tv_usec));
+		#endif
 		sum += ((end.tv_sec - buffer.time.tv_sec) * 1000000 + (end.tv_usec - buffer.time.tv_usec));
 		
 		
@@ -44,9 +46,10 @@ int main(void) {
 	}
 	
 	usleep(100000);
-	sum = sum / PACKETS;
+	double average = 0;
+	average = (double) sum / (double) PACKETS;
 	printf("receive has received %lld packets\n", i);
-	printf("average time is %lld us \n", sum);
+	printf("average time is %f us \n", average);
 	mq_return = mq_close(mqd_sendtoreceive);
 	check_return(mq_return, proname, "mq_close");
 	mq_return = mq_unlink(sendtoreceive);

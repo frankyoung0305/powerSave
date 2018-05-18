@@ -1,0 +1,19 @@
+performance
+receive has received 100 packets
+PACKET INTERVAL is 100000us
+average time is 16.180000 us
+
+powersave
+receive has received 100 packets
+PACKET INTERVAL is 100000us
+average time is 20.850000 us
+
+ondemand
+receive has received 100 packets
+PACKET INTERVAL is 100000us
+average time is 22.530000 us
+
+conservative
+receive has received 100 packets
+PACKET INTERVAL is 100000us
+average time is 23.340000 us

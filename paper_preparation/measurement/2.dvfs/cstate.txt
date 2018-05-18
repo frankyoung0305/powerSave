@@ -1,0 +1,28 @@
+send at CPU4
+fwd at CPU5
+receive at CPU6
+poll performance
+
+receive has received 100 packets
+PACKET INTERVAL is 100000us
+average time is 15.200000 us
+
+c1 performance
+receive has received 100 packets
+PACKET INTERVAL is 100000us
+average time is 12.100000 us 
+
+c1e performance
+receive has received 100 packets
+PACKET INTERVAL is 100000us
+average time is 12.330000 us
+
+c3 performance
+receive has received 100 packets
+PACKET INTERVAL is 100000us
+average time is 36.580000 us 
+
+c6 performance
+receive has received 100 packets
+PACKET INTERVAL is 100000us
+average time is 62.950000 us

@@ -27,11 +27,11 @@
 
 #define USLEEP_TIME 10
 
-#define PACKET_INTERVAL 1000
+#define PACKET_INTERVAL 100000
 
 #define SHOW_FREQUENCY 1000
 
-#define PACKETS 200
+#define PACKETS 100
 
 #define PERM 0666
 

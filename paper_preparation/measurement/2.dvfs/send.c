@@ -36,9 +36,11 @@ int main(void) {
 		/*if(i % USLEEP_FREQUENCY == 0) {
                         usleep(USLEEP_TIME);
                 }*/
+                #ifdef PRINTMODE
 		if(i % SHOW_FREQUENCY == 0) {
 			printf("send has sent %lld packets \n", i);
 		}
+		#endif
 	}
 	
 	sleep(1);

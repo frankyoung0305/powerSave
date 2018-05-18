@@ -2,33 +2,6 @@ test 10000 times per case.
 rating means that our algorithm is at the first percentage on average, rating = rank_sum / 10000.
 KL_time is the average time that our algorithm consumed, KL_time = KL_time sum / 10000.
 
-
-old:
-edges = 1, rating = 0.000000, rank_sum = 0.000000, KL_time = 0.308200, KL_time sum = 3082 
-edges = 2, rating = 0.000000, rank_sum = 0.000000, KL_time = 0.313600, KL_time sum = 3136 
-edges = 3, rating = 0.011633, rank_sum = 116.333333, KL_time = 0.744200, KL_time sum = 7442 
-edges = 4, rating = 0.030233, rank_sum = 302.333333, KL_time = 0.730200, KL_time sum = 7302 
-edges = 5, rating = 0.019880, rank_sum = 198.800000, KL_time = 1.702900, KL_time sum = 17029 
-edges = 6, rating = 0.020170, rank_sum = 201.700000, KL_time = 1.716600, KL_time sum = 17166 
-edges = 7, rating = 0.017229, rank_sum = 172.285714, KL_time = 3.701100, KL_time sum = 37011 
-edges = 8, rating = 0.016506, rank_sum = 165.057143, KL_time = 3.709700, KL_time sum = 37097 
-edges = 9, rating = 0.014984, rank_sum = 149.841270, KL_time = 6.857600, KL_time sum = 68576 
-edges = 10, rating = 0.014701, rank_sum = 147.007937, KL_time = 6.818900, KL_time sum = 68189 
-edges = 11, rating = 0.011807, rank_sum = 118.069264, KL_time = 10.974600, KL_time sum = 109746 
-edges = 12, rating = 0.011697, rank_sum = 116.971861, KL_time = 10.739400, KL_time sum = 107394 
-edges = 13, rating = 0.008514, rank_sum = 85.135198, KL_time = 16.411500, KL_time sum = 164115 
-edges = 14, rating = 0.008212, rank_sum = 82.121795, KL_time = 16.099400, KL_time sum = 160994 
-edges = 15, rating = 0.006144, rank_sum = 61.440093, KL_time = 23.699800, KL_time sum = 236998 
-edges = 16, rating = 0.006123, rank_sum = 61.231857, KL_time = 23.751800, KL_time sum = 237518 
-edges = 17, rating = 0.004603, rank_sum = 46.026738, KL_time = 33.139800, KL_time sum = 331398 
-edges = 18, rating = 0.004606, rank_sum = 46.062896, KL_time = 32.249800, KL_time sum = 322498 
-edges = 19, rating = 0.003447, rank_sum = 34.470339, KL_time = 44.513500, KL_time sum = 445135 
-edges = 20, rating = 0.003529, rank_sum = 35.286583, KL_time = 44.221100, KL_time sum = 442211
-edges = 21, rating = 0.002740, rank_sum = 27.398068, KL_time = 58.740000, KL_time sum = 587400 
-edges = 22, rating = 0.002737, rank_sum = 27.366921, KL_time = 58.120500, KL_time sum = 581205 
-edges = 23, rating = 0.002192, rank_sum = 21.916910, KL_time = 87.548000, KL_time sum = 875480 
-edges = 24, rating = 0.002227, rank_sum = 22.267615, KL_time = 84.716300, KL_time sum = 847163
-
 2018.5.3 new:
 edges = 3, rating = 0.000000, rank_sum = 0.000000, KL_time = 1.283300, KL_time sum = 12833 
 edges = 4, rating = 0.000000, rank_sum = 0.000000, KL_time = 0.666400, KL_time sum = 6664 

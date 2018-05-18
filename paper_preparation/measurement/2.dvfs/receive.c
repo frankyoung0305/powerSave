@@ -25,6 +25,8 @@ int main(void) {
 	
 	long long int i = 0;
 	long long int sum = 0;
+	long long int time[PACKETS];
+	
 	for(i = 0;i < PACKETS;i++) {
 		mq_return = mq_receive(mqd_fwdtoreceive, (char *) &buffer, pktsize, 0);
 		gettimeofday(&end, 0);
@@ -32,8 +34,11 @@ int main(void) {
 			printf("%s:receive %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 			return -1;
 		}
+		#ifdef PRINTMODE
 		printf("i = %lld time = %ld \n", i, (end.tv_sec - buffer.time.tv_sec) * 1000000 + (end.tv_usec - buffer.time.tv_usec));
-		sum += ((end.tv_sec - buffer.time.tv_sec) * 1000000 + (end.tv_usec - buffer.time.tv_usec));
+		#endif
+		time[i] = ((end.tv_sec - buffer.time.tv_sec) * 1000000 + (end.tv_usec - buffer.time.tv_usec));
+		sum += time[i];
 		
 		
 		
@@ -44,9 +49,14 @@ int main(void) {
 	}
 	
 	usleep(100000);
-	sum = sum / PACKETS;
+	for(i = 0;i < PACKETS;i++) {
+		printf("i = %lld, time = %lld \n", i, time[i]);
+	}
+	double average = 0;
+	average = (double) sum / (double) PACKETS;
 	printf("receive has received %lld packets\n", i);
-	printf("average time is %lld us \n", sum);
+	printf("PACKET INTERVAL is %dus\n", PACKET_INTERVAL);
+	printf("average time is %f us \n", average);
 	mq_return = mq_close(mqd_fwdtoreceive);
 	check_return(mq_return, proname, "mq_close");
 	mq_return = mq_unlink(fwdtoreceive);

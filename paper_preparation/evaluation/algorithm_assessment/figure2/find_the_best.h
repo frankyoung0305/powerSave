@@ -1,5 +1,5 @@
 #include "extended_KL.h"
-
+//#define PRINT_MODE
 //#define ADJ_SIZE 18
 
 struct rank_ans {
@@ -323,13 +323,13 @@ struct rank_ans rank(int ADJ_SIZE, int MAX_LOOP_TIMES) {
 	
 }
 double score_cmp(struct score old, struct score new) {
-	double alpha = KL_ALPHA;
+	//double alpha = KL_ALPHA;
 	double gain_edge_cut = 0;
 	double gain_workload_diff = 0;
 	double gain_all = 0;
 	gain_edge_cut = ((double) (old.edge_cut - new.edge_cut) )/ ((double) old.edge_cut);
 	gain_workload_diff = ((double) (old.workload_diff - new.workload_diff) )/ ((double) old.workload_diff);
-	gain_all = alpha * gain_edge_cut + (1 - alpha) * gain_workload_diff;
+	gain_all = KL_ALPHA * gain_edge_cut + (1 - KL_ALPHA) * gain_workload_diff;
 	return gain_all;
 }
 

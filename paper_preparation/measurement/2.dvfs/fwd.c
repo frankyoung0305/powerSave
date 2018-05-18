@@ -44,10 +44,11 @@ int main(void) {
 			return -1;
 		}
 		
-		
+		#ifdef PRINTMODE
 		if(i % SHOW_FREQUENCY == 0) {
 			printf("fwd has forwarded %lld packets \n", i);
 		}
+		#endif
 			
 	}
 	

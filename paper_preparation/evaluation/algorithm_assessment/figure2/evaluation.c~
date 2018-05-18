@@ -1,7 +1,7 @@
 #include "find_the_best.h"
 
-#define EDGES 20
-#define PER_CASE_TIMES 10000 //5000
+#define EDGES 19
+#define PER_CASE_TIMES 5000 //5000
 
 #define LOOP_TIMES_START 1
 #define MAX_LOOP_TIMES 20

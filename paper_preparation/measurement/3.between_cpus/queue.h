@@ -19,9 +19,8 @@
 
 #define CORES_PER_CPU 10
 
-#define SEND_CPU 4
-#define FWD_CPU 5
-#define RECEIVE_CPU 6
+#define SEND_CPU 5
+#define RECEIVE_CPU 5
 
 #define USLEEP_FREQUENCY 1000
 
@@ -31,10 +30,10 @@
 
 #define SHOW_FREQUENCY 1000
 
-#define PACKETS 200
+#define PACKETS 1000000
 
 #define PERM 0666
-
+//#define PRINTMODE
 struct datamsg{
 	long long int i;
 	struct timeval time;
