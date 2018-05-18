@@ -54,8 +54,7 @@ int main() {
 	long long int i = 0;
 	struct ndpi_iphdr * iph;
 
-	int delay = SEND_SLEEP_TIME;
-
+	long long int period = 0;
 	for(i = 0; i < PACKETS; i++){//9715
 		getPkt(pfile, &pkthdr, &pktdata);
 		iph = packet_preprocess(pkthdr->caplen, pktdata);
@@ -76,16 +75,16 @@ int main() {
 					printf("gettimeofday for end failed \n");
 					return 1;
 				}
+				period = ((long long int) (end.tv_sec - begin.tv_sec)) * 1000000 + end.tv_usec - begin.tv_usec;
+				printf("begin.tv_sec = %ld, begin.tv_usec = %ld \n", begin.tv_sec, begin.tv_usec);
+				printf("end.tv_sec = %ld, end.tv_usec = %ld \n", end.tv_sec, end.tv_usec);
+				printf("period = %lld \n", period);
 			}
-		}
-		if(i % DELAY_CHANGE_FREQ == 0){
-			delay = (int)gendelay(MAX_DELAY, MIN_DELAY);
-			printf("*****delay: %d*****\n", delay);			
 		}
 		//let the packet_sending.o works more slowly.
 		else if(i%SEND_SLEEP_FREQUENCY == 0) {
 			//printf("packet_sending has sent %lld packets \n", i);
-			usleep(delay);
+			usleep(SEND_SLEEP_TIME);
 		}
 		/*int idle_i = 0;
 		for(idle_i = 0;idle_i < 1000;idle_i++) {
@@ -93,25 +92,17 @@ int main() {
 			;
 		}*/
 	}
-	
-	//show cpu online
-	/*
-	char cmd_cpu_online[] = "cat /sys/devices/system/cpu/online";
-	char re_cpu_online[200];
-	FILE * bash_cpu_online = popen(show_cpu_online, "r");
-	if(bash_cpu_online != NULL) {
-		fgets(re_cpu_online, 200, bash_cpu_online);
-		printf("cpu online:%s \n", re_cpu_online);
-	}
-	pclose(bashPipe);
-	printstar();*/
+
+	printstar();
 	
 	
-	long long int period = 0;
+	
 	period = ((long long int) (end.tv_sec - begin.tv_sec)) * 1000000 + end.tv_usec - begin.tv_usec;
 	printf("begin.tv_sec = %ld, begin.tv_usec = %ld \n", begin.tv_sec, begin.tv_usec);
 	printf("end.tv_sec = %ld, end.tv_usec = %ld \n", end.tv_sec, end.tv_usec);
 	printf("period = %lld \n", period);
+	
+	
 	printf("send0 has sent %lld packets and is closing.\n", i);
 	mq_return = mq_close(mqd_send0top0);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_close");

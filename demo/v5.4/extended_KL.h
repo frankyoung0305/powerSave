@@ -11,7 +11,7 @@
 
 #include"series_array.h"//show/clear/copy series/array.
 
-#define MAX_LOOP_TIMES 10
+#define MAX_LOOP_TIMES 5
 
 #define KL_ALPHA 0.3
 

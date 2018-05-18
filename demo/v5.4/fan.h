@@ -5,9 +5,7 @@
 #include "../posix/ndpi_api.h" //iphdr
 #include <string.h> 
 #include <pcap.h>
-#include <assert.h>//assert
-# include "math.h"//rand
-# include "time.h"//srand
+#include <assert.h>
 /////////////////////////////////////////////
 #define	MAX_NDPI_FLOWS     20000000
 
@@ -31,7 +29,9 @@
 
 # define MAX_DELAY 100
 # define MIN_DELAY 0
-# define DELAY_CHANGE_FREQ 10000000 //pkts
+# define DELAY_CHANGE_FREQ 5000000 //pkts
+
+//#define PRINT    // vnf print when defined
 
 int g_ulDbgPrint = 0;
 
@@ -62,6 +62,8 @@ static u_int64_t ip_packet_count = 0;
 static u_int64_t acl_count = 0;   //firewall
 
 float map[10] = {1, 1, 1, 1, 1, 0.01, 0.01, 0.01, 0.01, 0.01}; //randgen比例分布
+
+float wave[8] = {1, 10, 100, 300, 1000, 300, 100, 10}; //wave shape for send
 ////////////////////////////////rand gen/////////////
 float gendelay(float top, float btm){//generate delay
 	int temp;
@@ -83,7 +85,11 @@ float gendelay(float top, float btm){//generate delay
 
 	return delay;
 }
-
+/////////////////////////////////////wave gen/////////////
+int genSleepFreq(i, change_freq){
+	int n = i/change_freq;  //CHANGE_FREQ
+	return wave[n%8];
+}
 
 ////hash ///////////////////////////new l3////////////////////
 typedef char* TYPE;
@@ -190,11 +196,6 @@ int insert_data(HASH_TABLE* hash, NODE* phead, TYPE data, int port)
     }
 }
 
-//show depth
-int showDepth(){
-    printf("max chain depth: %d.\n",maxdepth);
-    return 0;
-}
 
 //find NODE
 NODE* find_data(HASH_TABLE* hash, NODE* phead, TYPE data)
@@ -419,9 +420,11 @@ int getIpFwdPort(NODE * g_pRouteTree, int iIp) {
 ///////////////////dpi/////////////////////
 //////////////////////////////////////////
 int Action(u_int16_t protocol){
+#ifdef PRINT
 	printf("[proto: %s]\n",
     ndpi_get_proto_name(ndpi_struct, protocol));
 	printf(": %d \n", protocol);
+#endif
 	return 0;
 }
 
@@ -908,6 +911,7 @@ static void printFlow(struct ndpi_flow *flow) {
 	flow->lower_port, 
 	flow->upper_ip,
 	flow->upper_port);
+
 }
 /////////////////////////////////////
 ///////////////////////////////
@@ -1025,8 +1029,9 @@ static int ACLadd(struct ndpi_flow *flow){
 			ndpi_tsearch(newflow, (void*)&acl_root, node_cmp); /* Add */
 
 			acl_count += 1;
-
+#ifdef PRINT
 			printFlow(newflow);
+#endif
 			return 0;
 			}
 	}
@@ -1298,12 +1303,16 @@ static void ACL_preprocess(const struct timeval ts, const u_int16_t pktlen, cons
 ///////////////////////////////////////////
 
 int writeAcl(int num){
-	system("cp ../posix/traffic_sample.pcap /tmp/");   //转移到tmpfs
+	
 	char errbuf[100];  //error buf for pcapReader
 	pcap_t *pfile = pcap_open_offline("/tmp/traffic_sample.pcap", errbuf);  //head
 	if (NULL == pfile) {
-		printf("%s\n", errbuf);
-		return -1;
+		system("cp ../posix/traffic_sample.pcap /tmp/");   //转移到tmpfs
+		pfile = pcap_open_offline("/tmp/traffic_sample.pcap", errbuf);  //head
+		if (NULL == pfile){
+			printf("%s\n", errbuf);
+			return -1;
+		} 
 	} 
 	//printf("file opened\n");
 	struct pcap_pkthdr *pkthdr = 0;

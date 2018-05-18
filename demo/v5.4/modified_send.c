@@ -3,7 +3,8 @@
 
 #define GTP_U_V1_PORT        2152
 
-
+#define SHOW_CPU_TIME	1
+#define CHECK_CPU_FREQUENCY		1000
 
 struct ndpi_iphdr * packet_preprocess(const u_int16_t pktlen, const u_char * packet);
 
@@ -11,11 +12,12 @@ struct ndpi_iphdr * packet_preprocess(const u_int16_t pktlen, const u_char * pac
 
 int main() {
 	/*initialization about mqueue*/
-	char proname[] = "send2";
+	char proname[] = "send0";
 	struct timeval begin;
 	struct timeval end;
 	
-	setcpu(SEND2_CPU);
+	
+	setcpu(SEND0_CPU);
 
 	printf("Now is in packet_sending!\n");
 
@@ -26,19 +28,20 @@ int main() {
 	int flags = O_CREAT | O_RDWR;
 	//int flags_ctrl = O_CREAT | O_RDWR | O_NONBLOCK;
 
-	mqd_t mqd_send2top16;
+	mqd_t mqd_send0top0;
 	int mq_return = 0;
-	char send2top16[]="/send2top16";
+	char send0top0[]="/send0top0";
 
-	mqd_send2top16 = mq_open(send2top16, flags, PERM, &attr);
-	check_return(mqd_send2top16, proname, "mq_open");
+	mqd_send0top0 = mq_open(send0top0, flags, PERM, &attr);
+	check_return(mqd_send0top0, proname, "mq_open");
 
+	struct timeval old_time = {0, 0};
+	struct timeval now_time = {0, 0};
 
-
-	system("cp ../posix/traffic_sample.pcap /tmp/traffic_sample2.pcap");   //转移到tmpfs
+	system("cp ../posix/traffic_sample.pcap /tmp/traffic_sample0.pcap");   //转移到tmpfs
 	char errbuf[100];  //error buf for pcapReader
 
-	pcap_t *pfile = pcap_open_offline("/tmp/traffic_sample2.pcap", errbuf);  //head
+	pcap_t *pfile = pcap_open_offline("/tmp/traffic_sample0.pcap", errbuf);  //head
 	if (pfile == NULL) {
 		printf("%s\n", errbuf);
 		return -1;
@@ -53,15 +56,17 @@ int main() {
 	long long int i = 0;
 	struct ndpi_iphdr * iph;
 
+	int delay = SEND_SLEEP_TIME;
+
 	for(i = 0; i < PACKETS; i++){//9715
 		getPkt(pfile, &pkthdr, &pktdata);
 		iph = packet_preprocess(pkthdr->caplen, pktdata);
-		mq_return = mq_send(mqd_send2top16, (char *) iph, /*pkthdr->caplen*/40, 0);
+		mq_return = mq_send(mqd_send0top0, (char *) iph, /*pkthdr->caplen*/40, 0);
 		if(mq_return == -1) {
 			printf("%s:send %lld times fails:%s, errno = %d \n", proname, i, strerror(errno), errno);
 		}
 		if(i % SEND_SHOW_FREQUENCY == 0 || i < SHOW_THRESHOLD) {
-			printf("%s:%s packet_sending has sent %lld packets \n", proname, send2top16, i);
+			printf("%s:%s packet_sending has sent %lld packets \n", proname, send0top0, i);
 			if(i == START_TIME) {
 				if(gettimeofday(&begin, NULL) != 0) {
 					printf("gettimeofday for begin failed \n");
@@ -75,10 +80,25 @@ int main() {
 				}
 			}
 		}
+		if(i % CHECK_CPU_FREQUENCY == 0) {
+			gettimeofday(&now_time, 0);
+			if(now_time.tv_usec - old_time.tv_usec + (now_time.tv_sec - old_time.tv_sec) * 1000000 >= SHOW_CPU_TIME * 1000000) {
+				old_time = now_time;
+				char catchcpu[] = "cat /sys/devices/system/cpu/online";
+				FILE* cmd_catchcpu = popen(catchcpu, "r");
+				pclose(cmd_catchcpu);
+			}
+		
+		}
+		if(i % DELAY_CHANGE_FREQ == 0){
+			//delay = (int)gendelay(MAX_DELAY, MIN_DELAY);
+			delay = (delay == 10)?100:10;
+			printf("%s: delay: %d  *****\n", proname, delay);			
+		}
 		//let the packet_sending.o works more slowly.
 		else if(i%SEND_SLEEP_FREQUENCY == 0) {
 			//printf("packet_sending has sent %lld packets \n", i);
-			usleep(SEND_SLEEP_TIME);
+			usleep(delay);
 		}
 		/*int idle_i = 0;
 		for(idle_i = 0;idle_i < 1000;idle_i++) {
@@ -89,15 +109,16 @@ int main() {
 
 	printstar();
 	
+	
 	long long int period = 0;
 	period = ((long long int) (end.tv_sec - begin.tv_sec)) * 1000000 + end.tv_usec - begin.tv_usec;
 	printf("begin.tv_sec = %ld, begin.tv_usec = %ld \n", begin.tv_sec, begin.tv_usec);
 	printf("end.tv_sec = %ld, end.tv_usec = %ld \n", end.tv_sec, end.tv_usec);
 	printf("period = %lld \n", period);
-	printf("packet_sending has sent %lld packets and is closing.\n", i);
-	mq_return = mq_close(mqd_send2top16);//returns 0 on success, or -1 on error.
+	printf("send0 has sent %lld packets and is closing.\n", i);
+	mq_return = mq_close(mqd_send0top0);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_close");
-	mq_return = mq_unlink(send2top16);//returns 0 on success, or -1 on error.
+	mq_return = mq_unlink(send0top0);//returns 0 on success, or -1 on error.
 	check_return(mq_return, proname, "mq_unlink");
 
 	func_quit(proname);

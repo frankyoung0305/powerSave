@@ -102,7 +102,7 @@ int main() {
 		
 			fwpacket_preprocess(timestamp, mq_return, iph, &flag);
 			if(flag != 0) {
-				printf("i = %lld, flag: %d \n", i, flag);
+				//printf("i = %lld, flag: %d \n", i, flag);
 			}
 			else {
 					mq_return = mq_send(mqd_p13top15, (char *) iph, mq_return, 0);

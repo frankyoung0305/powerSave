@@ -168,7 +168,7 @@ int main(void) {
 		}
 	}
 
-
+	destroy_controller();
 	func_quit(proname);
 	return 0;
 

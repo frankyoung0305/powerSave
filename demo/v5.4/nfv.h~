@@ -32,7 +32,7 @@
 
 #define PERM 0766//the authority of m_queue.
 
-#define PACKETS 30000000//the number of packets that we will send.
+#define PACKETS 50000000//the number of packets that we will send.
 
 #define MAXMSG 2000//the stable number of mq_attr.mq_maxmsg. 300 is available.
 
@@ -61,109 +61,109 @@
 #define CHECKQUEUE_FREQUENCY 1000
 
 
-#define FIRST_WORKING_CPU 4
+#define FIRST_WORKING_CPU 6
 
-#define LAST_WORKING_CPU 13
+#define LAST_WORKING_CPU 35
 
 #define CONTROLLER_CPU 0
 ////////////////////////////////
 #define SEND0_CPU 1
 
-#define SEND1_CPU 1
+#define SEND1_CPU 2
 
-#define SEND2_CPU 2
+#define SEND2_CPU 3
 
-#define SEND3_CPU 2
+#define SEND3_CPU 4
 
-#define SEND4_CPU 3
+#define SEND4_CPU 5
 
-#define P0_STARTING_CPU 4
+#define P0_STARTING_CPU 6
 
-#define P1_STARTING_CPU 4
+#define P1_STARTING_CPU 7
 
-#define P2_STARTING_CPU 4
+#define P2_STARTING_CPU 7
 
-#define P3_STARTING_CPU 4
+#define P3_STARTING_CPU 8
 
-#define P4_STARTING_CPU 5
+#define P4_STARTING_CPU 9
 
-#define P5_STARTING_CPU 5
+#define P5_STARTING_CPU 10
 
-#define P6_STARTING_CPU 5
+#define P6_STARTING_CPU 11
 
-#define P7_STARTING_CPU 5
+#define P7_STARTING_CPU 11
 /////////////////////////////////
 
 
-#define P8_STARTING_CPU 6
+#define P8_STARTING_CPU 12
 
-#define P9_STARTING_CPU 6
+#define P9_STARTING_CPU 13
 
-#define P10_STARTING_CPU 6
+#define P10_STARTING_CPU 13
 
-#define P11_STARTING_CPU 6
+#define P11_STARTING_CPU 14
 
-#define P12_STARTING_CPU 7
+#define P12_STARTING_CPU 15
 
-#define P13_STARTING_CPU 7
+#define P13_STARTING_CPU 16
 
-#define P14_STARTING_CPU 7
+#define P14_STARTING_CPU 17
 
-#define P15_STARTING_CPU 7
+#define P15_STARTING_CPU 17
 ////////////////////////////////
 
 
-#define P16_STARTING_CPU 8
+#define P16_STARTING_CPU 18
 
-#define P17_STARTING_CPU 8
+#define P17_STARTING_CPU 19
 
-#define P18_STARTING_CPU 8
+#define P18_STARTING_CPU 19
 
-#define P19_STARTING_CPU 8
+#define P19_STARTING_CPU 20
 
-#define P20_STARTING_CPU 9
+#define P20_STARTING_CPU 21
 
-#define P21_STARTING_CPU 9
+#define P21_STARTING_CPU 22
 
-#define P22_STARTING_CPU 9
+#define P22_STARTING_CPU 23
 
-#define P23_STARTING_CPU 9
+#define P23_STARTING_CPU 23
 ////////////////////////////////
 
 
-#define P24_STARTING_CPU 10
+#define P24_STARTING_CPU 24
 
-#define P25_STARTING_CPU 10
+#define P25_STARTING_CPU 25
 
-#define P26_STARTING_CPU 10
+#define P26_STARTING_CPU 25
 
-#define P27_STARTING_CPU 10
+#define P27_STARTING_CPU 26
 
-#define P28_STARTING_CPU 11
+#define P28_STARTING_CPU 27
 
-#define P29_STARTING_CPU 11
+#define P29_STARTING_CPU 28
 
-#define P30_STARTING_CPU 11
+#define P30_STARTING_CPU 29
 
-#define P31_STARTING_CPU 11
+#define P31_STARTING_CPU 29
 ////////////////////////////////
 
 
-#define P32_STARTING_CPU 12
+#define P32_STARTING_CPU 30
 
-#define P33_STARTING_CPU 12
+#define P33_STARTING_CPU 31
 
-#define P34_STARTING_CPU 12
+#define P34_STARTING_CPU 31
 
-#define P35_STARTING_CPU 12
+#define P35_STARTING_CPU 32
 
-#define P36_STARTING_CPU 13
+#define P36_STARTING_CPU 33
 
-#define P37_STARTING_CPU 13
+#define P37_STARTING_CPU 34
 
-#define P38_STARTING_CPU 13
+#define P38_STARTING_CPU 35
 
-#define P39_STARTING_CPU 13
+#define P39_STARTING_CPU 35
 
 
 
@@ -425,7 +425,7 @@ int getcpu() {//get the cpu where the process is working on.
 	func_return = sched_getaffinity(getpid(), sizeof(cpu_set_t), &set);
 	check_return(func_return, func_name, "sched_getaffinity");
 	int i = 0;
-	int j = 0;
+	//int j = 0;
 	int cpunow = -1;
 	int test_cpu = 0;
 	int count = 0;
@@ -436,7 +436,7 @@ int getcpu() {//get the cpu where the process is working on.
 			count++;
 		}
 	}
-	printf("\n");
+	//printf("\n");
 	if(count == 1) {
 		return cpunow;
 	}
@@ -508,7 +508,6 @@ void checkqueue(mqd_t mqd, char * qname, struct transfer * parameter) {//return 
 		if((time_now.tv_usec - time_old.tv_usec) + 1000000 * (time_now.tv_sec - time_old.tv_sec) >= 1000000) {
 			#ifndef PRINTMODE
 			printf("%s has been congested and need to be splited!!!\n", qname);
-			printf("Lold = %ld, Lnow = %ld, ratio = %f and we will report to controller!\n", Lold, Lnow, ratio);
 			#endif
 			process_report(4, parameter);
 			time_old = time_now;

@@ -113,7 +113,7 @@ int main(void) {
 
 	printf("everything is ready, controller is going to work!\n");
 	sleep(3);
-	for(i = 0;i < 180;i++) {
+	for(i = 0;i < 1800;i++) {
 		for(j = 0;j < PROC_NUMBER;j++) {
 			mq_return = mq_send(mqd_ctop[j], (char *) &ctrlbuffer, sizeof(struct ctrlmsg), 0);
 			check_return(mq_return, ctop[j], "mq_send in controller");

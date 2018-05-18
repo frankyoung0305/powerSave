@@ -1,14 +1,5 @@
 Please run control.o in root terminal!!!
 cpuon.sh will turn every CPU from number to cpunum on.Please remember to change cpunum!
-
-v5.4
-fix some bugs in controller.
-add a mutex to protect the variable partitioning_cpu.
-add functions init_controller and destroy_controller, init mutex and pthread_attr used in ctrl_notify, destroy mutex.
-modify the location of "switch" in controller_ctrl, now we will process every packet sent from processes.
-we may do more in multi_threads
-
-
 v5.3
 let send0-4.c to send steadily(constant speed)
 

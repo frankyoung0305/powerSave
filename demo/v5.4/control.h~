@@ -80,6 +80,8 @@ void destroy_controller();
 
 pthread_attr_t mq_notify_thread_attr;
 pthread_mutex_t mutex_partitioning_cpu;
+pthread_mutex_t mutex_p_report_status;
+pthread_mutex_t mutex_update;
 void init_controller() {
 	int err_re = 0;
 	//init pthread_attr
@@ -94,13 +96,17 @@ void init_controller() {
 
 	//init the pthread_mutex_t mutex_partitioning_cpu
 	pthread_mutex_init(&mutex_partitioning_cpu, NULL);
-
+	pthread_mutex_init(&mutex_p_report_status, NULL);
+	pthread_mutex_init(&mutex_update, NULL);
+	
 	return;
 }
 
 void destroy_controller() {
 	pthread_mutex_destroy(&mutex_partitioning_cpu);
-	
+	pthread_mutex_destroy(&mutex_p_report_status);
+	pthread_mutex_destroy(&mutex_update);
+	return;
 }
 
 
@@ -191,7 +197,9 @@ void controller_control(union sigval sv) {
 					printf("the queue %d has passed %lld packets in the past %ds, i = %lld \n", i_edges, parameter->statistics[parameter->p_number]->throughput[i_edges], UPDATE_PERIOD, parameter->statistics[parameter->p_number]->i[i_edges]);
 				}
 				#endif
+				pthread_mutex_lock(&mutex_p_report_status);
 				p_report_status[parameter->p_number]++;
+				pthread_mutex_unlock(&mutex_p_report_status);
 				int i = 0;
 				int update_status = 1;//0 can not update now, 1 can update now.
 				for(i = 0;i < PROC_NUMBER;i++) {
@@ -202,10 +210,17 @@ void controller_control(union sigval sv) {
 				}
 				if(update_status == 1) {
 					printf("\nAll update messages have been sent to controller, begin update and manage\n\n");
-					clear_int_series(PROC_NUMBER, p_report_status, "p_report_status");
+					pthread_mutex_lock(&mutex_p_report_status);
+					for(i = 0;i < PROC_NUMBER;i++) {
+						p_report_status[i]--;
+					}
+					pthread_mutex_unlock(&mutex_p_report_status);
+					//clear_int_series(PROC_NUMBER, p_report_status, "p_report_status");
 					//then update the adj_array/point_weight and do the combine check.
+					pthread_mutex_lock(&mutex_update);
 					update_adj_array(parameter->statistics, parameter->adj_array);
 					update_point_weight(parameter->statistics, parameter->point_weight);
+					pthread_mutex_unlock(&mutex_update);
 					//check status of all cpus.
 					//check if we could combine some CPUs.
 					struct check_report report;
@@ -225,7 +240,7 @@ void controller_control(union sigval sv) {
 						turn_cpu(0, report.cpus[0]);
 					}
 					//#ifndef PRINTMODE maybe we will use this later.
-					show_working_cpu(parameter->statistics);
+					//show_working_cpu(parameter->statistics);
 				}
 				break;
 
@@ -320,16 +335,14 @@ void controller_control(union sigval sv) {
 				else {
 					printf("There is no more idle CPUs, please wait for a moment.\n");
 				}
-				
+				printf("FINISH A CONTROLLER CONTROL from process %d ctrlbuffer.service_number = %ld \n", parameter->p_number, ctrlbuffer.service_number);
+		
 				pthread_mutex_lock(&mutex_partitioning_cpu);
 				partitioning_cpu = -1;
 				pthread_mutex_unlock(&mutex_partitioning_cpu);
 				break;
 		}
-
-		printf("FINISH A CONTROLLER CONTROL from process %d ctrlbuffer.service_number = %ld \n", parameter->p_number, ctrlbuffer.service_number);
-		
-		
+				
 		
 	}
 
@@ -636,7 +649,9 @@ void update_adj_array(struct record * statistics[PROC_NUMBER], double adj_array[
 	adj_array[35][38] = adj_array[38][35] = ((double) statistics[38]->throughput[0]) / ((double) Tput);//p35top38
 	adj_array[37][39] = adj_array[39][37] = ((double) statistics[39]->throughput[0]) / ((double) Tput);//p37top39
 	adj_array[38][39] = adj_array[39][38] = ((double) statistics[39]->throughput[1]) / ((double) Tput);//p38top39
+	#ifndef PRINTMODE
 	show_double_array(ADJ_ARRAY_EDGES, adj_array, "adj_array after update");
+	#endif
 }
 
 
