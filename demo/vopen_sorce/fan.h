@@ -110,7 +110,7 @@ int maxdepth = 0;
 
 //hash algo
 unsigned int BKDRhash(TYPE key)
-{//BKDRhash函数
+{//BKDRhash function
     unsigned int seed = 131;
     unsigned int hash = 0;
 
@@ -912,9 +912,6 @@ static void printFlow(struct ndpi_flow *flow) {
 
 }
 /////////////////////////////////////
-///////////////////////////////
-
-
 
 //--------------------------------------------------------------------------------------------------------//
 /////////////////////////////add acl
